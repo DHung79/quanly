@@ -16,7 +16,7 @@
             @if(session('status'))
                 {{session('status')}}
             @endif</span></center>
-            <p class="lead">
+            <p class="mt-7">
                 Sinh viên: 
                 @foreach ($sinhvien as $sv)
                     {{$sv->ho}}     
@@ -43,9 +43,7 @@
             </div>
             <div class="card my-4">
                 <h5 class="card-header">Mô tả đề tài</h5>
-                
                     <textarea name="mota" id="ten"></textarea>
-                    <script>CKEDITOR.replace('mota');</script>
             </div>
             <center><button type="submit" class="btn btn-primary" name="dangky">Đăng ký</button></center><br>
             </form>
