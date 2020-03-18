@@ -22,10 +22,14 @@ class homeController extends sharecontroller
         view::share('stt','1');
         $detai = detai::get();
         
-        $danhsachdt = detai::join('sinhvien','sinhvien.id','detais.idsinhvien')->where('daduyet','1')->where('thamkhao','0')->get();
-        $thamkhao = detai::join('sinhvien','sinhvien.id', 'detais.idsinhvien')->where('daduyet','1')->where('thamkhao','1')->get();
-        $duyet = detai::join('sinhvien','sinhvien.id', 'detais.idsinhvien')->where('daduyet','0')->get();
-        $capgv = giangvien::join('bangcaps','giangvien.idcap', 'bangcaps.id')->get();
+        $danhsachdt = detai::join('sinhvien','sinhvien.id','detais.idsinhvien')
+        ->where('daduyet','1')->where('thamkhao','0')->get();
+        $thamkhao = detai::join('sinhvien','sinhvien.id', 'detais.idsinhvien')
+        ->where('daduyet','1')->where('thamkhao','1')->get();
+        $duyet = sinhvien::join('detais','detais.idsinhvien', 'sinhvien.id')
+        ->where('daduyet','0')->get();
+        $capgv = giangvien::join('bangcaps','giangvien.idcap', 'bangcaps.id')
+        ->get();
         view::share('detai',$detai);
         
         view::share('danhsachdt',$danhsachdt);
@@ -80,14 +84,41 @@ class homeController extends sharecontroller
         $detai->idsinhvien = $request->idsinhvien;
         $detai->tendetai = $request->tendt;
         $detai->mota = $request->mota;
-        $detai->tiendo = "đợi duyệt";
         $detai->daduyet = 0;
         $detai->thamkhao = 0;
         $detai->save();
-        return redirect()->route('getdkdetai')->with('status',"Đã đăng ký đề tài vào danh sách chờ");
+        return redirect()->route('getdkdetai')->with('status',"Đăng ký đề tài thành công");
     }
-    public function duyetdt(){
+    public function getduyetdt(){
         return view('pages.duyetdetai');
+    }
+    public function duyetdt(Request $request){
+        $iddetai = $request->iddetai;
+        $svdt = $request->svdt;
+        $this->validate($request,[]);
+        $duyetdt = detai::where('id',$iddetai);
+        if ($request->duyet == 'duyet'){
+            $daduyet = $duyetdt->update(['daduyet'=>1]);
+            if($daduyet){
+                return redirect()->route('getduyetdt')
+                ->with('status',"Đã duyệt đề tài của sinh viên $svdt");
+            }
+            else{
+            return redirect()->route('getduyetdt')
+            ->with('status',"Duyệt thất bại");
+            } 
+        }
+        if ($request->xoa == 'xoa'){
+            $xoadt = $duyetdt->delete();
+            if($xoadt){
+                return redirect()->route('getduyetdt')
+                ->with('status',"Đã xóa đề tài của sinh viên $svdt");
+            }
+            else{
+            return redirect()->route('getduyetdt')
+            ->with('status',"Xóa thất bại");
+            }
+        }
     }
     public function thamkhao(){
         return view('pages.thamkhao');
