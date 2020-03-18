@@ -13,8 +13,17 @@ body {
   margin-left: 5%;
   margin-right: 5%;
 } */
+textarea{
+  overflow: auto;
+  resize: vertical;
+  height: 250px;
+}
 p{
   margin-top: 8%;
+}
+.mt-7{
+  margin-top: 2%;
+  font-size: x-large;
 }
 .navbar>.container{
   width: 100%;
