@@ -1,10 +1,11 @@
 @extends('layout.user.index')
 
 @section('content')
-@if($dkdt->count()==0)
+
 <div class="container" >
     <div class="row">
         <div class="col-lg-8">
+            @if($dkdt->count()==0)
             <form method="POST" action="{{route('dkdetai')}}" class="form-group">
             @csrf
             <h1 class="mt-4">Đăng ký đề tài</h1>
@@ -48,16 +49,23 @@
             <center><button type="submit" class="btn btn-primary" name="dangky">Đăng ký</button></center><br>
             </form>
             @else
-            <div class="container" >
-                <div class="row">
-                    <div class="col-lg-8">
-                        <form class="form-wait">
-                            <h1 class="mt-6">
-                                Đề tài của bạn đang được duyệt
-                                <br>Vui lòng chờ admin kiểm duyệt đề tài của bạn
-                            </h1>
-                            <img class="gif" src="/bootstrap/img/usagyuuun.gif"/>
-                        </form>
+                <form class="form-wait">
+                    <center><span class="error-center">@if(count($errors)>0)
+                        @foreach($errors->all() as $err)
+                            {{$err}}</br>
+                        @endforeach
+                    @endif
+                    @if(session('status'))
+                        {{session('status')}}
+                    @endif</span></center>
+                    <h1 class="mt-6">
+                        Đề tài của bạn đang được duyệt
+                        <br>Vui lòng chờ admin kiểm duyệt đề tài của bạn
+                        <br><a href="{{route('home')}}">Về trang chủ</a>
+                    </h1>
+                    <img class="gif" src="/bootstrap/img/usagyuuun.gif"/><br>
+                    
+                </form>
             @endif    
         </div>
     </div>
