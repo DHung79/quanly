@@ -35,7 +35,7 @@
           @endif
           @if(Auth::user()->level==2)
             <li class="nav-item active">
-              <a class="nav-link" href="{{route('duyetdt')}}">Duyệt đề tài</a>
+              <a class="nav-link" href="{{route('getduyetdt')}}">Duyệt đề tài</a>
             </li>
             <li class="nav-item active">
               <a class="nav-link" href="{{ route('infor')}}" title="Trang cá nhân">
