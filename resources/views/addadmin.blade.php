@@ -4,13 +4,13 @@
         <meta charset="UTF-8">
         <title></title>
         <meta name="viewport" content="width=device-width, initial-scale=1 , height=device-height">
-        <link rel="stylesheet" type="text/css" href="bootstrap/css/admin.css">
+        <link rel="stylesheet" type="text/css" href="bootstrap/css/register.css">
     </head>
     <body>
         <div class="box">
             <form method="POST" action="{{route('addadmin')}}">
                 @csrf
-                <span class="text-center">Admin</span>
+                <span class="text-center">Đăng ký giảng viên</span>
                 <div class="input-container">
                     <input class="ho" type='text' name='ho' placeholder='Họ'/>
                     <input class="space" type="text" disabled/>
