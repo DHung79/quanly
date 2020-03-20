@@ -14,14 +14,14 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item active">
-                <a class="nav-link" href="#">Danh sách đề tài</a>
+                <a class="nav-link" href="dsdetai">Danh sách đề tài</a>
                 </li>
                 @if(Auth::check())
                 <li class="nav-item active">
-                    <a class="nav-link" href="{{ route('getlogin') }}" >Đề tài đợi duyệt
+                    <a class="nav-link" href="{{ route('getduyetdt') }}" >Duyệt đề tài
                     </a>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="{{ route('getaddadmin') }}">Thêm admin</a>
                 </li>
                 <li class="nav-item">
