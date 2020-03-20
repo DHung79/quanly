@@ -35,7 +35,7 @@ Route::get('infor','dangnhapController@infor')->name('infor');
 
 Route::get('danhsachdetai','homecontroller@alldt')->name('dsdetai');
 
-Route::get('duyet','homecontroller@getduyetdt')->name('getduyetdt');
+Route::get('duyet','homecontroller@getduyetdt')->name('getduyetdt')->middleware('detaiduyet');
 Route::post('duyetdt','homecontroller@duyetdt')->name('duyetdt');
 
 Route::get('dangkydetai','homecontroller@getdkdetai')->name('getdkdetai');
