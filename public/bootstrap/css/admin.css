@@ -28,7 +28,7 @@ a:hover{
 	color:#fff;	
 	text-transform:uppercase;
     font-size: 23px;
-	margin: -25px 0 40px 0;
+	margin: -25px 0 0 0;
     display: block;
     text-align: center;
 }
@@ -49,7 +49,7 @@ a:hover{
 	transform: translate(-50%,-5%);
     background-color: rgba(0, 0, 0, 0.89);
 	border-radius:3px;
-	padding:50px 100px;
+	padding:70px 100px;
 }
 .input-container{
 	position:relative;
@@ -118,12 +118,12 @@ a:hover{
     color: #fff;
 	padding:10px 20px;
 	text-transform:uppercase;
-	margin: 5% 0 5% 0;
+	margin: 10% 0 10% 0;
 	border-radius:2px;
 	cursor:pointer;
 	position:relative;
 }
-select.khoa,select.cap{
+select.khoa,select.lop{
 	border: 0;
     border-bottom: 1px solid #555;
     background: transparent;
@@ -145,16 +145,17 @@ select.gt{
 }
 @media only screen and (max-width: 490px){
 	.box{
+	overflow-y: scroll;
 	width: 250px;
 	height: 70%;
-	margin: 20% 0 0% 0;
+	margin: 25% 0 0% 0;
 	position: relative;
 	left: 50%;
 	top: 50%;
 	transform: translate(-50%,-5%);
 	background-color: rgba(0, 0, 0, 0.89);
 	border-radius: 3px;
-	padding: 15% 20%;
+	padding: 15% 30%;
 	}
 	/* body{
 		background-image: url("../img/33185686172_f764569560_b6.jpg");
@@ -200,7 +201,7 @@ select.gt{
 		color:#fff;
 		
 	}
-	select.khoa,select.cap{
+	select.khoa,select.lop{
 		border: 0;
 		border-bottom: 1px solid #555;
 		background: transparent;
