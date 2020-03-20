@@ -19,10 +19,10 @@
         @if(Auth::check())
           @if(Auth::user()->level==3)
             <li class="nav-item active">
-              <a class="nav-link" href="{{route('getdkdetai')}}">Đăng ký đề tài</a>
+              <a class="nav-link" href="#">Tài liệu tham khảo</a>
             </li>
             <li class="nav-item active">
-              <a class="nav-link" href="#">Tài liệu tham khảo</a>
+              <a class="nav-link" href="{{route('getdkdetai')}}">Đăng ký đề tài</a>
             </li>
             <li class="nav-item active">
               <a class="nav-link" href="{{ route('infor')}}" title="Trang cá nhân">
@@ -45,10 +45,19 @@
                 @endforeach
               </a>
             </li>
-            @endif
-        <li class="nav-item ">
-          <a class="nav-link" href="{{ route('logout') }}">Đăng xuất</a>
-        </li>
+          @endif
+          @if(Auth::user()->level==1)
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ route('getduyetdt') }}" >Duyệt đề tài
+              </a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="{{ route('getaddadmin') }}">Thêm admin</a>
+            </li>
+          @endif
+          <li class="nav-item ">
+            <a class="nav-link" href="{{ route('logout') }}">Đăng xuất</a>
+          </li>
         @else
           <li class="nav-item active">
             <a class="nav-link" href="{{ route('getdkdetai') }}">Đăng ký đề tài</a>
