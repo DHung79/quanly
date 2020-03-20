@@ -22,12 +22,12 @@ Route::post('dangnhap','dangnhapController@Login')->name('login');
 Route::get('register','dangkycontroller@getRegister')->name('getregister');
 Route::post('dangky','dangkycontroller@Register')->name('register');
 
-Route::get('addadmin','dangkycontroller@getaddadmin')->name('getaddadmin')->middleware('adminlogin');
+Route::get('addadmin','dangkycontroller@getaddadmin')->name('getaddadmin')->middleware('isadmin');
 Route::post('themadmin','dangkycontroller@addadmin')->name('addadmin');
 
 Route::get('logout','dangnhapcontroller@logout')->name('logout');
 
-Route::get('admin', 'dangnhapcontroller@getadmin')->middleware('adminlogin');
+Route::get('admin', 'dangnhapcontroller@getadmin')->middleware('issuperadmin');
 
 Route::get('home','homecontroller@gethome')->name('home');
 
@@ -35,7 +35,7 @@ Route::get('infor','dangnhapController@infor')->name('infor');
 
 Route::get('danhsachdetai','homecontroller@alldt')->name('dsdetai');
 
-Route::get('duyet','homecontroller@getduyetdt')->name('getduyetdt')->middleware('detaiduyet');
+Route::get('duyet','homecontroller@getduyetdt')->name('getduyetdt')->middleware('isadmin');
 Route::post('duyetdt','homecontroller@duyetdt')->name('duyetdt');
 
 Route::get('dangkydetai','homecontroller@getdkdetai')->name('getdkdetai');
