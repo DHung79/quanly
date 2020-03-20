@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\View;
 use Session;
 use App\User;
 use App\giangvien;
@@ -16,10 +17,18 @@ use app\detai;
 
 class dangkycontroller extends Controller
 {
-    public function getRegister(){
+    function __construct() { 
         $lop = lop::get();
         $giangvien = giangvien::get();
-    	return view('dangky',['lop'=>$lop,'giangvien'=>$giangvien]);
+        $bangcap = bangcaps::get();
+        $khoa = khoa::get();
+        view::share('lop',$lop);
+        view::share('giangvien',$giangvien);
+        view::share('bangcap',$bangcap);
+        view::share('khoa',$khoa);
+    }
+    public function getRegister(){
+    	return view('dangky');
     }
 
     public function Register(Request $request){
@@ -66,20 +75,19 @@ class dangkycontroller extends Controller
     }
 
     public function getaddadmin(){
-        $bangcap = bangcaps::get();
-        $khoa = khoa::get();
-    	return view('addadmin',['khoa'=>$khoa,'bangcap'=>$bangcap]);
+    	return view('addadmin');
     }
 
     public function addadmin(Request $request){
         $this->validate($request,[
+            'magv'=>'required',
             'ho'=> 'required',
             'ten'=> 'required',
             'password'=> 'required|min:6|max:32',
             'email'=>'required|email|unique:users,email',
-            // 'idkhoa'=>'required',
             // 'level'=>'required'
         ],[
+            'magv.required'=>'Chưa nhập mã giảng viên',
             'ho.required'=>'Bạn chưa nhập họ',
             'ten.required'=>'Bạn chưa nhập tên',
             'password.required'=>'Chưa nhập mật khẩu',
@@ -108,8 +116,15 @@ class dangkycontroller extends Controller
         $gv->diachi = $request->diachi;
         $gv->sodt = $request->sodt;
         $gv->save();
-
-        return redirect('addadmin')->with('status','Thêm admin Thành Công');
+        if(isset($magv)){
+            if(Auth::attempt(['email'=>$email,'password'=>$password])){
+                return redirect('admin');
+            }else {
+                return redirect()->back()->with('status', 'Xãy ra lỗi trong quá trình đăng ký');
+            }
+        }else{
+            return redirect()->back()->with('status', 'Mã giảng viên không chính xác');
+        }
     }
     
 }
