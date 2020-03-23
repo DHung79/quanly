@@ -21,7 +21,7 @@ class homeController extends sharecontroller
     function __construct() { 
         view::share('stt','1');
         $detai = detai::get();
-        
+        $user = user::get();
         $danhsachdt = detai::join('sinhvien','sinhvien.id','detais.idsinhvien')
         ->where('daduyet','1')->where('thamkhao','0')->get();
         $thamkhao = detai::join('sinhvien','sinhvien.id', 'detais.idsinhvien')
@@ -31,7 +31,7 @@ class homeController extends sharecontroller
         $capgv = giangvien::join('bangcaps','giangvien.idcap', 'bangcaps.id')
         ->get();
         view::share('detai',$detai);
-        
+        view::share('user',$user);
         view::share('danhsachdt',$danhsachdt);
         view::share('thamkhao',$thamkhao);
         view::share('duyet',$duyet);
