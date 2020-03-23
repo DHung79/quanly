@@ -7,6 +7,7 @@ body{
     background-repeat: no-repeat;
     background-size: cover;
 	margin: auto;
+	min-height: 550px;
 	font-family: 'Noto Sans', sans-serif;
 }
 form{
@@ -142,6 +143,16 @@ select.gt{
     font-size: 16px;
     color: #757373;
     margin-left: 30%;
+}
+select.level{
+	border: 0;
+    border-bottom: 1px solid #555;
+    background: transparent;
+    width: 100%;
+    padding: 5px 0 5px 0;
+    font-size: 16px;
+    color: #757373;
+
 }
 @media only screen and (max-width: 490px){
 	.box{
