@@ -126,5 +126,27 @@ class dangkycontroller extends Controller
             return redirect()->back()->with('status', 'Mã giảng viên không chính xác');
         }
     }
-    
+    public function defaultdata(){
+        user::insert([ 
+            ['email' => 'daoleduyhung@gmail.com','level'=>1,'password'=> bcrypt('hung0403')],
+            ['email' => 'nguyenvanhoan@gmail.com','level'=>2,'password'=> bcrypt('hung0403')],
+            ['email' => 'lungthilinh@gmail.com','level'=>3,'password'=> bcrypt('hung0403')]
+        ]);
+        bangcaps::insert([
+            ['tencap' => 'Thạc sĩ'],
+            ['tencap' => 'Tiến sĩ']
+        ]);
+        khoa::insert([
+            ['tenkhoa' => 'CNTT'],
+            ['tenkhoa' => 'ĐTVT']
+        ]);
+        lop::insert([
+            ['tenlop' => 'ĐHCN3A','idkhoa'=>1],
+            ['tenlop' => 'ĐHCN3B','idkhoa'=>1],
+            ['tenlop' => 'ĐHCN3C','idkhoa'=>1],
+            ['tenlop' => 'ĐHVT3A','idkhoa'=>2],
+            ['tenlop' => 'ĐHVT3B','idkhoa'=>2],
+            ['tenlop' => 'ĐHVT3C','idkhoa'=>2]
+        ]);
+    }
 }
