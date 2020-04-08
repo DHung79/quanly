@@ -9,7 +9,7 @@ use Session;
 use Auth;
 use App\User;
 use App\giangvien;
-use App\bangcaps;
+
 use App\sinhvien;
 use App\khoa;
 use App\lop;
@@ -20,7 +20,6 @@ class sharecontroller extends Controller
     function __construct()
     {
         $detai = detai::get();
-        $capgv = giangvien::join('bangcaps','giangvien.idcap','=', 'bangcaps.id')->get();
         view()->share('detai',$detai);
         view()->share('capgv',$capgv);
         if(Auth::check())

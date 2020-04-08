@@ -11,17 +11,8 @@ class giangvien extends Model
     public function khoa(){
         return $this->belongsTo('App\khoa','idkhoa','id');
     }
-
-    public function bangcap(){
-        return $this->belongsTo('App\bangcap','idcap','id');
-    }
-
     public function user(){
         return $this->belongsTo('App\User','idUser','id');
-    }
-    public function gvhd()
-    {
-        return $this->hasMany('App\gvhd','idgiangvien','id');
     }
 }
 

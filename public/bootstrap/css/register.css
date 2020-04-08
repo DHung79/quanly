@@ -4,7 +4,7 @@ body{
 	background-image: url("../img/33185686172_f764569560_b6.jpg");
 	background-position: center;
     background-origin: content-box;
-    background-repeat: no-repeat;
+    background-attachment: fixed;
     background-size: cover;
 	margin: auto;
 	font-family: 'Noto Sans', sans-serif;

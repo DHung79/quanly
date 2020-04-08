@@ -11,7 +11,6 @@ use Session;
 use Auth;
 use App\User;
 use App\giangvien;
-use App\bangcaps;
 use App\sinhvien;
 use App\khoa;
 use App\lop;
@@ -28,14 +27,11 @@ class homeController extends sharecontroller
         ->where('daduyet','1')->where('thamkhao','1')->get();
         $duyet = sinhvien::join('detais','detais.idsinhvien', 'sinhvien.id')
         ->where('daduyet','0')->get();
-        $capgv = giangvien::join('bangcaps','giangvien.idcap', 'bangcaps.id')
-        ->get();
         view::share('detai',$detai);
         view::share('user',$user);
         view::share('danhsachdt',$danhsachdt);
         view::share('thamkhao',$thamkhao);
         view::share('duyet',$duyet);
-        view::share('capgv',$capgv);
         // $this->middleware('auth')->except('logout');
         // if(auth::check()){
         $this->middleware(function ($request, $next) {

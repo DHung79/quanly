@@ -17,17 +17,14 @@ class CreateGiangvienTable extends Migration
             $table->bigIncrements('id');
             $table->string('ho',255);
             $table->string('ten',255);
-            $table->tinyInteger('gioitinh');
-            $table->date('ngaysinh');
-            $table->string('quequan',255);
-            $table->string('diachi',255);
-            $table->integer('sodt');
+            $table->tinyInteger('gioitinh')->nullable();
+            $table->string('diachi',255)->nullable();
+            $table->integer('sodt')->nullable();
+            $table->string('hocvi')->nullable();
             $table->unsignedBigInteger('idusers');
             $table->foreign('idusers')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('idkhoa');
             $table->foreign('idkhoa')->references('id')->on('khoa')->onDelete('cascade');
-            $table->unsignedBigInteger('idcap');
-            $table->foreign('idcap')->references('id')->on('bangcaps')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -18,8 +18,4 @@ class sinhvien extends Model
     public function detai(){
         return $this->hasMany('App\detai','idsinhvien','id');
     }
-    public function gvhd()
-    {
-        return $this->hasMany('App\gvhd','idsinhvien','id');
-    }
 }

@@ -10,7 +10,6 @@ use Session;
 use Auth;
 use App\User;
 use App\giangvien;
-use App\bangcaps;
 use App\sinhvien;
 use App\khoa;
 use App\lop;
@@ -18,6 +17,14 @@ use App\detai;
 
 class dangnhapController extends Controller
 {
+    function __construct() { 
+        $lop = lop::get();
+        $giangvien = giangvien::get();
+        $khoa = khoa::get();
+        view::share('lop',$lop);
+        view::share('giangvien',$giangvien);
+        view::share('khoa',$khoa);
+    }
     function getadmin() {
         return view('admin');
     }

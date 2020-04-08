@@ -41,5 +41,5 @@ Route::post('duyetdt','homecontroller@duyetdt')->name('duyetdt');
 Route::get('dangkydetai','homecontroller@getdkdetai')->name('getdkdetai');
 Route::post('xulydangkydetai','homecontroller@dkdetai')->name('dkdetai');
 
-Route::get('defaultdata','dangkycontroller@defaultdata')->name('data');
+Route::get('data','DataController@defaultdata')->name('data');
 
