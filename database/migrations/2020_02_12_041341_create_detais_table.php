@@ -17,7 +17,7 @@ class CreateDetaisTable extends Migration
             $table->bigIncrements('id');
             $table->string('tendetai');
             $table->string('mota');
-            $table->string('tiendo')->nullable();
+            $table->tinyinteger('tiendo');
             $table->boolean('thamkhao');
             $table->boolean('daduyet');
             $table->unsignedBigInteger('idsinhvien');

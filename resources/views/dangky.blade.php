@@ -118,20 +118,21 @@
                 <h1 class="h4 text-gray-900 mb-4">Đăng ký</h1>
             </div>
             <form class="user" method="POST" action="{{route('register')}}">
+                @csrf
                 <div class="form-group row">
                 <div class="col-sm-6 mb-3 mb-sm-0">
-                    <input type="text" class="form-control form-control-user" id="exampleFirstName" placeholder="Họ">
+                    <input type="text" class="form-control form-control-user" name='ho' id="exampleFirstName" placeholder="Họ">
                 </div>
                 <div class="col-sm-6">
-                    <input type="text" class="form-control form-control-user" id="exampleLastName" placeholder="Tên">
+                    <input type="text" class="form-control form-control-user" name='ten' id="exampleLastName" placeholder="Tên">
                 </div>
                 </div>
                 <div class="form-group">
-                <input type="email" class="form-control form-control-user" id="exampleInputEmail" placeholder="Email">
+                <input type="email" class="form-control form-control-user" name='email' id="exampleInputEmail" placeholder="Email">
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mb-sm-0">
-                        <input type="password" class="form-control form-control-user" id="exampleInputPassword" placeholder="Mật khẩu">
+                        <input type="password" class="form-control form-control-user" name='password' id="exampleInputPassword" placeholder="Mật khẩu">
                     </div>
                     <div class="col-sm-6">
                         <input class="form-control form-control-user" type='date' name='ngaysinh'/>	
@@ -139,7 +140,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-6">
-                        <select class="form-control" style="font-size: .8rem; border-radius: 10rem;" name='giotinh'>
+                        <select class="form-control" style="height: 3rem; font-size: .8rem; border-radius: 10rem;" name='giotinh'>
                             <option value=""hidden>Giới tính</option>
                             <option value="1">Nam</option>
                             <option value="2">Nữ</option>
@@ -147,7 +148,7 @@
                         </select>	
                     </div>
                     <div class="col-sm-6">
-                        <select class="form-control" style="font-size: .8rem; border-radius: 10rem;" name='lop'>
+                        <select class="form-control" style="height: 3rem; font-size: .8rem; border-radius: 10rem;" name='lop'>
                             <option value=""hidden>Lớp</option>
                             @foreach($lop as $class)
                             <option value="{{$class->id}}">
@@ -169,6 +170,16 @@
                 <button type="submit" class="btn btn-primary btn-user btn-block" name="dangky">Đăng ký</button>
             </form>
             <hr>
+            <span style="color: #ff1717f5;" class="font-weight-bold">
+                @if(count($errors)>0)
+                    @foreach($errors->all() as $err)
+                        {{$err}}<hr>
+                    @endforeach
+                @endif
+                @if(session('status'))
+                    {{session('status')}}
+                @endif
+            </span>
             <div class="text-center">
             <a class="small" href="{{route("getlogin")}}">Đã có tài khoản? Đăng nhập!</a>
             </div>

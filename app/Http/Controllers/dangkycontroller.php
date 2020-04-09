@@ -30,21 +30,31 @@ class dangkycontroller extends Controller
 
     public function Register(Request $request){
         $this->validate($request,[
-            'ho'=> 'required',
-            'ten'=> 'required',
-            'sodt'=>'numeric',
-            'password'=> 'required|min:6|max:32',
-            'email'=>'required|email|unique:users,email'
+            'ho'        => 'required',
+            'ten'       => 'required',
+            'email'     =>'required|email|unique:users,email',
+            'password'  => 'required|min:6|max:32',
+            'ngaysinh'  => 'required',
+            'gioitinh'  => 'required',
+            'lop'       => 'required',
+            'sodt'      =>'numeric',
+            'quequan'   => 'required',
+            'diachi'    => 'required'
         ],[
             'ho.required'=>'Bạn chưa nhập họ',
             'ten.required'=>'Bạn chưa nhập tên',
-            'sodt.numeric'=>'Số điện thoại phải là một dãy số',
+            'email.required'=>'Bạn chưa nhập email',
+            'email.email'=>'Email không đúng định dạng',
+            'email.unique'=>'Email của bạn đã có người đăng ký',
             'password.required'=>'Bạn chưa nhập mật khẩu',
             'password.min:6'=>'Mật khẩu phải chứa nhiều hơn 6 ký tự và ít hơn 32 ký tự',
             'password.max:32'=>'Mật khẩu phải chứa nhiều hơn 6 ký tự và ít hơn 32 ký tự',
-            'email.required'=>'Bạn chưa nhập email',
-            'email.email'=>'Email không đúng định dạng',
-            'email.unique'=>'Email của bạn đã có người đăng ký'
+            'ngaysinh.required'=>'Bạn chưa nhập ngày sinh',
+            'gioitinh.required'=>'Bạn chưa nhập giới tính',
+            'lop.required'=>'Bạn chưa nhập lớp',
+            'sodt.numeric'=>'Số điện thoại phải là một dãy số',
+            'quequan.required'=>'Bạn chưa nhập quê quán',
+            'diachi.required'=>'Bạn chưa nhập địa chỉ',
         ]);
         $user = new User;
         $user->password = bcrypt($request->password);

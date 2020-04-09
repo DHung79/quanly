@@ -15,8 +15,7 @@ class CreateGiangvienTable extends Migration
     {
         Schema::create('giangvien', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('ho',255);
-            $table->string('ten',255);
+            $table->string('hoten',255);
             $table->tinyInteger('gioitinh')->nullable();
             $table->string('diachi',255)->nullable();
             $table->integer('sodt')->nullable();
