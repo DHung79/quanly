@@ -1,88 +1,10 @@
-{{-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-  <div class="container">
-    <a href="{{ route('home') }}"><img class="logo" src="/bootstrap/img/LogoTruong.png" /></a>
-    <a class="navbar-brand" href="{{ route('home') }}" title="Trang chủ">ĐHTTLL</a>
-    <div class="input-group">
-      <input type="text" class="form-control" placeholder="Search for...">
-      <span class="input-group-btn">
-      <button class="btn btn-secondary" type="button">Go!</button>
-      </span>
-  </div>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarResponsive">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item active">
-          <a class="nav-link" href="{{route('dsdetai')}}">Danh sách đề tài</a>
-        </li>
-        @if(Auth::check())
-          @if(Auth::user()->level==3)
-            <li class="nav-item active">
-              <a class="nav-link" href="#">Tài liệu tham khảo</a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="{{route('getdkdetai')}}">Đăng ký đề tài</a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="{{ route('infor')}}" title="Trang cá nhân">
-                @foreach ($sinhvien as $sv)
-                  {{$sv->ho}}
-                  {{$sv->ten}}   
-                @endforeach
-              </a>
-            </li>
-          @endif
-          @if(Auth::user()->level==2)
-            <li class="nav-item active">
-              <a class="nav-link" href="{{route('getduyetdt')}}">Duyệt đề tài</a>
-            </li>
-            <li class="nav-item active">
-              <a class="nav-link" href="{{ route('infor')}}" title="Trang cá nhân">
-                @foreach ($giangvien as $gv)
-                  {{$gv->ho}}
-                  {{$gv->ten}}   
-                @endforeach
-              </a>
-            </li>
-          @endif
-          @if(Auth::user()->level==1)
-            <li class="nav-item active">
-              <a class="nav-link" href="{{ route('getduyetdt') }}" >Duyệt đề tài
-              </a>
-            </li>
-            <li class="nav-item active">
-                <a class="nav-link" href="{{ route('getaddadmin') }}">Thêm admin</a>
-            </li>
-          @endif
-          <li class="nav-item ">
-            <a class="nav-link" href="{{ route('logout') }}">Đăng xuất</a>
-          </li>
-        @else
-          <li class="nav-item active">
-            <a class="nav-link" href="{{ route('getdkdetai') }}">Đăng ký đề tài</a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="{{ route('getlogin') }}" >Đăng nhập
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('getregister') }}">Đăng ký</a>
-          </li>
-        @endif
-      </ul>
-    </div>
-  </div>
-</nav> --}}
-
-
 <div id="wrapper">
 
   <!-- Sidebar -->
   <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+  <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('home')}}">
       <div class="sidebar-brand-icon">
         {{-- <i class="fas fa-laugh-wink"></i> --}}
         <i class="fas fa-home"></i>
@@ -92,15 +14,26 @@
 
     <!-- Divider -->
     <hr class="sidebar-divider my-0">
-
+@if(Auth::check())
+  @if(Auth::user()->level==1)
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-      <a class="nav-link" href="index.html">
+      <a class="nav-link">
         {{-- <i class="fas fa-fw fa-tachometer-alt"></i> --}}
         <i class="fas fa-user-secret"></i>
         <span>Quản trị viên</span></a>
     </li>
-
+  @endif
+  @if(Auth::user()->level==2)
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+      <a class="nav-link">
+        {{-- <i class="fas fa-fw fa-tachometer-alt"></i> --}}
+        <i class="fas fa-user-secret"></i>
+        <span>Giảng viên</span></a>
+    </li>
+  @endif
+  @if(Auth::user()->level==1||Auth::user()->level==2)
     <!-- Divider -->
     <hr class="sidebar-divider">
 
@@ -116,15 +49,6 @@
         <i class="fas fa-users"></i>
         <span>Quản lý người dùng</span>
       </a>
-      {{-- <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-        <div class="bg-white py-2 collapse-inner rounded">
-          <h6 class="collapse-header">Danh sách:</h6>
-          <a class="collapse-item" href="buttons.html">Người dùng</a>
-          <a class="collapse-item" href="cards.html">Đề tài</a>
-        </div>
-      </div>
-    </li> --}}
-
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">
       <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
@@ -135,13 +59,84 @@
       <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">
           <h6 class="collapse-header">Danh sách:</h6>
-        <a class="collapse-item" href="{{route('dsdetai')}}">Đề tài </a>
-          <a class="collapse-item" href="utilities-border.html">Đề tài đợi duyệt</a>
+        <a class="collapse-item" href="{{route('dsdetai')}}">Đề tài khoa học</a>
+          <a class="collapse-item" href="{{route('getduyetdt')}}">Đề tài đợi duyệt</a>
           <a class="collapse-item" href="utilities-animation.html">Kiểm tra tiến độ</a>
           <a class="collapse-item" href="utilities-other.html">Tham khảo</a>
         </div>
       </div>
     </li>
+  @endif
+  @if(Auth::user()->level==3)
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+      <a class="nav-link">
+        {{-- <i class="fas fa-fw fa-tachometer-alt"></i> --}}
+        <i class="fas fa-user-secret"></i>
+        <span>Sinh viên</span></a>
+    </li>
+  @endif
+  @else 
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+      <a class="nav-link">
+        <img class="img-profile rounded-circle" src="\bootstrap\bootstrap_table_login\img\Untitled-1.png">
+        <span>ĐH thông tin liên lạc</span><br>
+      </a>
+    </li>
+@endif
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading" style="font-size: .75rem;">
+      Đề tài khoa học
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="#" data-toggle="" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        {{-- <i class="fas fa-fw fa-cog"></i> --}}
+        <i class="fas fa-fw fa-table"></i>
+        <span>Danh sách đề tài</span>
+      </a>
+    <a class="nav-link collapsed" href="{{route('getdkdetai')}}" data-toggle="" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        {{-- <i class="fas fa-fw fa-cog"></i> --}}
+        <i class="fas fa-fw fa-table"></i>
+        <span>Đăng ký đề tài</span>
+      </a>
+      <a class="nav-link collapsed" href="#" data-toggle="" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        {{-- <i class="fas fa-fw fa-cog"></i> --}}
+        <i class="fas fa-fw fa-table"></i>
+        <span>Tham khảo</span>
+      </a>
+      <li></li>
+      {{-- <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+          <h6 class="collapse-header">Danh sách:</h6>
+          <a class="collapse-item" href="buttons.html">Người dùng</a>
+          <a class="collapse-item" href="cards.html">Đề tài</a>
+        </div>
+      </div>
+    </li> --}}
+
+    <!-- Nav Item - Utilities Collapse Menu -->
+    {{-- <li class="nav-item">
+      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+        <i class="fas fa-fw fa-wrench"></i>
+        <i class="fas fa-fw fa-table"></i>
+        <span>Quản lý đề tài</span>
+      </a>
+      <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
+        <div class="bg-white py-2 collapse-inner rounded">
+          <h6 class="collapse-header">Danh sách:</h6>
+        <a class="collapse-item" href="{{route('dsdetai')}}">Đề tài </a>
+          <a class="collapse-item" href="{{route('getduyetdt')}}">Đề tài đợi duyệt</a>
+          <a class="collapse-item" href="utilities-animation.html">Kiểm tra tiến độ</a>
+          <a class="collapse-item" href="utilities-other.html">Tham khảo</a>
+        </div>
+      </div>
+    </li> --}}
 
     {{-- <!-- Divider -->
     <hr class="sidebar-divider">
@@ -350,35 +345,98 @@
             </div>
           </li>
 
-          <div class="topbar-divider d-none d-sm-block"></div>
+          
+          @if(Auth::check())
+            @if(Auth::user()->level==3)
+            <div class="topbar-divider d-none d-sm-block"></div>
+              <!-- Nav Item - User Information -->
+              <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="{{ route('infor')}}" title="Trang cá nhân" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                    @foreach ($sinhvien as $sv)
+                      {{$sv->ho}} {{$sv->ten}}   
+                    @endforeach
+                  </span>
+                  <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                </a>
+                <!-- Dropdown - User Information -->
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                  <a class="dropdown-item" href="#">
+                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Thông tin cá nhân
+                  </a>
+                  <a class="dropdown-item" href="#">
+                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Chỉnh sửa đề tài
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Đăng xuất
+                  </a>
+                </div>
+              </li>
+            @endif
+            @if(Auth::user()->level==2)
+            <div class="topbar-divider d-none d-sm-block"></div>
+              <!-- Nav Item - User Information -->
+              <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="{{ route('infor')}}" title="Trang cá nhân" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                    @foreach ($giangvien as $gv)
+                      {{$gv->ho}} {{$gv->ten}}  
+                    @endforeach
+                  </span>
+                  <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                </a>
+                <!-- Dropdown - User Information -->
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                  <a class="dropdown-item" href="#">
+                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Sinh viên hướng dẫn
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Đăng xuất
+                  </a>
+                </div>
+              </li>
+            @endif
+            @if(Auth::user()->level==1)
+            <div class="topbar-divider d-none d-sm-block"></div>
+              <!-- Nav Item - User Information -->
+              <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                    Super Admin
+                  </span>
+                  <img class="img-profile rounded-circle" src="bootstrap\bootstrap_table_login\img\tenor.png">
+                </a>
 
-          <!-- Nav Item - User Information -->
-          <li class="nav-item dropdown no-arrow">
-            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              <span class="mr-2 d-none d-lg-inline text-gray-600 small">Valerie Luna</span>
-              <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
-            </a>
-            <!-- Dropdown - User Information -->
-            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-              <a class="dropdown-item" href="#">
-                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                Profile
-              </a>
-              <a class="dropdown-item" href="#">
-                <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                Settings
-              </a>
-              <a class="dropdown-item" href="#">
-                <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                Activity Log
-              </a>
-              <div class="dropdown-divider"></div>
-              <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
-                <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                Logout
-              </a>
-            </div>
-          </li>
+                <!-- Dropdown - User Information -->
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                  <a class="dropdown-item" href="#">
+                    <i class="fas fa-users fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Quản lý người dùng
+                  </a>
+                  <div class="dropdown-divider"></div>
+                  <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                    Đăng xuất
+                  </a>
+                </div>
+              </li>
+            @endif
+          @else
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link" href="{{ route('getlogin') }}" >Đăng nhập</a>
+            </li>
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link" href="{{ route('getregister') }}">Đăng ký</a>
+            </li>
+        @endif
+          
 
         </ul>
 

@@ -57,7 +57,7 @@ class homeController extends sharecontroller
     }
     //đề tài//
     public function alldt(){
-        return view('pages.detai');
+        return view('pages.danhsachdetai');
     }
 
     public function getdkdetai(){

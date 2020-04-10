@@ -20,7 +20,7 @@
 
 </head>
 
-<body class="bg-gradient-primary" style="background-image: url(/bootstrap/bootstrap_table_login/img/GettyImages-1086740226-5c2d625a4cedfd00016ed36c.jpg);">
+<body class="bg-gradient-primary" style="">
 
 <div class="container">
 

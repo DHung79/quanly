@@ -1,51 +1,6 @@
 @extends('layout.user.index')
 
 @section('content')
-{{-- <div class="container">
-
-    <div class="row">
-
-        <!-- Post Content Column -->
-        <div class="col-lg-8">
-
-        <!-- Title -->
-        <h1 class="mt-4">Danh sách đề tài</h1> --}}
-        <!-- Preview Image -->
-        {{-- <img class="img-fluid rounded" src="http://placehold.it/900x300" alt="">
-        <hr> --}}
-        <!-- Post Content -->
-        {{-- <table class="table">
-          <thead>
-            <tr>
-              <th scope="col">Số thứ tự</th>
-              <th scope="col">Tên đề tài</th>
-              <th scope="col">Sinh viên thực hiện</th> --}}
-              {{-- <th scope="col">GVHD</th> --}}
-              {{-- <th scope="col">Mô tả</th>
-              <th scope="col">tiến độ</th>
-            </tr>
-          </thead>
-          @foreach ($danhsachdt as $dt)
-            @if($dt->count() > 0)
-              <tbody>
-                <tr>
-                  <th scope="row">{{$stt++}}</th>
-                  <td>{{$dt->tendetai}}</td>
-                  <td>{{$dt->ho}}{{$dt->ten}}</td>
-                  <td>{{$dt->mota}}</td>
-                  <td>{{$dt->tiendo}}</td>
-                </tr>
-              </tbody>
-            @endif
-          @endforeach
-          
-        </table>
-        @if($danhsachdt->count() == 0)
-          <center class="error-center">Chưa có đề tài nào</center><br>
-        @endif
-      </div>
-    </div>
-  </div> --}}
 
 <!-- Begin Page Content -->
 <div class="container-fluid">
@@ -68,7 +23,11 @@
             <th>Tên đề tài</th>
             <th>GVHD</th>
             <th>Tiến độ</th>
-            <th>Thao tác</th>
+            @if(Auth::check())
+              @if(Auth::user()->level==1||Auth::user()->level==2)
+                <th>Thao tác</th>
+              @endif
+            @endif
           </tr>
         </thead>
         {{-- <tfoot>
@@ -89,10 +48,18 @@
                       <td>{{$dt->ho}} {{$dt->ten}}</td>
                       <td>{{$dt->tendetai}}</td>
                       <td>{{$dt->gvhd}}</td>
-                      <td>{{$dt->tiendo}}%</td>
-                      <td><a href="javascript:" data-id="{{$dt->id}}" data-name="{{$dt->tendetai}}"  class="badge badge-success edit-btn">Sửa</a>
-                        <a href="javascript:" class="badge badge-danger delete-btn" data-id="{{$dt->id}}">Xóa</a>
+                      <td>{{$dt->tiendo}}%
+                        <div class="progress mb-4">
+                          <div class="progress-bar" role="progressbar" style="width: {{$dt->tiendo}}%" aria-valuenow="{{$dt->tiendo}}" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
                       </td>
+                      @if(Auth::check())
+                        @if(Auth::user()->level==1||Auth::user()->level==2)
+                          <td><a href="javascript:" data-id="{{$dt->id}}" data-name="{{$dt->tendetai}}"  class="badge badge-success edit-btn">Sửa</a>
+                            <a href="javascript:" class="badge badge-danger delete-btn" data-id="{{$dt->id}}">Xóa</a>
+                          </td>
+                        @endif
+                      @endif
                     </tr>
                 @endif
               @endforeach
