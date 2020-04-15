@@ -87,40 +87,27 @@ class dangkycontroller extends Controller
 
     public function addadmin(Request $request){
         $this->validate($request,[
-            'magv'=>'required',
-            'ho'=> 'required',
-            'ten'=> 'required',
-            'password'=> 'required|min:6|max:32',
             'email'=>'required|email|unique:users,email',
-            // 'level'=>'required'
+            'password'=> 'required|min:6|max:32',
+            'level'=> 'required',
         ],[
-            'magv.required'=>'Chưa nhập mã giảng viên',
-            'ho.required'=>'Bạn chưa nhập họ',
-            'ten.required'=>'Bạn chưa nhập tên',
-            'password.required'=>'Chưa nhập mật khẩu',
-            'password.min:6'=>'Mật khẩu phải chứa nhiều hơn 6 ký tự và ít hơn 32 ký tự',
-            'password.max:32'=>'Mật khẩu phải chứa nhiều hơn 6 ký tự và ít hơn 32 ký tự',
             'email.required'=>'Chưa nhập email',
             'email.email'=>'Email không đúng định dạng',
             'email.unique'=>'Email đã có người đăng ký',
-            // 'idkhoa.required'=>'Chưa chọn khoa ',
-            // 'level.required'=>'Chưa chọn cấp'
+            'password.required'=>'Chưa nhập mật khẩu',
+            'password.min:6'=>'Mật khẩu phải chứa nhiều hơn 6 ký tự và ít hơn 32 ký tự',
+            'password.max:32'=>'Mật khẩu phải chứa nhiều hơn 6 ký tự và ít hơn 32 ký tự',
+            'level.required'=>'Bạn chưa nhập cấp'
         ]);
         $user = new User;
-        $user->password = bcrypt($request->password);
         $user->email= $request->email;
-        $user->level= 2;
+        $user->password = bcrypt($request->password);
+        $user->level= $request->level;
         $user->save();
-        $gv = new giangvien;
-        $gv->ho = $request->ho;
-        $gv->ten = $request->ten;
-        $gv->idusers = $user->id;
-        $gv->gioitinh = $request->giotinh;
-        $gv->idkhoa = $request->khoa;
-        $gv->hocvi = $request->hocvi;
-        $gv->diachi = $request->diachi;
-        $gv->sodt = $request->sodt;
-        $gv->save();
-    }
-    
+        if($user->save()){
+            return redirect()->back()->with('status','Đã thêm thành công');
+        }else{
+            return redirect()->back()->with('status', 'Xãy ra lỗi trong quá trình thêm người dùng');
+        }
+    }   
 }

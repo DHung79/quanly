@@ -25,9 +25,6 @@ class dangnhapController extends Controller
         view::share('giangvien',$giangvien);
         view::share('khoa',$khoa);
     }
-    function getadmin() {
-        return view('admin');
-    }
 
     public function getLogin(){
         return view('dangnhap');
@@ -45,14 +42,19 @@ class dangnhapController extends Controller
         $email = $request->email;
         $password = $request->password;
         if(Auth::attempt(['email'=>$email,'password'=>$password])){
-            return redirect('admin')->with('email',$email)->with('password',$password);
+            if(Auth::user()->level == 1){
+                return redirect()->route('quanly');
+            }
+            else{
+                return redirect('home');
+            }
         }else {
             return redirect()->back()->with('status', 'email hoặc password không chính xác');
         }
     }
     public function logout(Request $request){
         Auth::logout();
-        return redirect('home');
+        return redirect()->route('getlogin');
     }
 
     public function infor(){

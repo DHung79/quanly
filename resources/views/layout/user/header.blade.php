@@ -39,3 +39,5 @@
 
   <!-- Custom styles for this page -->
   <link href="bootstrap/bootstrap_table_login/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+
+  <script src="bootstrap/bootstrap_table_login/vendor/jquery/jquery.min.js"></script>

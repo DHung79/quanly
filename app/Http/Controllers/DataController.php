@@ -51,12 +51,12 @@ class DataController extends Controller
             ['tenlop' => 'ĐHVT3C','idkhoa'=>2]
         ]);
         giangvien::insert([
-            ['ho' => 'Nguyễn Văn','ten'=>'Hoàn','idusers'=>2,'idkhoa'=>1],
-            ['ho' => 'Trần Văn','ten'=>'Minh','idusers'=>3,'idkhoa'=>1],
-            ['ho' => 'Võ Công','ten'=>'Thành','idusers'=>4,'idkhoa'=>2],
-            ['ho' => 'Lê Thị Thanh','ten'=>'Hằng','idusers'=>5,'idkhoa'=>2],
-            ['ho' => 'Đỗ Quang','ten'=>'Hiếu','idusers'=>6,'idkhoa'=>2],
-            ['ho' => 'Long Thị','ten'=>'Lanh','idusers'=>7,'idkhoa'=>1]
+            ['ho' => 'Nguyễn Văn','ten'=>'Hoàn','idusers'=>2,'idkhoa'=>1,'hocvi'=>'Thạc sĩ'],
+            ['ho' => 'Trần Văn','ten'=>'Minh','idusers'=>3,'idkhoa'=>1,'hocvi'=>'Tiến sĩ'],
+            ['ho' => 'Võ Công','ten'=>'Thành','idusers'=>4,'idkhoa'=>2,'hocvi'=>'Thạc sĩ'],
+            ['ho' => 'Lê Thị Thanh','ten'=>'Hằng','idusers'=>5,'idkhoa'=>2,'hocvi'=>'Thạc sĩ'],
+            ['ho' => 'Đỗ Quang','ten'=>'Hiếu','idusers'=>6,'idkhoa'=>2,'hocvi'=>'Tiến sĩ'],
+            ['ho' => 'Long Thị','ten'=>'Lanh','idusers'=>7,'idkhoa'=>1,'hocvi'=>'Tiến sĩ']
         ]);
         sinhvien::insert([
             ['ho' => 'Trịnh Thị Kim','ten'=>'Ngân','gvhd'=>'Nguyễn Văn Hoàn','idusers'=>8,'idlop'=>1],

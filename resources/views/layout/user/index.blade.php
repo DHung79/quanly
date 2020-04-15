@@ -15,7 +15,7 @@
   @include('layout.user.footer')
   <!-- Bootstrap core JavaScript -->
   
-  <script src="bootstrap/bootstrap_table_login/vendor/jquery/jquery.min.js"></script>
+
   <script src="bootstrap/bootstrap_table_login/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
   <!-- Core plugin JavaScript-->
@@ -24,12 +24,6 @@
   <!-- Custom scripts for all pages-->
   <script src="bootstrap/bootstrap_table_login/js/sb-admin-2.min.js"></script>
 
-  <!-- Page level plugins -->
-  <script src="bootstrap/bootstrap_table_login/vendor/chart.js/Chart.min.js"></script>
-
-  <!-- Page level custom scripts -->
-  <script src="bootstrap/bootstrap_table_login/js/demo/chart-area-demo.js"></script>
-  <script src="bootstrap/bootstrap_table_login/js/demo/chart-pie-demo.js"></script>
 
   <!-- Page level plugins -->
   <script src="bootstrap/bootstrap_table_login/vendor/datatables/jquery.dataTables.min.js"></script>

@@ -27,7 +27,7 @@ Route::post('themadmin','dangkycontroller@addadmin')->name('addadmin');
 
 Route::get('logout','dangnhapcontroller@logout')->name('logout');
 
-Route::get('admin', 'dangnhapcontroller@getadmin')->middleware('issuperadmin');
+Route::get('quanlynguoidung', 'homecontroller@quanlyUser')->name('quanly')->middleware('isadmin');
 
 Route::get('home','homecontroller@gethome')->name('home');
 
@@ -43,3 +43,6 @@ Route::post('xulydangkydetai','homecontroller@dkdetai')->name('dkdetai');
 
 Route::get('data','DataController@defaultdata')->name('data');
 
+Route::post('edit','homeController@editUser')->name('editUser');
+
+Route::post('del','homeController@delUser')->name('delUser');

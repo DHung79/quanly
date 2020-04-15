@@ -290,4 +290,11 @@
 
       </div>
       <!-- End of Main Content -->
+      
+      <!-- Page level plugins -->
+  <script src="bootstrap/bootstrap_table_login/vendor/chart.js/Chart.min.js"></script>
+
+  <!-- Page level custom scripts -->
+  <script src="bootstrap/bootstrap_table_login/js/demo/chart-area-demo.js"></script>
+  <script src="bootstrap/bootstrap_table_login/js/demo/chart-pie-demo.js"></script>
 @endsection

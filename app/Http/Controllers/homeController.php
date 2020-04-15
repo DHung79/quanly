@@ -19,19 +19,31 @@ class homeController extends sharecontroller
 {
     function __construct() { 
         view::share('stt','1');
+
         $detai = detai::get();
+        view::share('detai',$detai);
+
         $user = user::get();
+        view::share('user',$user);
+
         $danhsachdt = detai::join('sinhvien','sinhvien.id','detais.idsinhvien')
         ->where('daduyet','1')->where('thamkhao','0')->get();
+        view::share('danhsachdt',$danhsachdt);
+
         $thamkhao = detai::join('sinhvien','sinhvien.id', 'detais.idsinhvien')
         ->where('daduyet','1')->where('thamkhao','1')->get();
+        view::share('thamkhao',$thamkhao);
+
         $duyet = sinhvien::join('detais','detais.idsinhvien', 'sinhvien.id')
         ->where('daduyet','0')->get();
-        view::share('detai',$detai);
-        view::share('user',$user);
-        view::share('danhsachdt',$danhsachdt);
-        view::share('thamkhao',$thamkhao);
         view::share('duyet',$duyet);
+
+        $gvlist = giangvien::get();
+        view::share('gvlist',$gvlist);
+
+        $svlist = sinhvien::get();
+        view::share('svlist',$svlist);
+        
         // $this->middleware('auth')->except('logout');
         // if(auth::check()){
         $this->middleware(function ($request, $next) {
@@ -72,10 +84,15 @@ class homeController extends sharecontroller
 
     public function dkdetai(Request $request){
         $this->validate($request,[
+            'idsinhvien'=> 'required',
+
             'tendt'=> 'required'
         ],[
             'tendt.required'=>'Bạn chưa nhập tên đề tài'
         ]);
+        $sinhvien = sinhvien::find($request->idsinhvien);
+        $sinhvien->gvhd = $request->gv;
+        $sinhvien->save();
         $detai = new detai;
         $detai->idsinhvien = $request->idsinhvien;
         $detai->tendetai = $request->tendt;
@@ -112,11 +129,45 @@ class homeController extends sharecontroller
             }
             else{
             return redirect()->route('getduyetdt')
-            ->with('status',"Xóa thất bại");
+            ->with('status',"Xãy ra lỗi trong quá trình xóa");
             }
         }
     }
     public function thamkhao(){
         return view('pages.thamkhao');
+    }
+    function quanlyUser() {
+        return view('admin');
+    }
+    public function editUser(Request $request){
+        $user = User::find($request->id);
+        if($user->email == $request->email){
+            $this->validate($request,[
+                    'email'=>'required|email',
+                ],[
+                    'email.required'=>'Chưa nhập email',
+                    'email.email'=>'Email không đúng định dạng'
+                ]);
+        }else{
+            $this->validate($request,[
+                'email'=>'required|email|unique:users,email',
+            ],[
+                'email.required'=>'Chưa nhập email',
+                'email.email'=>'Email không đúng định dạng',
+                'email.unique'=>'Email đã có người đăng ký'
+            ]);
+        }
+            $user->email = $request->email;
+            $user->level = $request->level;
+            $user->save();
+            if($user->save()){
+                return redirect()->route('quanly')->with('status','Đã sửa thành công');
+            } else{
+                return redirect()->route('quanly')
+                ->with('status',"Xãy ra lỗi trong quá trình sửa");
+            }
+    }
+    public function delUser(Request $request){
+        $delUser = user::where('id',$request->id)->delete();
     }
 }
