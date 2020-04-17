@@ -140,7 +140,7 @@
                 </div>
                 <div class="form-group row">
                     <div class="col-sm-6">
-                        <select class="form-control" style="height: 3rem; font-size: .8rem; border-radius: 10rem;" name='giotinh'>
+                        <select class="form-control" style="height: 3rem; font-size: .8rem; border-radius: 10rem;" name='gioitinh'>
                             <option value=""hidden>Giới tính</option>
                             <option value="1">Nam</option>
                             <option value="2">Nữ</option>
