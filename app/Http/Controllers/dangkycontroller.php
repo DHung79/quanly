@@ -66,7 +66,7 @@ class dangkycontroller extends Controller
         $sv->idlop = $request->lop;
         $sv->ho = $request->ho;
         $sv->ten = $request->ten;
-        $sv->gioitinh = $request->giotinh;
+        $sv->gioitinh = $request->gioitinh;
         $sv->ngaysinh = $request->ngaysinh;
         $sv->quequan = $request->quequan;
         $sv->diachi = $request->diachi;
@@ -75,7 +75,7 @@ class dangkycontroller extends Controller
         $email = $request->email;
         $password = $request->password;
         if(Auth::attempt(['email'=>$email,'password'=>$password])){
-            return redirect('admin');
+            return redirect()->route('home');
         }else {
             return redirect()->back()->with('status', 'Xãy ra lỗi trong quá trình đăng ký');
         }
