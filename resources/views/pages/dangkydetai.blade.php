@@ -65,7 +65,7 @@
                     </div>
                     <div class="col-xl-12 col-md-6">
                         <h4 class="small font-weight-bold">Mô tả đề tài</h4>
-                        <textarea class="form-control mb-4" name="mota" id="ten" style="height: 362px;"></textarea>
+                        <textarea class="form-control mb-4" name="mota" style="height: 362px;"></textarea>
                     </div>
                 </div>
                         <center><button type="submit" class="btn btn-primary" name="dangky">Đăng ký</button></center><br>
