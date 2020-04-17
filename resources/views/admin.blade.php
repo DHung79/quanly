@@ -25,25 +25,31 @@
       <form action="{{route('addadmin')}}" method="post">
         @csrf
         <div class="row">
-          <div class="col-xl-4 col-md-6">
-            <div class="form-group">
+          <div class="col-xl-12 col-md-6" >
+            <div class="form-group" style="width: 30%;">
               <input type="text" placeholder="Email" class="form-control form-control-sm" name="email">
             </div>
           </div>
-          <div class="col-xl-2 col-md-6">
-            <select class="form-control form-control-sm " name='level'>
-                <option value=""hidden>Cấp</option>
-                <option value="1">Quản Trị viên</option>
-                <option value="2">Giảng viên</option>
-                <option value="3">Sinh viên</option>
-            </select>	
-          </div>
-          <div class="col-xl-4 col-md-6">
-          </div>
-          <div class="col-xl-4 col-md-6">
-            <div class="form-group">
+          <div class="col-xl-12 col-md-6">
+            <div class="form-group" style="width: 30%;">
               <input type="password" placeholder="Mật khẩu" class="form-control form-control-sm" name="password">
             </div>
+          </div>
+          <div class="col-xl-12 col-md-6">
+            <select class="form-control form-group form-control-sm " style="width: 30%;" name='level'>
+                <option value=""hidden>Cấp</option>
+                @if(Auth::check())
+                  @if(Auth::user()->level==1)
+                    <option value="1">Quản Trị viên</option>
+                    <option value="2">Giảng viên</option>
+                    <option value="3">Sinh viên</option>
+                  @endif
+                  @if(Auth::user()->level==2)
+                    <option value="2">Giảng viên</option>
+                    <option value="3">Sinh viên</option>
+                  @endif
+                @endif
+            </select>	
           </div>
         </div>
         <div class="row">
