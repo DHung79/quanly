@@ -31,11 +31,11 @@ class homeController extends sharecontroller
         view::share('danhsachdt',$danhsachdt);
 
         $thamkhao = detai::join('sinhvien','sinhvien.id', 'detais.idsinhvien')
-        ->where('daduyet','1')->where('thamkhao','1')->get();
+        ->where('thamkhao','1')->get();
         view::share('thamkhao',$thamkhao);
 
         $duyet = sinhvien::join('detais','detais.idsinhvien', 'sinhvien.id')
-        ->where('daduyet','0')->get();
+        ->where('daduyet','0')->where('thamkhao','0')->get();
         view::share('duyet',$duyet);
 
         $gvlist = giangvien::get();
@@ -67,11 +67,12 @@ class homeController extends sharecontroller
     public function gethome(){
         return view('pages.home');
     }
-    //đề tài//
+    //Danh sách đề tài//
     public function alldt(){
         return view('pages.danhsachdetai');
     }
 
+    //Đăng ký đề tài//    
     public function getdkdetai(){
         if(Auth::check())
         {   
@@ -81,7 +82,7 @@ class homeController extends sharecontroller
             return redirect()->route('getlogin');
         }
     }
-
+    //Xử lý đăng ký//
     public function dkdetai(Request $request){
         $this->validate($request,[
             'idsinhvien'=> 'required',
@@ -102,43 +103,94 @@ class homeController extends sharecontroller
         $detai->save();
         return redirect()->route('getdkdetai')->with('status',"Đăng ký đề tài thành công");
     }
+
+    //Duyệt đề tài//
     public function getduyetdt(){
         return view('pages.duyetdetai');
     }
     public function duyetdt(Request $request){
-        $iddetai = $request->iddetai;
-        $svdt = $request->svdt;
+        $duyetdt = detai::find($request->id);
         $this->validate($request,[]);
-        $duyetdt = detai::where('id',$iddetai);
-        if ($request->duyet == 'duyet'){
-            $daduyet = $duyetdt->update(['daduyet'=>1]);
-            if($daduyet){
-                return redirect()->route('getduyetdt')
-                ->with('status',"Đã duyệt đề tài của sinh viên $svdt");
-            }
-            else{
-            return redirect()->route('getduyetdt')
-            ->with('status',"Duyệt thất bại");
-            } 
+        $duyetdt->daduyet = 1;
+        $duyetdt->save();
         }
-        if ($request->xoa == 'xoa'){
-            $xoadt = $duyetdt->delete();
-            if($xoadt){
-                return redirect()->route('getduyetdt')
-                ->with('status',"Đã xóa đề tài của sinh viên $svdt");
-            }
-            else{
-            return redirect()->route('getduyetdt')
-            ->with('status',"Xãy ra lỗi trong quá trình xóa");
-            }
-        }
+    //Xóa đề tài duyệt//
+    public function deldetai(Request $request){
+        $duyetdt = detai::find($request->id);
+        $this->validate($request,[]);
+        $duyetdt->delete();
     }
+
+    //Tham khảo//
     public function thamkhao(){
         return view('pages.thamkhao');
     }
-    function quanlyUser() {
+    //Thêm tham khảo//
+    public function addThamkhao(Request $request){
+        $this->validate($request,[
+            'email'=>'required|email|unique:users,email',
+            'password'=> 'required|min:6|max:32',
+            'level'=> 'required',
+        ],[
+            'email.required'=>'Chưa nhập email',
+            'email.email'=>'Email không đúng định dạng',
+            'email.unique'=>'Email đã có người đăng ký',
+            'password.required'=>'Chưa nhập mật khẩu',
+            'password.min:6'=>'Mật khẩu phải chứa nhiều hơn 6 ký tự và ít hơn 32 ký tự',
+            'password.max:32'=>'Mật khẩu phải chứa nhiều hơn 6 ký tự và ít hơn 32 ký tự',
+            'level.required'=>'Bạn chưa nhập cấp'
+        ]);
+        $user = new User;
+        $user->email= $request->email;
+        $user->password = bcrypt($request->password);
+        $user->level= $request->level;
+        $user->save();
+        if($user->save()){
+            return redirect()->back()->with('status','Đã thêm thành công');
+        }else{
+            return redirect()->back()->with('status', 'Xãy ra lỗi trong quá trình thêm người dùng');
+        }
+    }   
+    //Sửa tham khảo//
+    public function editThamkhao(Request $request){
+        $user = User::find($request->id);
+        if($user->email == $request->email){
+            $this->validate($request,[
+                    'email'=>'required|email',
+                ],[
+                    'email.required'=>'Chưa nhập email',
+                    'email.email'=>'Email không đúng định dạng'
+                ]);
+        }else{
+            $this->validate($request,[
+                'email'=>'required|email|unique:users,email',
+            ],[
+                'email.required'=>'Chưa nhập email',
+                'email.email'=>'Email không đúng định dạng',
+                'email.unique'=>'Email đã có người đăng ký'
+            ]);
+        }
+            $user->email = $request->email;
+            $user->level = $request->level;
+            $user->save();
+            if($user->save()){
+                return redirect()->route('quanly')->with('status','Đã sửa thành công');
+            } else{
+                return redirect()->route('quanly')
+                ->with('status',"Xãy ra lỗi trong quá trình sửa");
+            }
+    }
+    //Xóa tham khảo//
+    public function delThamkhao(Request $request){
+        $delUser = user::where('id',$request->id)->delete();
+    }
+
+
+    //Quản lý người dùng//
+    public function quanlyUser() {
         return view('admin');
     }
+    //Sửa người dùng//
     public function editUser(Request $request){
         $user = User::find($request->id);
         if($user->email == $request->email){
@@ -167,6 +219,7 @@ class homeController extends sharecontroller
                 ->with('status',"Xãy ra lỗi trong quá trình sửa");
             }
     }
+    //Xóa người dùng//
     public function delUser(Request $request){
         $delUser = user::where('id',$request->id)->delete();
     }
