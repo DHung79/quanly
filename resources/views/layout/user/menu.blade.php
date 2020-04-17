@@ -51,7 +51,7 @@
       </a>
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">
-      <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
+      <a class="nav-link collapsed" href="{{route('dsdetai')}}" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
         {{-- <i class="fas fa-fw fa-wrench"></i> --}}
         <i class="fas fa-fw fa-table"></i>
         <span>Quản lý đề tài</span>
@@ -61,8 +61,8 @@
           <h6 class="collapse-header">Danh sách:</h6>
         <a class="collapse-item" href="{{route('dsdetai')}}">Đề tài khoa học</a>
           <a class="collapse-item" href="{{route('getduyetdt')}}">Đề tài đợi duyệt</a>
-          <a class="collapse-item" href="utilities-animation.html">Kiểm tra tiến độ</a>
-          <a class="collapse-item" href="utilities-other.html">Tham khảo</a>
+          <a class="collapse-item" href="">Kiểm tra tiến độ</a>
+          <a class="collapse-item" href="{{route('thamkhao')}}">Tham khảo</a>
         </div>
       </div>
     </li>
@@ -105,7 +105,7 @@
         <i class="fas fa-fw fa-table"></i>
         <span>Đăng ký đề tài</span>
       </a>
-      <a class="nav-link collapsed" href="#" data-toggle="" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+      <a class="nav-link collapsed" href="{{route('thamkhao')}}" data-toggle="" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
         {{-- <i class="fas fa-fw fa-cog"></i> --}}
         <i class="fas fa-fw fa-table"></i>
         <span>Tham khảo</span>
