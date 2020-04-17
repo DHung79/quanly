@@ -55,7 +55,8 @@
                       </td>
                       @if(Auth::check())
                         @if(Auth::user()->level==1||Auth::user()->level==2)
-                          <td><a href="javascript:" data-id="{{$dt->id}}" data-name="{{$dt->tendetai}}" class="btn btn-split btn-success edit-btn">Sửa</a>&nbsp;
+                          <td>
+                            <a href="javascript:" data-id="{{$dt->id}}" data-name="{{$dt->tendetai}}" class="btn btn-split btn-success edit-btn">Sửa</a>&nbsp;
                             <a href="javascript:" class="btn btn-split btn-danger delete-btn" data-id="{{$dt->id}}">Xóa</a>
                           </td>
                         @endif
