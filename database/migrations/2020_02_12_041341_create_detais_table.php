@@ -16,7 +16,9 @@ class CreateDetaisTable extends Migration
         Schema::create('detais', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('tendetai');
-            $table->string('mota');
+            $table->string('tomtat');
+            $table->text('noidung')->nullable();
+            $table->text('file')->nullable();
             $table->tinyinteger('tiendo');
             $table->boolean('thamkhao');
             $table->boolean('daduyet');

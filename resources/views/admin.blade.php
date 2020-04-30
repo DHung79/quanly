@@ -108,7 +108,7 @@
 
   <div class="card-body">
     <div class="table-responsive">
-      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="color: #000000e6;">
         <thead>
           <tr>
             <th>STT</th>
@@ -158,7 +158,7 @@
 
 </div>
 <!-- End of Main Content -->
-<script type="text/javascript" src="{{('/bootstrap/js/add_edit.js')}}"></script>
+<script type="text/javascript" src="{{('/bootstrap/js/add.js')}}"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 		$('.delete-btn').click(function(){
@@ -170,7 +170,21 @@
 					alert('Không thể hoàn thành thao tác này');
 				})
       }
-		})
+    })
+    
+    $('.edit-btn').click(function(){
+            id = $(this).data('id');
+            email = $(this).data('email');
+            level = $(this).data('level');
+            $('#id').val(id);
+            $('#edit-email').val(email);
+            $('#edit-level').val(level);
+            $('.form-edit').slideDown();
+        })
+
+        $('#cancel-edit').click(function(){
+            $('.form-edit').slideUp();
+    })
 	})
 </script>
 @endsection

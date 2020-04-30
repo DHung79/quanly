@@ -61,7 +61,7 @@
           <h6 class="collapse-header">Danh sách:</h6>
         <a class="collapse-item" href="{{route('dsdetai')}}">Đề tài khoa học</a>
           <a class="collapse-item" href="{{route('getduyetdt')}}">Đề tài đợi duyệt</a>
-          <a class="collapse-item" href="">Kiểm tra tiến độ</a>
+          {{-- <a class="collapse-item" href="">Kiểm tra tiến độ</a> --}}
           <a class="collapse-item" href="{{route('thamkhao')}}">Tham khảo</a>
         </div>
       </div>
@@ -240,7 +240,7 @@
             </div>
           </li>
 
-          <!-- Nav Item - Alerts -->
+          {{-- <!-- Nav Item - Alerts -->
           <li class="nav-item dropdown no-arrow mx-1">
             <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-bell fa-fw"></i>
@@ -343,19 +343,17 @@
               </a>
               <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
             </div>
-          </li>
+          </li> --}}
 
-          
+          {{-- <div class="topbar-divider d-none d-sm-block"></div> --}}
           @if(Auth::check())
             @if(Auth::user()->level==3)
-            <div class="topbar-divider d-none d-sm-block"></div>
               <!-- Nav Item - User Information -->
               <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="{{ route('infor')}}" title="Trang cá nhân" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span class="mr-2 d-none d-lg-inline text-gray-600 small">
                     @foreach ($sinhvien as $sv)
                       {{$sv->ho}} {{$sv->ten}}   
-                    @endforeach
                   </span>
                   <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
                 </a>
@@ -365,7 +363,8 @@
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     Thông tin cá nhân
                   </a>
-                  <a class="dropdown-item" href="#">
+                  <a class="dropdown-item" href="{{route('userdetai',['id'=>$sv->id])}}">
+                    @endforeach
                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                     Chỉnh sửa đề tài
                   </a>
@@ -378,7 +377,6 @@
               </li>
             @endif
             @if(Auth::user()->level==2)
-            <div class="topbar-divider d-none d-sm-block"></div>
               <!-- Nav Item - User Information -->
               <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" href="{{ route('infor')}}" title="Trang cá nhân" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -404,7 +402,6 @@
               </li>
             @endif
             @if(Auth::user()->level==1)
-            <div class="topbar-divider d-none d-sm-block"></div>
               <!-- Nav Item - User Information -->
               <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">

@@ -11,9 +11,9 @@
 
 
 <div class="card shadow mb-4">
-<div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold text-primary">{{$detai->tendetai}}</h6>
-</div>
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">{{$tailieu->tendetai}}</h6>
+    </div>
     
     <span class="error-center" style="margin: 5px 25px;">
         @if(count($errors)>0)
@@ -27,27 +27,27 @@
     </span> 
 
     <div class="form-edit" style=" display: none;">
-        <form method="POST" action="{{route('editdetai')}}" style="margin: 30px 25px;">
+        <form method="POST" action="{{route('editthamkhao')}}" style="margin: 30px 25px;">
             @csrf
-            <input type="hidden" name="id" value="{{$detai->id}}">
+            <input type="hidden" name="id" value="{{$tailieu->id}}">
             <div class="row">
                 <div class="col-xl-12 col-md-6">
-                    <h4 class="small font-weight-bold">Tên đề tài</h4>
+                    <h4 class="small font-weight-bold">Tên tiêu đề</h4>
                     <div class="form-group" >
-                    <input type='text' name='tendetai' value="{{$detai->tendetai}}" class="form-control form-control-sm">
+                    <input type='text' name='tieude' value="{{$tailieu->tendetai}}" class="form-control form-control-sm">
                     </div>
                 </div>
                 <div class="col-xl-12 col-md-6">
-                    <h4 class="small font-weight-bold">Tóm tắt đề tài</h4>
+                    <h4 class="small font-weight-bold">Tóm tắt</h4>
                     <div class="form-group" >
-                    <input type='text' name='tomtat' value="{{$detai->tomtat}}" class="form-control form-control-sm">
+                    <input type='text' name='tomtat' value="{{$tailieu->tomtat}}" class="form-control form-control-sm">
                     </div>
                 </div>
                 <div class="col-xl-12 col-md-6 mb-4">
                     <h4 class="small font-weight-bold">Nội dung</h4>
                     <textarea name="noidung" 
                     class="form-control form-group form-control-sm ckeditor" 
-                    style="">{{$detai->noidung}}</textarea>	
+                    style="">{{$tailieu->noidung}}</textarea>	
                 </div>
             </div>
             <div class="row">
@@ -62,7 +62,7 @@
     </div>
 
     @if(Auth::check())
-        @if(Auth::user()->level==1||Auth::user()->level==2||Auth::user()->id==$idedit)
+        @if(Auth::user()->level==1||Auth::user()->level==2)
         <div class="row" style="margin: 10px 0px 0 10px;">
             <div class="col-md-1 col-6 " >
                 <a href="javascript:" class="btn btn-split btn-success edit-btn">
@@ -72,9 +72,9 @@
         @endif
     @endif
     <div class="card-body" style=" color: #000000;">
-        <div>
+        <div >
             <div>
-              {!!$detai->noidung!!}
+                {!!$tailieu->noidung!!}
             </div>
         </div>
     </div>
@@ -82,6 +82,8 @@
 <!-- /.container-fluid -->
 </div>
 <!-- End of Main Content -->
+
+
 <script type="text/javascript" src="{{('/bootstrap/js/add.js')}}"></script>
 <script type="text/javascript">
 	$(document).ready(function(){

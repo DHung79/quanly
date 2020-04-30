@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 use App\Repositories\UserRepository;
 use Session;
 use Auth;
+use Illuminate\Support\Facades\Storage;
 use App\User;
 use App\giangvien;
 use App\sinhvien;
@@ -30,8 +31,7 @@ class homeController extends sharecontroller
         ->where('daduyet','1')->where('thamkhao','0')->get();
         view::share('danhsachdt',$danhsachdt);
 
-        $thamkhao = detai::join('sinhvien','sinhvien.id', 'detais.idsinhvien')
-        ->where('thamkhao','1')->get();
+        $thamkhao = detai::where('thamkhao','1')->get();
         view::share('thamkhao',$thamkhao);
 
         $duyet = sinhvien::join('detais','detais.idsinhvien', 'sinhvien.id')
@@ -66,6 +66,56 @@ class homeController extends sharecontroller
     }
     public function gethome(){
         return view('pages.home');
+    }
+    //Trang cá nhân//
+    public function infor(){
+        if(Auth::check())
+        {   
+            return view('pages.inforuser');
+        }
+    }
+    //Đề tài sinh viên
+    public function userdetai($id){
+        $detai = detai::where('idsinhvien',$id)->first();
+        $idedit = sinhvien::find($id)->idusers;
+        return view('pages.inforuser',['detai'=>$detai,'idedit'=>$idedit]);
+    }
+    //Chỉnh sửa đề tài sinh viên
+    public function editdetai(Request $request){
+        $detai = detai::find($request->id);
+        $idsv = $detai->idsinhvien;
+        if($detai->tendetai == $request->tendetai){
+            $this->validate($request,[
+                'tendetai'=>'required',
+                'tomtat'=>'required',
+                'noidung'=>'required'
+            ],[
+                'tendetai.required'=>'Chưa nhập tên đề tài',
+                'tomtat.required'=>'Chưa nhập tóm tắt',
+                'noidung.required'=>'Chưa nhập nội dung'
+            ]);
+        }else{
+            $this->validate($request,[
+                'tendetai'=>'required|unique:detais,tendetai',
+                'tomtat'=>'required',
+                'noidung'=>'required'
+            ],[
+                'tendetai.required'=>'Chưa nhập tên đề tài',
+                'tendetai.unique'=>'Đề tài đã tồn tại',
+                'tomtat.required'=>'Chưa nhập tóm tắt',
+                'noidung.required'=>'Chưa nhập nội dung'
+            ]);
+        }
+        $detai->tendetai = $request->tendetai;
+        $detai->tomtat = $request->tomtat;
+        $detai->noidung = $request->noidung;
+        $detai->save();
+        if($detai->save()){
+            return redirect()->route('userdetai',['id'=>$idsv])->with('status','Đã sửa thành công');
+        } else{
+            return redirect()->route('userdetai',['id'=>$idsv])
+            ->with('status',"Xãy ra lỗi trong quá trình sửa");
+        }
     }
     //Danh sách đề tài//
     public function alldt(){
@@ -125,64 +175,86 @@ class homeController extends sharecontroller
     public function thamkhao(){
         return view('pages.thamkhao');
     }
+    public function tailieu(Request $request){
+        $tailieu = detai::find($request->id);
+        return view('pages.tailieu',['tailieu'=>$tailieu]);
+    }
     //Thêm tham khảo//
     public function addThamkhao(Request $request){
         $this->validate($request,[
-            'email'=>'required|email|unique:users,email',
-            'password'=> 'required|min:6|max:32',
-            'level'=> 'required',
+            'tieude'=>'required',
+            'tomtat'=>'required',
+            // 'file'=>'required',
+            'noidung'=>'required'
         ],[
-            'email.required'=>'Chưa nhập email',
-            'email.email'=>'Email không đúng định dạng',
-            'email.unique'=>'Email đã có người đăng ký',
-            'password.required'=>'Chưa nhập mật khẩu',
-            'password.min:6'=>'Mật khẩu phải chứa nhiều hơn 6 ký tự và ít hơn 32 ký tự',
-            'password.max:32'=>'Mật khẩu phải chứa nhiều hơn 6 ký tự và ít hơn 32 ký tự',
-            'level.required'=>'Bạn chưa nhập cấp'
+            'tieude.required'=>'Chưa nhập tiêu đề',
+            'tomtat.required'=>'Chưa nhập tóm tắt',
+            // 'file.required'=>'Chưa chọn file',
+            'noidung.required'=>'Chưa nhập nội dung'
         ]);
-        $user = new User;
-        $user->email= $request->email;
-        $user->password = bcrypt($request->password);
-        $user->level= $request->level;
-        $user->save();
-        if($user->save()){
+        $detai = new detai;
+        $detai->tendetai = $request->tieude;
+        $detai->tomtat = $request->tomtat;
+        // $file = $request->file('file');
+        // if($file-> getClientMimeType('file') != "file/php"){
+        //     $name = $file->getClientOriginalName('file');
+        //     $file->move('file',$name);
+        //     $detai->file = 'file/'.$name;
+        // }
+        $detai->noidung = $request->noidung;
+        $detai->tiendo = 0;
+        $detai->daduyet = 0;
+        $detai->thamkhao = 1;
+        $detai->idsinhvien = 1;
+        $detai->save();
+        if($detai->save()){
             return redirect()->back()->with('status','Đã thêm thành công');
         }else{
-            return redirect()->back()->with('status', 'Xãy ra lỗi trong quá trình thêm người dùng');
+            return redirect()->back()->with('status', 'Xãy ra lỗi trong quá trình thêm');
         }
     }   
     //Sửa tham khảo//
+    // public function geteditThamkhao(){
+    //     return view('pages.editthamkhao');
+    // }
     public function editThamkhao(Request $request){
-        $user = User::find($request->id);
-        if($user->email == $request->email){
+        $detai = detai::find($request->id);
+        if($detai->tendetai == $request->tieude){
             $this->validate($request,[
-                    'email'=>'required|email',
-                ],[
-                    'email.required'=>'Chưa nhập email',
-                    'email.email'=>'Email không đúng định dạng'
-                ]);
+                'tieude'=>'required',
+                'tomtat'=>'required',
+                'noidung'=>'required'
+            ],[
+                'tieude.required'=>'Chưa nhập tiêu đề',
+                'tomtat.required'=>'Chưa nhập tóm tắt',
+                'noidung.required'=>'Chưa nhập nội dung'
+            ]);
         }else{
             $this->validate($request,[
-                'email'=>'required|email|unique:users,email',
+                'tieude'=>'required|unique:detais,tendetai',
+                'tomtat'=>'required',
+                'noidung'=>'required'
             ],[
-                'email.required'=>'Chưa nhập email',
-                'email.email'=>'Email không đúng định dạng',
-                'email.unique'=>'Email đã có người đăng ký'
+                'tieude.required'=>'Chưa nhập tiêu đề',
+                'tieude.unique'=>'Tài liệu tham khảo đã tồn tại',
+                'tomtat.required'=>'Chưa nhập tóm tắt',
+                'noidung.required'=>'Chưa nhập nội dung'
             ]);
         }
-            $user->email = $request->email;
-            $user->level = $request->level;
-            $user->save();
-            if($user->save()){
-                return redirect()->route('quanly')->with('status','Đã sửa thành công');
-            } else{
-                return redirect()->route('quanly')
-                ->with('status',"Xãy ra lỗi trong quá trình sửa");
-            }
-    }
+        $detai->tendetai = $request->tieude;
+        $detai->tomtat = $request->tomtat;
+        $detai->noidung = $request->noidung;
+        $detai->save();
+        if($detai->save()){
+            return redirect()->route('thamkhao')->with('status','Đã sửa thành công');
+        } else{
+            return redirect()->route('thamkhao')
+            ->with('status',"Xãy ra lỗi trong quá trình sửa");
+        }
+}
     //Xóa tham khảo//
     public function delThamkhao(Request $request){
-        $delUser = user::where('id',$request->id)->delete();
+        $delthamkhao = detai::find($request->id)->delete();
     }
 
 

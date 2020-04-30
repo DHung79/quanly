@@ -6,7 +6,7 @@
 
 </head>
 
-<body>
+<body id="page-top">
   <!-- Navigation -->
   @include('layout.user.menu')
     <!-- Page Content -->

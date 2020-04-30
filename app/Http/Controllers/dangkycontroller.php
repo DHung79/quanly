@@ -37,7 +37,7 @@ class dangkycontroller extends Controller
             'ngaysinh'  => 'required',
             'gioitinh'  => 'required',
             'lop'       => 'required',
-            'sodt'      =>'numeric',
+            'sodt'      => 'required|numeric|min:10',
             'quequan'   => 'required',
             'diachi'    => 'required'
         ],[
@@ -52,7 +52,9 @@ class dangkycontroller extends Controller
             'ngaysinh.required'=>'Bạn chưa nhập ngày sinh',
             'gioitinh.required'=>'Bạn chưa nhập giới tính',
             'lop.required'=>'Bạn chưa nhập lớp',
+            'sodt.required'=>'Bạn chưa nhập số điện thoại',
             'sodt.numeric'=>'Số điện thoại phải là một dãy số',
+            'sodt.min:10'=>'Số điện thoại phải có 10 số',
             'quequan.required'=>'Bạn chưa nhập quê quán',
             'diachi.required'=>'Bạn chưa nhập địa chỉ',
         ]);

@@ -41,3 +41,4 @@
   <link href="bootstrap/bootstrap_table_login/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
   <script src="bootstrap/bootstrap_table_login/vendor/jquery/jquery.min.js"></script>
+  <script src="https://cdn.ckeditor.com/4.14.0/standard/ckeditor.js"></script>

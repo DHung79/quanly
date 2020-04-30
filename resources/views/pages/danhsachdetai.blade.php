@@ -14,8 +14,8 @@
     <h6 class="m-0 font-weight-bold text-primary">Danh sách đề tài</h6>
   </div>
   <div class="card-body">
-    <div class="table-responsive">
-      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+    <div class="table-responsive" >
+      <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="color: #000000e6;">
         <thead>
           <tr>
             <th>STT</th>
@@ -25,7 +25,7 @@
             <th>Tiến độ</th>
             @if(Auth::check())
               @if(Auth::user()->level==1||Auth::user()->level==2)
-                <th>Thao tác</th>
+                <th >Thao tác</th>
               @endif
             @endif
           </tr>
@@ -46,7 +46,11 @@
                     <tr>
                       <th scope="row">{{$stt++}}</th>
                       <td>{{$dt->ho}} {{$dt->ten}}</td>
-                      <td>{{$dt->tendetai}}</td>
+                      <td>
+                        <a href="{{route('userdetai',['id'=>$dt->id])}}" 
+                          style=" text-decoration: none; color: #000000e6;">
+                          {{$dt->tendetai}}</a>
+                      </td>
                       <td>{{$dt->gvhd}}</td>
                       <td>{{$dt->tiendo}}%
                         <div class="progress mb-4">
@@ -56,8 +60,17 @@
                       @if(Auth::check())
                         @if(Auth::user()->level==1||Auth::user()->level==2)
                           <td>
-                            <a href="javascript:" data-id="{{$dt->id}}" data-name="{{$dt->tendetai}}" class="btn btn-split btn-success edit-btn">Sửa</a>&nbsp;
-                            <a href="javascript:" class="btn btn-split btn-danger delete-btn" data-id="{{$dt->id}}">Xóa</a>
+                              <div class="card mb-4">
+                                <a href="javascript:" 
+                                  class="btn btn-split btn-success edit-btn"
+                                  data-id="{{$dt->id}}" 
+                                  data-name="{{$dt->tendetai}}">Sửa</a>
+                              </div>
+                              <div class="card mb-4">
+                                <a href="javascript:" 
+                                class="btn btn-split btn-danger delete-btn" 
+                                data-id="{{$dt->id}}">Xóa</a>
+                              </div>
                           </td>
                         @endif
                       @endif

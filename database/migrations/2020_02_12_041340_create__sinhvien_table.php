@@ -17,6 +17,7 @@ class CreateSinhvienTable extends Migration
             $table->bigIncrements('id');
             $table->string('ho',255)->nullable();
             $table->string('ten',255)->nullable();
+            $table->text('img')->nullable();
             $table->tinyInteger('gioitinh')->nullable();
             $table->date('ngaysinh')->nullable();
             $table->string('quequan',255)->nullable();

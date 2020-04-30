@@ -17,6 +17,7 @@ class CreateGiangvienTable extends Migration
             $table->bigIncrements('id');
             $table->string('ho',255);
             $table->string('ten',255);
+            $table->text('img')->nullable();
             $table->tinyInteger('gioitinh')->nullable();
             $table->string('diachi',255)->nullable();
             $table->integer('sodt')->nullable();

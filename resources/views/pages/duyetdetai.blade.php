@@ -18,13 +18,13 @@
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="color: #000000e6;">
                 <thead>
                 <tr>
                     <th>STT</th>
                     <th>Sinh viên thực hiện</th>
                     <th>Tên đề tài</th>
-                    <th>Mô Tả</th>
+                    <th>Tóm tắt</th>
                     <th>GVHD</th>
                     <th>Thao tác</th>
                 </tr>
@@ -36,11 +36,19 @@
                                 <th scope="row">{{$stt++}}</th>
                                 <td>{{$dt->ho}} {{$dt->ten}}</td>
                                 <td>{{$dt->tendetai}}</td>
-                                <td>{{$dt->mota}}</td>
+                                <td>{{$dt->tomtat}}</td>
                                 <td>{{$dt->gvhd}}</td>
                                 <td>
-                                    <a href="javascript:" data-id="{{$dt->id}}" class="btn btn-split btn-success form-group duyet-btn">Duyệt</a>
-                                    <a href="javascript:" class="btn btn-split btn-danger form-group delete-btn" data-id="{{$dt->id}}">Xóa</a>
+                                    <div class="card mb-4">
+                                        <a href="javascript:" 
+                                        class="btn btn-split btn-success duyet-btn"
+                                        data-id="{{$dt->id}}">Duyệt</a>
+                                    </div>
+                                    <div class="card mb-4">  
+                                        <a href="javascript:" 
+                                        class="btn btn-split btn-danger delete-btn" 
+                                        data-id="{{$dt->id}}">Xóa</a>
+                                    </div>
                                 </td>
                             </tr>
                         @endif

@@ -3,7 +3,7 @@
 @section('content')
 
     <div class="container-fluid">
-        <div class="card shadow mb-4">
+        <div class="card shadow mb-4" style="height: auto; color:rgba(0, 0, 0, 0.9)">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Đăng ký đề tài</h6>
             </div>
@@ -21,18 +21,18 @@
             @if(Auth::check())
                 @if(Auth::user()->level==1||Auth::user()->level==2)
                 <div class="row">
-                    <div class="col-xl-4 col-md-6">
+                    <div class="col-xl-4">
+                        <h4 class="small font-weight-bold">Sinh viên:</h4>
                         <select class="form-control form-group" name="idsv">
                             <option value=""hidden>Sinh viên:</option>
                             @foreach ($svlist as $sv)
                             <option value="{{$sv->id}}">{{$sv->ho}} {{$sv->ten}}</option>
                             @endforeach
                         </select>
-                    </div>
                 @endif
                 @if(Auth::user()->level==3)
                 <div class="row">
-                    <div class="col-xl-4 col-md-6">
+                    <div class="col-xl-4">
                         <p class="mt-7">
                         Sinh viên: 
                     @foreach ($sinhvien as $sv)
@@ -41,12 +41,10 @@
                         </p> 
                         <input type="hidden" name="idsinhvien" value={{$sv->id}}>
                     @endforeach
-                    </div>
                 @endif
             @endif
-                    <div class="col-xl-4 col-md-6"></div>
-                    <div class="col-xl-4 col-md-6">
-                    <select class="form-control form-group" name='gv'>
+                    <h4 class="small font-weight-bold">Giảng viên hướng dẫn:</h4>
+                    <select class="form-control form-group" name='gv' >
                         <option value=""hidden>Giảng viên hướng dẫn:</option>
                         @foreach($gvlist as $gv)
                         <option value="{{$gv->id}}">
@@ -56,40 +54,41 @@
                         </option>
                         @endforeach
                     </select>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <h4 class="small font-weight-bold">Tên đề tài:</h4>
+                            <input class="form-control mb-4" type='text' name='tendt' placeholder='Tên đề tài'/>	
+                            <h4 class="small font-weight-bold">Tóm tắt</h4>
+                            <input class="form-control mb-4" type='text' name='tomtat' placeholder='Tóm tắt'/>	
+                        </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-xl-12 col-md-6">
-                        <h4 class="small font-weight-bold">Tên đề tài:</h4>
-                        <input class="form-control mb-4" type='text' name='tendt' placeholder='Tên đề tài'/>	
-                    </div>
-                    <div class="col-xl-12 col-md-6">
-                        <h4 class="small font-weight-bold">Mô tả đề tài</h4>
-                        <textarea class="form-control mb-4" name="mota" style="height: 362px;"></textarea>
-                    </div>
+                <div style="flex: 0 0 8%; max-width: 5%;">
                 </div>
-                        <center><button type="submit" class="btn btn-primary" name="dangky">Đăng ký</button></center><br>
+                <div class="col-xl-7">
+                    <h4 class="small font-weight-bold">Mô tả</h4>
+                    <textarea class="form-control ckeditor" name="noidung" style=""></textarea>
+                </div>
+                
+                <div class="col-xl-12">
+                    <button type="submit" class="btn btn-primary" style="margin-top: 2%;" name="dangky">Đăng ký</button><br>
+                </div>
             </form>
             @else
-                <form class="form-wait">
-                    <center><span class="error-center">@if(count($errors)>0)
-                        @foreach($errors->all() as $err)
-                            {{$err}}</br>
-                        @endforeach
-                    @endif
-                    @if(session('status'))
-                        {{session('status')}}
-                    @endif</span></center>
-                    <h1 class="mt-6">
-                        Đề tài của bạn đang được duyệt
-                        <br>Vui lòng chờ admin kiểm duyệt đề tài của bạn
-                        <br><a href="{{route('home')}}">Về trang chủ</a>
-                    </h1>
-                    <img class="gif" src="/bootstrap/img/usagyuuun.gif"/><br>
-                    
-                </form>
+                <div style="margin: 30px 25px;">
+                        <center><h4 class="medium font-weight-bold">
+                            Đề tài của bạn đang được duyệt
+                            <br>Vui lòng quay lại sau
+                            <br><a href="{{route('home')}} " style=" text-decoration: none;">Về trang chủ</a>
+                        </h4></center>
+                        <center>
+                            <div style="margin-top: -120px;">
+                                <img class="gif" src="/bootstrap/img/usagyuuun.gif"/>
+                            </div>
+                        </center>
+                </div>
             @endif    
         </div>
     </div>
-
+</div>
 @endsection

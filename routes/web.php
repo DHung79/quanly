@@ -48,7 +48,11 @@ Route::get('data','DataController@defaultdata')->name('data');
 
 Route::group(['prefix'=>'thamkhao'],function(){
     Route::get('danhsach','homeController@thamkhao')->name('thamkhao');
+    Route::post('tailieu','homeController@tailieu')->name('tailieu');
     Route::post('add','homeController@addThamkhao')->name('addthamkhao');
     Route::post('edit','homeController@editThamkhao')->name('editthamkhao');
     Route::post('del','homeController@delThamkhao')->name('delthamkhao');
 });
+
+Route::get('detai/{id}','homeController@userdetai')->name('userdetai');
+Route::post('editdetai','homeController@editdetai')->name('editdetai');
