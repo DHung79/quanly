@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 
-<title>SB Admin 2 - Login</title>
+<title>Đăng nhập</title>
 
 <!-- Custom fonts for this template-->
 <link href="bootstrap/bootstrap_table_login/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -48,6 +48,7 @@
                     <input type="password" class="form-control form-control-user" name='password' id="exampleInputPassword" placeholder="Mật Khẩu">
                     </div>
                     <button type="submit" class="btn btn-primary btn-user btn-block" name="dangnhap">Đăng Nhập</button>
+                    
                     <span style="color: #ff1717f5;" class="font-weight-bold">
                         @if(count($errors)>0)
                             @foreach($errors->all() as $err)
@@ -55,7 +56,7 @@
                             @endforeach
                         @endif
                         @if(session('status'))
-                            {{session('status')}}
+                            <hr>{{session('status')}}
                         @endif
                     </span>
                 </form>

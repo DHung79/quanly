@@ -3,30 +3,34 @@
 @section('content')
 
     <div class="container-fluid">
+        
         <div class="card shadow mb-4" style="height: auto; color:rgba(0, 0, 0, 0.9)">
             <div class="card-header py-3">
                 <h6 class="m-0 font-weight-bold text-primary">Đăng ký đề tài</h6>
             </div>
             @if($dkdt->count()==0)
-                <form method="POST" action="{{route('dkdetai')}}" style="margin: 30px 25px;">
+                <form method="POST" action="{{route('dkdetai')}}" style="margin: 30px 25px;" enctype="multipart/form-data">
                 @csrf
-                <center><span class="error-center">@if(count($errors)>0)
+                <span class="error-center">@if(count($errors)>0)
                 @foreach($errors->all() as $err)
-                    {{$err}}</br>
+                    {{$err}}<br>
                 @endforeach
             @endif
             @if(session('status'))
-                {{session('status')}}
-            @endif</span></center>
+                {{session('status')}}<br>
+            </span>
+            @endif
             @if(Auth::check())
                 @if(Auth::user()->level==1||Auth::user()->level==2)
-                <div class="row">
+                <div class="row" style="margin-top: 10px">
                     <div class="col-xl-4">
                         <h4 class="small font-weight-bold">Sinh viên:</h4>
                         <select class="form-control form-group" name="idsv">
                             <option value=""hidden>Sinh viên:</option>
                             @foreach ($svlist as $sv)
-                            <option value="{{$sv->id}}">{{$sv->ho}} {{$sv->ten}}</option>
+                            <option value="{{$sv->id}}">
+                                {{$sv->ho}} {{$sv->ten}}
+                            </option>
                             @endforeach
                         </select>
                 @endif
@@ -74,6 +78,7 @@
                     <button type="submit" class="btn btn-primary" style="margin-top: 2%;" name="dangky">Đăng ký</button><br>
                 </div>
             </form>
+        </div>
             @else
                 <div style="margin: 30px 25px;">
                         <center><h4 class="medium font-weight-bold">
@@ -88,7 +93,8 @@
                         </center>
                 </div>
             @endif    
-        </div>
+        
     </div>
+</div>
 </div>
 @endsection

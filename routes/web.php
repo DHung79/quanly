@@ -37,9 +37,11 @@ Route::get('infor','dangnhapController@infor')->name('infor');
 
 Route::get('danhsachdetai','homecontroller@alldt')->name('dsdetai');
 
-Route::get('duyet','homecontroller@getduyetdt')->name('getduyetdt')->middleware('isadmin');
-Route::post('duyetdt','homecontroller@duyetdt')->name('duyetdt');
-Route::post('delduyetdt','homecontroller@duyetdt')->name('delduyetdt');
+Route::group(['prefix'=>'duyetdetai'],function(){
+Route::get('danhsach','homecontroller@getduyetdt')->name('getduyetdt')->middleware('isadmin');
+Route::post('duyet','homecontroller@duyetdt')->name('duyetdt');
+Route::post('del','homecontroller@delduyetdetai')->name('delduyetdt');
+});
 
 Route::get('dangkydetai','homecontroller@getdkdetai')->name('getdkdetai');
 Route::post('xulydangkydetai','homecontroller@dkdetai')->name('dkdetai');
@@ -56,3 +58,14 @@ Route::group(['prefix'=>'thamkhao'],function(){
 
 Route::get('detai/{id}','homeController@userdetai')->name('userdetai');
 Route::post('editdetai','homeController@editdetai')->name('editdetai');
+Route::post('deldetai','homeController@deldetai')->name('deldetai');
+
+Route::group(['prefix'=>'sukien'],function(){
+Route::get('danhsach','homeController@dssukien')->name('dssukien')->middleware('isadmin');
+Route::get('{id}','homeController@sukien')->name('sukien');
+Route::post('add','homeController@addsukien')->name('addsukien');
+Route::post('del','homeController@delsukien')->name('delsukien');
+Route::post('edit','homeController@editsukien')->name('editsukien');
+});
+
+Route::get('sinhvienhuongdan','homeController@svhd')->name('svhd');

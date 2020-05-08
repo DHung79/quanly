@@ -61,7 +61,7 @@
           <h6 class="collapse-header">Danh sách:</h6>
         <a class="collapse-item" href="{{route('dsdetai')}}">Đề tài khoa học</a>
           <a class="collapse-item" href="{{route('getduyetdt')}}">Đề tài đợi duyệt</a>
-          {{-- <a class="collapse-item" href="">Kiểm tra tiến độ</a> --}}
+          <a class="collapse-item" href="{{route('dssukien')}}">Tin tức - sự kiện</a>
           <a class="collapse-item" href="{{route('thamkhao')}}">Tham khảo</a>
         </div>
       </div>
@@ -389,7 +389,7 @@
                 </a>
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                  <a class="dropdown-item" href="#">
+                  <a class="dropdown-item" href="{{route('svhd')}}">
                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                     Sinh viên hướng dẫn
                   </a>

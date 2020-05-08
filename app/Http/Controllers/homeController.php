@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
 use Illuminate\Routing\Controller;
 use App\Repositories\UserRepository;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Validation\Rule;
+use File; 
 use Session;
 use Auth;
 use Illuminate\Support\Facades\Storage;
@@ -16,10 +19,15 @@ use App\sinhvien;
 use App\khoa;
 use App\lop;
 use App\detai;
+use App\sukien;
+use App\source;
 class homeController extends sharecontroller
 {
     function __construct() { 
         view::share('stt','1');
+
+        $sukien = sukien::get();
+        view::share('sukien',$sukien);
 
         $detai = detai::get();
         view::share('detai',$detai);
@@ -77,38 +85,58 @@ class homeController extends sharecontroller
     //Đề tài sinh viên
     public function userdetai($id){
         $detai = detai::where('idsinhvien',$id)->first();
+        $iddetai = $detai->id;
+        $source = source::where('iddetai',$iddetai)->get();
         $idedit = sinhvien::find($id)->idusers;
-        return view('pages.inforuser',['detai'=>$detai,'idedit'=>$idedit]);
+        return view('pages.inforuser',['detai'=>$detai,'idedit'=>$idedit,'source'=>$source]);
     }
-    //Chỉnh sửa đề tài sinh viên
+    //Chỉnh sửa đề tài 
     public function editdetai(Request $request){
         $detai = detai::find($request->id);
         $idsv = $detai->idsinhvien;
-        if($detai->tendetai == $request->tendetai){
             $this->validate($request,[
-                'tendetai'=>'required',
+                'tendetai'=>['required',Rule::unique('detais')->ignore($detai->id)],
                 'tomtat'=>'required',
-                'noidung'=>'required'
-            ],[
-                'tendetai.required'=>'Chưa nhập tên đề tài',
-                'tomtat.required'=>'Chưa nhập tóm tắt',
-                'noidung.required'=>'Chưa nhập nội dung'
-            ]);
-        }else{
-            $this->validate($request,[
-                'tendetai'=>'required|unique:detais,tendetai',
-                'tomtat'=>'required',
+                'files' => 'required|max:1000000',
                 'noidung'=>'required'
             ],[
                 'tendetai.required'=>'Chưa nhập tên đề tài',
                 'tendetai.unique'=>'Đề tài đã tồn tại',
                 'tomtat.required'=>'Chưa nhập tóm tắt',
+                'files.required' =>'Chưa chọn file',
+                'files.max:10000' =>'File được chọn phải nhỏ hơn 1MB',
                 'noidung.required'=>'Chưa nhập nội dung'
             ]);
+        
+
+            $allowedfileExtension=['pdf','jpg','jpeg','png','docx'];
+            $files = $request->file('files');
+            foreach($files as $file){    
+            $filename = $file->getClientOriginalName();
+            $file->move('file',$filename);
+            $extension = $file->getClientOriginalExtension();
+            $check=in_array($extension,$allowedfileExtension);
+            if($check){
+                foreach ($request->files as $file){
+                    $iddetai = $request->id;
+                    $local = 'file/'.$filename;
+                    source::updateOrInsert(['tenfile'=>$filename],
+                        ['iddetai'=>$iddetai],
+                        ['file'=>$local]
+                    );
+                }
+            }       
         }
+    
+    
         $detai->tendetai = $request->tendetai;
         $detai->tomtat = $request->tomtat;
         $detai->noidung = $request->noidung;
+        if(isset($request->tiendo)){
+            $detai->tiendo = $request->tiendo;
+        } else{
+            $detai->tiendo = 0;
+        }
         $detai->save();
         if($detai->save()){
             return redirect()->route('userdetai',['id'=>$idsv])->with('status','Đã sửa thành công');
@@ -116,6 +144,12 @@ class homeController extends sharecontroller
             return redirect()->route('userdetai',['id'=>$idsv])
             ->with('status',"Xãy ra lỗi trong quá trình sửa");
         }
+    }
+    //Xóa đề tài //
+    public function deldetai(Request $request){
+        $deldetai = detai::where('idsinhvien',$request->id)->first();
+        File::delete($deldetai->file);
+        $deldetai->delete();
     }
     //Danh sách đề tài//
     public function alldt(){
@@ -135,23 +169,39 @@ class homeController extends sharecontroller
     //Xử lý đăng ký//
     public function dkdetai(Request $request){
         $this->validate($request,[
-            'idsinhvien'=> 'required',
-
+            'idsv'=> 'required',
+            'tomtat'=> 'required',
+            'noidung'=> 'required',
+            'gv'=> 'required',
             'tendt'=> 'required'
         ],[
+            'idsv.required'=> 'Chưa chọn sinh viên',
+            'tomtat.required'=>'Chưa nhập tóm tắt',
+            'noidung.required'=>'Chưa nhập nội dung',
+            'gv.required' =>'Chưa chọn gvhd',
             'tendt.required'=>'Bạn chưa nhập tên đề tài'
         ]);
-        $sinhvien = sinhvien::find($request->idsinhvien);
-        $sinhvien->gvhd = $request->gv;
+        $giangvien = giangvien::find($request->gv);
+        $tengv = $giangvien->ten;
+        $hogv = $giangvien->ho;
+        $hotengv = "$hogv $tengv";
+        $sinhvien = sinhvien::find($request->idsv);
+        $sinhvien->gvhd = $hotengv;
         $sinhvien->save();
         $detai = new detai;
-        $detai->idsinhvien = $request->idsinhvien;
+        $detai->idsinhvien = $request->idsv;
         $detai->tendetai = $request->tendt;
-        $detai->mota = $request->mota;
+        $detai->tomtat = $request->tomtat;
+        $detai->noidung = $request->noidung;
+        $detai->tiendo = 0;
         $detai->daduyet = 0;
         $detai->thamkhao = 0;
+        $detai->idgvhd = $request->gv;
         $detai->save();
-        return redirect()->route('getdkdetai')->with('status',"Đăng ký đề tài thành công");
+        if($sinhvien->save() && $detai->save()){
+            return redirect()->route('getdkdetai')
+            ->with('status',"Đăng ký đề tài thành công");
+        }
     }
 
     //Duyệt đề tài//
@@ -165,12 +215,12 @@ class homeController extends sharecontroller
         $duyetdt->save();
         }
     //Xóa đề tài duyệt//
-    public function deldetai(Request $request){
+    public function delduyetdetai(Request $request){
         $duyetdt = detai::find($request->id);
         $this->validate($request,[]);
         $duyetdt->delete();
     }
-
+    
     //Tham khảo//
     public function thamkhao(){
         return view('pages.thamkhao');
@@ -213,25 +263,10 @@ class homeController extends sharecontroller
             return redirect()->back()->with('status', 'Xãy ra lỗi trong quá trình thêm');
         }
     }   
-    //Sửa tham khảo//
-    // public function geteditThamkhao(){
-    //     return view('pages.editthamkhao');
-    // }
     public function editThamkhao(Request $request){
         $detai = detai::find($request->id);
-        if($detai->tendetai == $request->tieude){
             $this->validate($request,[
-                'tieude'=>'required',
-                'tomtat'=>'required',
-                'noidung'=>'required'
-            ],[
-                'tieude.required'=>'Chưa nhập tiêu đề',
-                'tomtat.required'=>'Chưa nhập tóm tắt',
-                'noidung.required'=>'Chưa nhập nội dung'
-            ]);
-        }else{
-            $this->validate($request,[
-                'tieude'=>'required|unique:detais,tendetai',
+                'tieude'=>['required',Rule::unique('detais')->ignore($detai->id)],
                 'tomtat'=>'required',
                 'noidung'=>'required'
             ],[
@@ -240,7 +275,7 @@ class homeController extends sharecontroller
                 'tomtat.required'=>'Chưa nhập tóm tắt',
                 'noidung.required'=>'Chưa nhập nội dung'
             ]);
-        }
+        
         $detai->tendetai = $request->tieude;
         $detai->tomtat = $request->tomtat;
         $detai->noidung = $request->noidung;
@@ -251,10 +286,84 @@ class homeController extends sharecontroller
             return redirect()->route('thamkhao')
             ->with('status',"Xãy ra lỗi trong quá trình sửa");
         }
-}
+    }
     //Xóa tham khảo//
     public function delThamkhao(Request $request){
-        $delthamkhao = detai::find($request->id)->delete();
+        $delthamkhao = detai::find($request->id);
+        File::delete($delthamkhao->img);
+        $delthamkhao->delete();
+    }
+
+    //Sự kiện//
+    public function dssukien(){
+        return view('pages.danhsachsukien');
+    }
+    public function sukien($id){
+        $sukien = sukien::find($id);
+        return view('pages.sukien',['sukien'=>$sukien]);
+    }
+    //Thêm Sự kiện//
+    public function addsukien(Request $request){
+        $this->validate($request,[
+            'tensukien'=>'required',
+            'tomtat'=>'required',
+            'img'=>'required',
+            'noidung'=>'required'
+        ],[
+            'tieude.required'=>'Chưa nhập tiêu đề',
+            'tomtat.required'=>'Chưa nhập tóm tắt',
+            'img.required'=>'Chưa thêm ảnh bìa',
+            'noidung.required'=>'Chưa nhập nội dung'
+        ]);
+        $sukien = new sukien;
+        $sukien->tensukien = $request->tensukien;
+        $sukien->tomtat = $request->tomtat;
+        $img = $request->file('img');
+        $name = $img->getClientOriginalName();
+        $img->move('img',$name);
+        $sukien->img = 'img/'.$name;
+        $sukien->noidung = $request->noidung;
+        $sukien->save();
+        if($sukien->save()){
+            return redirect()->back()->with('status','Đã thêm thành công');
+        }else{
+            return redirect()->back()->with('status', 'Xãy ra lỗi trong quá trình thêm');
+        }
+    }   
+    public function editsukien(Request $request){
+        $sukien = sukien::find($request->id);
+            $this->validate($request,[
+                'tensukien'=>['required',Rule::unique('sukien')->ignore($sukien->id)],
+                'tomtat'=>'required',
+                'img'=>'required',
+                'noidung'=>'required'
+            ],[
+                'tensukien.required'=>'Chưa nhập tiêu đề',
+                'tensukien.unique'=>'Sự kiện đã tồn tại',
+                'tomtat.required'=>'Chưa nhập tóm tắt',
+                'img.required'=>'Chưa thêm ảnh bìa',
+                'noidung.required'=>'Chưa nhập nội dung'
+            ]);
+
+        $sukien->tensukien = $request->tensukien;
+        $sukien->tomtat = $request->tomtat;
+        $img = $request->file('img');
+        $name = $img->getClientOriginalName();
+        $img->move('img',$name);
+        $sukien->img = 'img/'.$name;
+        $sukien->noidung = $request->noidung;
+        $sukien->save();
+        if($sukien->save()){
+            return redirect()->back()->with('status','Đã sửa thành công');
+        } else{
+            return redirect()->back()->with('status', 'Xãy ra lỗi trong quá trình sửa');
+        }
+    }
+    //Xóa Sự kiện//
+    public function delsukien(Request $request){
+        $delsukien = sukien::find($request->id);
+        File::delete($delsukien->img);
+        $delsukien->delete();
     }
 
 
@@ -265,22 +374,14 @@ class homeController extends sharecontroller
     //Sửa người dùng//
     public function editUser(Request $request){
         $user = User::find($request->id);
-        if($user->email == $request->email){
             $this->validate($request,[
-                    'email'=>'required|email',
-                ],[
-                    'email.required'=>'Chưa nhập email',
-                    'email.email'=>'Email không đúng định dạng'
-                ]);
-        }else{
-            $this->validate($request,[
-                'email'=>'required|email|unique:users,email',
+                'email'=>['required','email',Rule::unique('users')->ignore($user->id)],
             ],[
                 'email.required'=>'Chưa nhập email',
                 'email.email'=>'Email không đúng định dạng',
                 'email.unique'=>'Email đã có người đăng ký'
             ]);
-        }
+
             $user->email = $request->email;
             $user->level = $request->level;
             $user->save();
@@ -294,5 +395,14 @@ class homeController extends sharecontroller
     //Xóa người dùng//
     public function delUser(Request $request){
         $delUser = user::where('id',$request->id)->delete();
+    }
+
+    public function svhd(){
+        Auth::check();
+        $iduser = Auth::user()->id;
+        $giangvien = giangvien::where('idusers',$iduser)->first();
+        $idgv = $giangvien->id;
+        $dssvhd = sinhvien::join('detais','detais.idsinhvien', 'sinhvien.id')->where('idgvhd',$idgv)->get();
+        return view('pages.svhuongdan',['dssvhd'=>$dssvhd]);
     }
 }

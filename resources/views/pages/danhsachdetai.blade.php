@@ -30,16 +30,6 @@
             @endif
           </tr>
         </thead>
-        {{-- <tfoot>
-          <tr>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Office</th>
-            <th>Age</th>
-            <th>Start date</th>
-            <th>Salary</th>
-          </tr>
-        </tfoot> --}}
               <tbody>
                 @foreach ($danhsachdt as $dt)
                   @if($dt->count() > 0)
@@ -62,12 +52,6 @@
                           <td>
                               <div class="card mb-4">
                                 <a href="javascript:" 
-                                  class="btn btn-split btn-success edit-btn"
-                                  data-id="{{$dt->id}}" 
-                                  data-name="{{$dt->tendetai}}">Sửa</a>
-                              </div>
-                              <div class="card mb-4">
-                                <a href="javascript:" 
                                 class="btn btn-split btn-danger delete-btn" 
                                 data-id="{{$dt->id}}">Xóa</a>
                               </div>
@@ -88,5 +72,19 @@
 
 </div>
 <!-- End of Main Content -->
-
+<script type="text/javascript" src="{{('/bootstrap/js/add.js')}}"></script>
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.delete-btn').click(function(){
+            id = $(this).data('id');
+            if (confirm("Dữ liệu xoá sẽ không khôi phục được. Bạn có thật sự muốn xoá?")) {
+                $.post('{{route('deldetai')}}',{id:id,_token:"{{csrf_token()}}"}).done(function(){
+                    location.reload();
+                }).fail(function(){
+                    alert('Không thể hoàn thành thao tác này');
+                })
+            }
+        })
+    })
+</script>
 @endsection

@@ -27,7 +27,7 @@
     </span> 
 
     <div class="form-edit" style=" display: none;">
-        <form method="POST" action="{{route('editdetai')}}" style="margin: 30px 25px;">
+        <form method="POST" action="{{route('editdetai')}}" style="margin: 30px 25px;" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="id" value="{{$detai->id}}">
             <div class="row">
@@ -43,12 +43,28 @@
                     <input type='text' name='tomtat' value="{{$detai->tomtat}}" class="form-control form-control-sm">
                     </div>
                 </div>
+                <div class="col-xl-12 col-md-6">
+                    <h4 class="small font-weight-bold">File</h4>
+                    <div class="form-group" >
+                    <input type='file' name='files[]' class="form-control form-control-sm" multiple>
+                    </div>
+                </div>
                 <div class="col-xl-12 col-md-6 mb-4">
                     <h4 class="small font-weight-bold">Nội dung</h4>
                     <textarea name="noidung" 
                     class="form-control form-group form-control-sm ckeditor" 
                     style="">{{$detai->noidung}}</textarea>	
                 </div>
+                @if(Auth::check())
+                    @if(Auth::user()->level==1||Auth::user()->level==2)
+                    <div class="col-xl-12 col-md-6">
+                        <h4 class="small font-weight-bold">Tiến độ</h4>
+                        <div class="form-group" >
+                        <input type='text' name='tiendo' value="{{$detai->tiendo}}" class="form-control form-control-sm">
+                        </div>
+                    </div>
+                    @endif
+                @endif
             </div>
             <div class="row">
                 <div class="col-md-1 col-6">
@@ -63,21 +79,37 @@
 
     @if(Auth::check())
         @if(Auth::user()->level==1||Auth::user()->level==2||Auth::user()->id==$idedit)
-        <div class="row" style="margin: 10px 0px 0 10px;">
+        <div class="row" style="margin: 10px 0px 10px 10px;">
             <div class="col-md-1 col-6 " >
                 <a href="javascript:" class="btn btn-split btn-success edit-btn">
                     Sửa</a>
             </div>
         </div>
         @endif
-    @endif
-    <div class="card-body" style=" color: #000000;">
-        <div>
-            <div>
-              {!!$detai->noidung!!}
+            <div class="card-body" style=" color: #000000;">
+                <div class="col-md-12 mb-4 col-6 ">
+                    <div class="row">
+                        @foreach ($source as $item)
+                            <div class="col-md-3 mb-4 col-6">
+                                <a >{{$item->tenfile}}</a>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+                <div class="col-md-12 col-6 ">
+                    @if(isset($detai->noidung))
+                        {!!$detai->noidung!!}
+                    @endif
+                    @if(Auth::user()->level==3 && Auth::user()->id!=$idedit && !isset($detai->noidung) )
+                        <center><h4 class="medium font-weight-bold">
+                            Đề tài này chưa có nội dung
+                            <br><a href="{{ url()->previous() }}" style=" text-decoration: none;">Vui lòng quay lại sau</a>
+                        </h4></center>
+                    @endif
+                </div>
             </div>
-        </div>
-    </div>
+    @endif
+</div>
 </div>
 <!-- /.container-fluid -->
 </div>
@@ -88,7 +120,7 @@
 		$('.delete-btn').click(function(){
 			id = $(this).data('id');
 			if (confirm("Dữ liệu xoá sẽ không khôi phục được. Bạn có thật sự muốn xoá?")) {
-				$.post('{{route('delthamkhao')}}',{id:id,_token:"{{csrf_token()}}"}).done(function(){
+				$.post('{{route('deldetai')}}',{id:id,_token:"{{csrf_token()}}"}).done(function(){
 					location.reload();
 				}).fail(function(){
 					alert('Không thể hoàn thành thao tác này');

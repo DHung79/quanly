@@ -35,7 +35,9 @@
                             <tr>
                                 <th scope="row">{{$stt++}}</th>
                                 <td>{{$dt->ho}} {{$dt->ten}}</td>
-                                <td>{{$dt->tendetai}}</td>
+                                <td><a href="{{route('userdetai',['id'=>$dt->id])}}" 
+                                    style=" text-decoration: none; color: #000000e6;">
+                                    {{$dt->tendetai}}</a></td>
                                 <td>{{$dt->tomtat}}</td>
                                 <td>{{$dt->gvhd}}</td>
                                 <td>
