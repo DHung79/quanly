@@ -420,7 +420,10 @@ class homeController extends sharecontroller
         $iduser = Auth::user()->id;
         $giangvien = giangvien::where('idusers',$iduser)->first();
         $idgv = $giangvien->id;
-        $dssvhd = sinhvien::join('detais','detais.idsinhvien', 'sinhvien.id')->where('idgvhd',$idgv)->get();
+        $dssvhd = sinhvien::join('detais','detais.idsinhvien','sinhvien.id')
+        ->where('daduyet','1')
+        ->where('thamkhao','0')
+        ->where('idgvhd',$idgv)->get();
         return view('pages.svhuongdan',['dssvhd'=>$dssvhd]);
     }
 }
