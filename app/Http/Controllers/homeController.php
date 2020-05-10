@@ -168,10 +168,19 @@ class homeController extends sharecontroller
             ->with('status',"Xãy ra lỗi trong quá trình sửa");
         }
     }
+    //Xóa file //
+    public function delfile(Request $request){
+        $delfile = source::find($request->id);
+        File::delete('file/'.$delfile->tenfile);
+        $delfile->delete();
+    }
     //Xóa đề tài //
     public function deldetai(Request $request){
         $deldetai = detai::where('idsinhvien',$request->id)->first();
-        File::delete($deldetai->file);
+        $iddetai = $deldetai->id;
+        $delfile = source::where('iddetai',$iddetai);
+        File::delete('file/'.$delfile->tenfile);
+        $delfile->delete();
         $deldetai->delete();
     }
     //Danh sách đề tài//
@@ -313,7 +322,6 @@ class homeController extends sharecontroller
     //Xóa tham khảo//
     public function delThamkhao(Request $request){
         $delthamkhao = detai::find($request->id);
-        File::delete($delthamkhao->img);
         $delthamkhao->delete();
     }
 
