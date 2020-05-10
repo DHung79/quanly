@@ -16,7 +16,7 @@ class CreateSourceTable extends Migration
         Schema::create('source', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('tenfile');
-            $table->text('file')->nullable();
+            $table->text('img');
             $table->unsignedBigInteger('iddetai');
             $table->foreign('iddetai')->references('id')->on('detais')->onDelete('cascade');
             $table->timestamps();

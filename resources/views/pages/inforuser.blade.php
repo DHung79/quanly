@@ -88,15 +88,33 @@
         @endif
             <div class="card-body" style=" color: #000000;">
                 <div class="col-md-12 mb-4 col-6 ">
+                    <div  class="font-weight-bold text-info text-uppercase mb-4">
+                        File:
+                    </div>
                     <div class="row">
-                        @foreach ($source as $item)
-                            <div class="col-md-3 mb-4 col-6">
-                                <a >{{$item->tenfile}}</a>
+                        @foreach ($source as $s)
+                            <div class="col-md-3 mb-4 col-6" >
+                                <a href="javascript:" data-id="{{$s->id}}" 
+                                    class="btn btn-split delete-btn" >
+                                    <i class="fas fa-times-circle" 
+                                    style="color:#e61d23; 
+                                        right: 5%;
+                                        font-size: 20px;
+                                        position: absolute;
+                                        "></i>
+                                </a>
+                                <center>
+                                    <img src="{{$s->img}}" style="max-height:200px; max-width:200px"><br><br>
+                                    <a style="ma" >{{$s->tenfile}}</a>
+                                </center>
                             </div>
                         @endforeach
                     </div>
                 </div>
                 <div class="col-md-12 col-6 ">
+                    <div  class="font-weight-bold text-info text-uppercase mb-4">
+                        Nội dung đề tài:
+                    </div>
                     @if(isset($detai->noidung))
                         {!!$detai->noidung!!}
                     @endif
@@ -120,7 +138,7 @@
 		$('.delete-btn').click(function(){
 			id = $(this).data('id');
 			if (confirm("Dữ liệu xoá sẽ không khôi phục được. Bạn có thật sự muốn xoá?")) {
-				$.post('{{route('deldetai')}}',{id:id,_token:"{{csrf_token()}}"}).done(function(){
+				$.post('{{route('delfile')}}',{id:id,_token:"{{csrf_token()}}"}).done(function(){
 					location.reload();
 				}).fail(function(){
 					alert('Không thể hoàn thành thao tác này');

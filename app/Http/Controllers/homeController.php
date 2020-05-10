@@ -109,20 +109,43 @@ class homeController extends sharecontroller
             ]);
         
 
-            $allowedfileExtension=['pdf','jpg','jpeg','png','docx'];
+            $filepdf=['pdf'];
+            $fileimg=['jpg','jpeg','png'];
+            $filedoc=['doc','docx'];
             $files = $request->file('files');
             foreach($files as $file){    
             $filename = $file->getClientOriginalName();
-            $file->move('file',$filename);
             $extension = $file->getClientOriginalExtension();
-            $check=in_array($extension,$allowedfileExtension);
-            if($check){
+            $checkfilepdf=in_array($extension,$filepdf);
+            $checkfileimg=in_array($extension,$fileimg);
+            $checkfiledoc=in_array($extension,$filedoc);
+            if($checkfilepdf){
+                $file->move('file',$filename);
                 foreach ($request->files as $file){
                     $iddetai = $request->id;
-                    $local = 'file/'.$filename;
-                    source::updateOrInsert(['tenfile'=>$filename],
-                        ['iddetai'=>$iddetai],
-                        ['file'=>$local]
+                    source::updateOrInsert(['tenfile'=>$filename,
+                        'iddetai'=>$iddetai,
+                        'img'=>'img/pdf.png']
+                    );
+                }
+            }
+            if($checkfileimg){
+                $file->move('file',$filename);
+                foreach ($request->files as $file){
+                    $iddetai = $request->id;
+                    source::updateOrInsert(['tenfile'=>$filename,
+                        'iddetai'=>$iddetai,
+                        'img'=>'file/'.$filename]
+                    );
+                }
+            }
+            if($checkfiledoc){
+                $file->move('file',$filename);
+                foreach ($request->files as $file){
+                    $iddetai = $request->id;
+                    source::updateOrInsert(['tenfile'=>$filename,
+                        'iddetai'=>$iddetai,
+                        'img'=>'img/doc.png']
                     );
                 }
             }       

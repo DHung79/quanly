@@ -42,11 +42,10 @@
                     </div>
                     <div class="col-xl-12 col-md-6">
                         <h4 class="small font-weight-bold">Nội dung</h4>
-                        <textarea name="noidung" class="form-control form-group form-control-sm " style=" height: 300px;" ></textarea>	
-                        <input name="file" class="form-control form-group form-control-sm " type="file">
+                        <textarea name="noidung" class="form-control form-group form-control-sm ckeditor" style=" height: 300px;" ></textarea>	
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="margin-top: 20px">
                     <div class="col-md-1 col-6">
                         <button type="submit" class="btn btn-primary btn-md " name="">Thêm</button>
                     </div>

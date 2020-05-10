@@ -68,4 +68,5 @@ Route::post('del','homeController@delsukien')->name('delsukien');
 Route::post('edit','homeController@editsukien')->name('editsukien');
 });
 
+Route::post('delfile','homeController@delfile')->name('delfile');
 Route::get('sinhvienhuongdan','homeController@svhd')->name('svhd');
