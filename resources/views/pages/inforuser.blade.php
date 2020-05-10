@@ -88,41 +88,46 @@
         @endif
             <div class="card-body" style=" color: #000000;">
                 <div class="col-md-12 mb-4 col-6 ">
-                    <div  class="font-weight-bold text-info text-uppercase mb-4">
-                        File:
-                    </div>
-                    <div class="row">
-                        @foreach ($source as $s)
-                            <div class="col-md-3 mb-4 col-6" >
-                                <a href="javascript:" data-id="{{$s->id}}" 
-                                    class="btn-split delete-btn" >
-                                    <i class="fas fa-times-circle" 
-                                    style="color:#e61d23; 
-                                        right: 5%;
-                                        font-size: 20px;
-                                        position: absolute;
-                                        text-decoration: none;"></i>
-                                </a>
-                                <center>
-                                    <img src="{{$s->img}}" style="max-height:200px; max-width:200px"><br><br>
-                                    <a style="ma" >{{$s->tenfile}}</a>
-                                </center>
+                    @if(isset($source))
+                        @if(Auth::user()->level==1||Auth::user()->level==2||Auth::user()->id==$idedit)
+                            <div  class="font-weight-bold text-info text-uppercase mb-4">
+                                File:
                             </div>
-                        @endforeach
-                    </div>
+                            <div class="row">
+                                @foreach ($source as $s)
+                                    <div class="col-md-3 mb-4 col-6" >
+                                        <a href="javascript:" data-id="{{$s->id}}" 
+                                            class="btn-split delete-btn" >
+                                            <i class="fas fa-times-circle" 
+                                            style="color:#e61d23; 
+                                                right: 5%;
+                                                font-size: 20px;
+                                                position: absolute;
+                                                text-decoration: none;"></i>
+                                        </a>
+                                        <center>
+                                            <img src="{{$s->img}}" style="max-height:200px; max-width:200px"><br><br>
+                                            <a style="ma" >{{$s->tenfile}}</a>
+                                        </center>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @endif
+                    @endif
                 </div>
                 <div class="col-md-12 col-6 ">
+                    @if(isset($detai->noidung))
                     <div  class="font-weight-bold text-info text-uppercase mb-4">
                         Nội dung đề tài:
                     </div>
-                    @if(isset($detai->noidung))
                         {!!$detai->noidung!!}
-                    @endif
-                    @if(Auth::user()->level==3 && Auth::user()->id!=$idedit && !isset($detai->noidung) )
-                        <center><h4 class="medium font-weight-bold">
-                            Đề tài này chưa có nội dung
-                            <br><a href="{{ url()->previous() }}" style=" text-decoration: none;">Vui lòng quay lại sau</a>
-                        </h4></center>
+                    @else
+                        @if(Auth::user()->level==3 && Auth::user()->id!=$idedit)
+                            <center><h4 class="medium font-weight-bold">
+                                Đề tài này chưa có nội dung
+                                <br><a href="{{ url()->previous() }}" style=" text-decoration: none;">Vui lòng quay lại sau</a>
+                            </h4></center>
+                        @endif
                     @endif
                 </div>
             </div>

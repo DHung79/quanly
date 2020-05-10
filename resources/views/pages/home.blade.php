@@ -38,10 +38,10 @@
                       <div class="row">
                         <div class="col-xl-5 col-md-6 mb-4" style="margin-right: 20px; margin-left: 50px;">
                           <a href="{{route('sukien',['id'=>$sk->id])}}">
-                            <img src="{{$sk->img}}" style="height: 540px; width:500px">
+                            <img src="{{$sk->img}}" style="max-height: 500px; max-width:500px">
                           </a>
                         </div>
-                        <div class="col-xl-6 col-md-6 mb-4" style=" height: 300px;"> 
+                        <div class="col-xl-6 col-md-6 mb-4" style=" max-height: 300px;"> 
                           <div class="row">
                             {!!$sk->noidung!!}
                           </div>
