@@ -95,13 +95,13 @@
                         @foreach ($source as $s)
                             <div class="col-md-3 mb-4 col-6" >
                                 <a href="javascript:" data-id="{{$s->id}}" 
-                                    class="btn btn-split delete-btn" >
+                                    class="btn-split delete-btn" >
                                     <i class="fas fa-times-circle" 
                                     style="color:#e61d23; 
                                         right: 5%;
                                         font-size: 20px;
                                         position: absolute;
-                                        "></i>
+                                        text-decoration: none;"></i>
                                 </a>
                                 <center>
                                     <img src="{{$s->img}}" style="max-height:200px; max-width:200px"><br><br>
@@ -137,7 +137,7 @@
 	$(document).ready(function(){
 		$('.delete-btn').click(function(){
 			id = $(this).data('id');
-			if (confirm("Dữ liệu xoá sẽ không khôi phục được. Bạn có thật sự muốn xoá?")) {
+			if (confirm("Dữ liệu xoá sẽ không khôi phục được. Bạn có thật sự muốn xoá file này?")) {
 				$.post('{{route('delfile')}}',{id:id,_token:"{{csrf_token()}}"}).done(function(){
 					location.reload();
 				}).fail(function(){
