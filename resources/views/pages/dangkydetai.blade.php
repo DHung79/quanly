@@ -81,7 +81,7 @@
         </div>
             @else
                 <div style="margin: 30px 25px;">
-                        <center><h4 class="medium font-weight-bold">
+                        <center><h4 class="medium font-weight-bold" style="position: relative;">
                             Đề tài của bạn đang được duyệt
                             <br>Vui lòng quay lại sau
                             <br><a href="{{route('home')}} " style=" text-decoration: none;">Về trang chủ</a>

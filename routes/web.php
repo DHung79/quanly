@@ -43,7 +43,7 @@ Route::post('duyet','homecontroller@duyetdt')->name('duyetdt');
 Route::post('del','homecontroller@delduyetdetai')->name('delduyetdt');
 });
 
-Route::get('dangkydetai','homecontroller@getdkdetai')->name('getdkdetai');
+Route::get('dangkydetai','homecontroller@getdkdetai')->name('getdkdetai')->middleware('isdaduyet');
 Route::post('xulydangkydetai','homecontroller@dkdetai')->name('dkdetai');
 
 Route::get('data','DataController@defaultdata')->name('data');
