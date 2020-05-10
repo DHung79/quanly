@@ -108,16 +108,13 @@ class homeController extends sharecontroller
                 'noidung.required'=>'Chưa nhập nội dung'
             ]);
         
-
             $filepdf=['pdf'];
-            $fileimg=['jpg','jpeg','png'];
             $filedoc=['doc','docx'];
             $files = $request->file('files');
             foreach($files as $file){    
             $filename = $file->getClientOriginalName();
             $extension = $file->getClientOriginalExtension();
             $checkfilepdf=in_array($extension,$filepdf);
-            $checkfileimg=in_array($extension,$fileimg);
             $checkfiledoc=in_array($extension,$filedoc);
             if($checkfilepdf){
                 $file->move('file',$filename);
@@ -126,16 +123,6 @@ class homeController extends sharecontroller
                     source::updateOrInsert(['tenfile'=>$filename,
                         'iddetai'=>$iddetai,
                         'img'=>'img/pdf.png']
-                    );
-                }
-            }
-            if($checkfileimg){
-                $file->move('file',$filename);
-                foreach ($request->files as $file){
-                    $iddetai = $request->id;
-                    source::updateOrInsert(['tenfile'=>$filename,
-                        'iddetai'=>$iddetai,
-                        'img'=>'file/'.$filename]
                     );
                 }
             }

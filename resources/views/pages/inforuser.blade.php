@@ -88,14 +88,14 @@
         @endif
             <div class="card-body" style=" color: #000000;">
                 <div class="col-md-12 mb-4 col-6 ">
-                    @if(isset($source))
+                    @if(count($source)>0)
                         @if(Auth::user()->level==1||Auth::user()->level==2||Auth::user()->id==$idedit)
-                            <div  class="font-weight-bold text-info text-uppercase mb-4">
+                            <div  class="font-weight-bold text-info text-uppercase ">
                                 File:
                             </div>
                             <div class="row">
                                 @foreach ($source as $s)
-                                    <div class="col-md-3 mb-4 col-6" >
+                                    <div class="col-md-3 col-6" >
                                         <a href="javascript:" data-id="{{$s->id}}" 
                                             class="btn-split delete-btn" >
                                             <i class="fas fa-times-circle" 
@@ -106,8 +106,10 @@
                                                 text-decoration: none;"></i>
                                         </a>
                                         <center>
-                                            <img src="{{$s->img}}" style="max-height:200px; max-width:200px"><br><br>
-                                            <a style="ma" >{{$s->tenfile}}</a>
+                                            <a href="file/{{$s->tenfile}}" download>
+                                                <img src="{{$s->img}}" style="max-height:200px; max-width:200px">
+                                            </a><br>
+                                            <p>{{$s->tenfile}}</p>
                                         </center>
                                     </div>
                                 @endforeach
