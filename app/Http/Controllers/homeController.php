@@ -375,7 +375,7 @@ class homeController extends sharecontroller
         $thamkhao = new thamkhao;
         $thamkhao->tieude = $request->tieude;
         $thamkhao->tomtat = $request->tomtat;
-        if(isset($request->file)){
+        if(isset($request->img)){
             $img = $request->file('img');
             $name = $img->getClientOriginalName();
             $img->move('img',$name);
@@ -416,6 +416,7 @@ class homeController extends sharecontroller
     //Xóa tham khảo//
     public function delThamkhao(Request $request){
         $delthamkhao = thamkhao::find($request->id);
+        // File::delete($delthamkhao->img);
         $delthamkhao->delete();
     }
 
