@@ -31,12 +31,20 @@ class dangkydetaiMiddleware
                 $idsinhvien = $sinhvien->id;
                 $daduyet = sinhvien::join('detais','detais.idsinhvien', 'sinhvien.id')
                 ->where('idsinhvien',$idsinhvien)->first();
-                if($daduyet->daduyet == 0 && $daduyet->thamkhao == 0){
+                if(!isset($daduyet)){
                     return $next($request);
-                }if($daduyet->daduyet == 1 && $daduyet->thamkhao == 0){
-                return redirect()->route('userdetai',['id'=>$sinhvien->id]);
+                }else{
+                    if($daduyet->daduyet == 0){
+                        return $next($request);
+                    }if($daduyet->daduyet == 1){
+                        return redirect()->route('userdetai',['id'=>$sinhvien->id]);
+                    }
                 }
+                
             }
-        }
+        }else
+            {
+                return redirect('login');
+            }
     }
 }

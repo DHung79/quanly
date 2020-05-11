@@ -33,7 +33,8 @@ Route::get('quanlynguoidung', 'homecontroller@quanlyUser')->name('quanly')->midd
 
 Route::get('home','homecontroller@gethome')->name('home');
 
-Route::get('infor','dangnhapController@infor')->name('infor');
+Route::get('infor/{id}','homecontroller@inforuser')->name('inforuser');
+Route::post('editinfor','homeController@editinfor')->name('editinfor');
 
 Route::get('danhsachdetai','homecontroller@alldt')->name('dsdetai');
 
@@ -50,7 +51,7 @@ Route::get('data','DataController@defaultdata')->name('data');
 
 Route::group(['prefix'=>'thamkhao'],function(){
     Route::get('danhsach','homeController@thamkhao')->name('thamkhao');
-    Route::post('tailieu','homeController@tailieu')->name('tailieu');
+    Route::get('{id}','homeController@tailieu')->name('tailieu');
     Route::post('add','homeController@addThamkhao')->name('addthamkhao');
     Route::post('edit','homeController@editThamkhao')->name('editthamkhao');
     Route::post('del','homeController@delThamkhao')->name('delthamkhao');

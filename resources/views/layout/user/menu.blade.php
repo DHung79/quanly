@@ -29,8 +29,9 @@
     <li class="nav-item active">
       <a class="nav-link">
         {{-- <i class="fas fa-fw fa-tachometer-alt"></i> --}}
-        <i class="fas fa-user-secret"></i>
-        <span>Giảng viên</span></a>
+        <div style="text-align: center;"><i class="fas fa-fw fa-user-tie" style=""></i>
+        <span>Giảng viên</span></div>
+      </a>
     </li>
   @endif
   @if(Auth::user()->level==1||Auth::user()->level==2)
@@ -46,14 +47,14 @@
     <li class="nav-item">
       <a class="nav-link collapsed" href="{{route('quanly')}}" data-toggle="" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
         {{-- <i class="fas fa-fw fa-cog"></i> --}}
-        <i class="fas fa-users"></i>
+        <i class="fas fa-fw fa-users"></i>
         <span>Quản lý người dùng</span>
       </a>
     <!-- Nav Item - Utilities Collapse Menu -->
     <li class="nav-item">
       <a class="nav-link collapsed" href="{{route('dsdetai')}}" data-toggle="collapse" data-target="#collapseUtilities" aria-expanded="true" aria-controls="collapseUtilities">
         {{-- <i class="fas fa-fw fa-wrench"></i> --}}
-        <i class="fas fa-fw fa-table"></i>
+        <i class="fas fa-fw fa-archive"></i>
         <span>Quản lý đề tài</span>
       </a>
       <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities" data-parent="#accordionSidebar">
@@ -72,7 +73,7 @@
     <li class="nav-item active">
       <a class="nav-link">
         {{-- <i class="fas fa-fw fa-tachometer-alt"></i> --}}
-        <i class="fas fa-user-secret"></i>
+        <i class="fas fa-fw fa-user-graduate"></i>
         <span>Sinh viên</span></a>
     </li>
   @endif
@@ -97,17 +98,17 @@
     <li class="nav-item">
       <a class="nav-link collapsed" href="{{route('dsdetai')}}" data-toggle="" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
         {{-- <i class="fas fa-fw fa-cog"></i> --}}
-        <i class="fas fa-fw fa-table"></i>
+        <i class="fas fa-fw fa-clipboard-list"></i>
         <span>Danh sách đề tài</span>
       </a>
     <a class="nav-link collapsed" href="{{route('getdkdetai')}}" data-toggle="" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
         {{-- <i class="fas fa-fw fa-cog"></i> --}}
-        <i class="fas fa-fw fa-table"></i>
+        <i class="fas fa-fw fa-edit"></i>
         <span>Đăng ký đề tài</span>
       </a>
       <a class="nav-link collapsed" href="{{route('thamkhao')}}" data-toggle="" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
         {{-- <i class="fas fa-fw fa-cog"></i> --}}
-        <i class="fas fa-fw fa-table"></i>
+        <i class="fas fa-fw fa-book"></i>
         <span>Tham khảo</span>
       </a>
       <li></li>
@@ -350,21 +351,25 @@
             @if(Auth::user()->level==3)
               <!-- Nav Item - User Information -->
               <li class="nav-item dropdown no-arrow">
-                <a class="nav-link dropdown-toggle" href="{{ route('infor')}}" title="Trang cá nhân" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                    @foreach ($sinhvien as $sv)
-                      {{$sv->ho}} {{$sv->ten}}   
+                      {{$sinhvien->ho}} {{$sinhvien->ten}}   
                   </span>
-                  <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                  <img class="img-profile rounded-circle" 
+                  @if(isset($user->img))
+                    src="{{$user->img}}"
+                  @else
+                    src="img/person-icon-blue-18.png"
+                  @endif
+                  style="max-height: 60px; max-width: 60px">
                 </a>
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                  <a class="dropdown-item" href="#">
-                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Thông tin cá nhân
+                  <a class="dropdown-item" href="{{route('inforuser',['id'=>$iduser])}}">
+                          <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                          <button type="submit" style="display: contents;">Thông tin cá nhân</button>
                   </a>
-                  <a class="dropdown-item" href="{{route('userdetai',['id'=>$sv->id])}}">
-                    @endforeach
+                  <a class="dropdown-item" href="{{route('userdetai',['id'=>$sinhvien->id])}}">
                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                     Chỉnh sửa đề tài
                   </a>
@@ -379,16 +384,25 @@
             @if(Auth::user()->level==2)
               <!-- Nav Item - User Information -->
               <li class="nav-item dropdown no-arrow">
-                <a class="nav-link dropdown-toggle" href="{{ route('infor')}}" title="Trang cá nhân" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                   <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                    @foreach ($giangvien as $gv)
-                      {{$gv->ho}} {{$gv->ten}}  
-                    @endforeach
+                      {{$giangvien->ho}} {{$giangvien->ten}}  
                   </span>
-                  <img class="img-profile rounded-circle" src="https://source.unsplash.com/QAB-WJcbgJk/60x60">
+                  <img class="img-profile rounded-circle" 
+                  @if(isset($user->img))
+                    src="{{$user->img}}"
+                  @else
+                    src="img/person-icon-blue-18.png"
+                  @endif
+                  style="max-height: 60px; max-width: 60px">
+                  
                 </a>
                 <!-- Dropdown - User Information -->
                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                  <a class="dropdown-item" href="{{route('inforuser',['id'=>$iduser])}}">
+                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                    <button type="submit" style="display: contents;">Thông tin cá nhân</button>
+                  </a>
                   <a class="dropdown-item" href="{{route('svhd')}}">
                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
                     Sinh viên hướng dẫn

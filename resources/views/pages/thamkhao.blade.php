@@ -41,6 +41,12 @@
                         </div>
                     </div>
                     <div class="col-xl-12 col-md-6">
+                        <h4 class="small font-weight-bold">Ảnh bìa</h4>
+                        <div class="form-group" >
+                        <input type='file' name='img' class="form-control form-control-sm">
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-md-6">
                         <h4 class="small font-weight-bold">Nội dung</h4>
                         <textarea name="noidung" class="form-control form-group form-control-sm ckeditor" style=" height: 300px;" ></textarea>	
                     </div>
@@ -83,25 +89,20 @@
                 </tr>
                 </thead>
                     <tbody>
-                        @foreach ($thamkhao as $dt)
-                        @if($dt->count() > 0)
+                        @foreach ($thamkhao as $tk)
+                        @if($tk->count() > 0)
                             <tr>
                             <th scope="row">{{$stt++}}</th>
-                            <td><form method="POST" action="{{route('tailieu')}}">
-                                @csrf
-                                <input type="hidden" name="id" value={{$dt->id}}>
-                                <div>
-                                    <div>
-                                        <button type="submit" style="display: contents;">{{$dt->tendetai}}</button>
-                                    </div>
-                                </div>
-                            </form></td>
-                            <td>{{$dt->tomtat}}</td>
+                            <td><a href="{{route('tailieu',['id'=>$tk->id])}}"
+                                    style=" text-decoration: none; color: #000000e6;">
+                                {{$tk->tieude}}</a>
+                            </td>
+                            <td>{{$tk->tomtat}}</td>
                             
                             @if(Auth::check())
                                 @if(Auth::user()->level==1||Auth::user()->level==2)
                                 <td>
-                                    <a href="javascript:" data-id="{{$dt->id}}" 
+                                    <a href="javascript:" data-id="{{$tk->id}}" 
                                         class="btn btn-split btn-danger delete-btn" >
                                         Xóa</a>
                                 </td>

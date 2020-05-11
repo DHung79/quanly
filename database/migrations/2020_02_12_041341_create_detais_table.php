@@ -19,7 +19,6 @@ class CreateDetaisTable extends Migration
             $table->string('tomtat');
             $table->text('noidung')->nullable();
             $table->tinyinteger('tiendo');
-            $table->boolean('thamkhao');
             $table->boolean('daduyet');
             $table->unsignedBigInteger('idgvhd')->nullable();
             $table->foreign('idgvhd')->references('id')->on('giangvien')->onDelete('cascade');

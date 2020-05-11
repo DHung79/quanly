@@ -34,7 +34,7 @@
                         @if($dt->count() > 0)
                             <tr>
                                 <th scope="row">{{$stt++}}</th>
-                                <td>{{$dt->ho}} {{$dt->ten}}</td>
+                                <td>{{$dt->hoten}}</td>
                                 <td><a href="{{route('userdetai',['id'=>$dt->id])}}" 
                                     style=" text-decoration: none; color: #000000e6;">
                                     {{$dt->tendetai}}</a></td>

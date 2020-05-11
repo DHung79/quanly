@@ -100,7 +100,9 @@
             <button type="submit" class="btn btn-primary btn-md btn-add" name="">Sửa</button>
           </div>
           <div class="col-md-1 col-6">
-            <button type="button" id="cancel-edit" class="btn btn-primary btn-md btn-add" style="background: #dc3545; border-color: #dc3545;">Hủy</button>
+            <button type="button" id="cancel-edit" 
+              class="btn btn-primary btn-md btn-add" 
+              style="background: #dc3545; border-color: #dc3545;">Hủy</button>
           </div>
         </div>
       </form>
@@ -122,7 +124,7 @@
           </tr>
         </thead>
               <tbody>
-                @foreach ($user as $dt)
+                @foreach ($users as $dt)
                   @if($dt->count() > 0 && $dt->id != $iduser)
                     <tr>
                       <th scope="row">{{$stt++}}</th>
@@ -139,8 +141,13 @@
                       @if(Auth::check())
                         @if(Auth::user()->level==1)
                           <td>
-                            <a href="javascript:" data-id="{{$dt->id}}" data-level="{{$dt->level}}" data-email="{{$dt->email}}" class="btn btn-split btn-success edit-btn">Sửa</a>&nbsp;
-                            <a href="javascript:" class="btn btn-split btn-danger delete-btn" data-id="{{$dt->id}}">Xóa</a>
+                            <a href="javascript:" data-id="{{$dt->id}}" 
+                                data-level="{{$dt->level}}" 
+                                data-email="{{$dt->email}}" 
+                                class="btn btn-split btn-success edit-btn">Sửa</a>&nbsp;
+                            <a href="javascript:" 
+                                class="btn btn-split btn-danger delete-btn" 
+                                data-id="{{$dt->id}}">Xóa</a>
                           </td>
                         @endif
                       @endif

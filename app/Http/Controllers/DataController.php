@@ -10,6 +10,8 @@ use App\khoa;
 use App\lop;
 use App\detai;
 use App\sukien;
+use App\source;
+use App\thamkhao;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
@@ -74,34 +76,34 @@ class DataController extends Controller
         detai::insert([
             ['tendetai' => 'Nghiên cứu các giải pháp bảo đảm an ninh, an toàn thông tin cho các cổng thông tin điện tử ',
             'tomtat'=>'Nghiên cứu các giải pháp bảo đảm an ninh, an toàn thông tin cho các cổng thông tin điện tử ',
-            'tiendo'=>'0','thamkhao'=> 0,'daduyet'=>1,'idsinhvien'=> 10,'idgvhd'=> 3],
+            'tiendo'=>'0','daduyet'=>1,'idsinhvien'=> 10,'idgvhd'=> 3],
             ['tendetai' => 'Nghiên cứu bảo đảm an toàn thông tin bằng kiểm soát truy nhập ',
             'tomtat'=>'Nghiên cứu bảo đảm an toàn thông tin bằng kiểm soát truy nhập',
-            'tiendo'=>'10','thamkhao'=> 0,'daduyet'=>1,'idsinhvien'=> 9,'idgvhd'=> 1],
+            'tiendo'=>'10','daduyet'=>1,'idsinhvien'=> 9,'idgvhd'=> 1],
             ['tendetai' => 'Xây dựng ứng dụng video conference sử dụng Kurento Media Server',
             'tomtat'=>'Xây dựng ứng dụng video conference sử dụng Kurento Media Server',
-            'tiendo'=>'5','thamkhao'=> 1,'daduyet'=>0,'idsinhvien'=> 8,'idgvhd'=> 5],
+            'tiendo'=>'5','daduyet'=>0,'idsinhvien'=> 8,'idgvhd'=> 5],
             ['tendetai' => 'Xây dựng hệ thống kết nối doanh nghiệp với sinh viên',
             'tomtat'=>'Xây dựng hệ thống kết nối doanh nghiệp với sinh viên',
-            'tiendo'=>'20','thamkhao'=> 1,'daduyet'=>0,'idsinhvien'=> 7,'idgvhd'=> 6],
+            'tiendo'=>'20','daduyet'=>0,'idsinhvien'=> 7,'idgvhd'=> 6],
             ['tendetai' => 'Nghiên cứu lập trình WPF trong xây dựng ứng dụng học tiếng Anh cho trẻ em',
             'tomtat'=>'Nghiên cứu lập trình WPF trong xây dựng ứng dụng học tiếng Anh cho trẻ em',
-            'tiendo'=>'80','thamkhao'=> 0,'daduyet'=>0,'idsinhvien'=> 6,'idgvhd'=> 2],
+            'tiendo'=>'80','daduyet'=>0,'idsinhvien'=> 6,'idgvhd'=> 2],
             ['tendetai' => 'Hệ thống gợi ý tour du lịch tối ưu theo ràng buộc của người dùng',
             'tomtat'=>'Hệ thống gợi ý tour du lịch tối ưu theo ràng buộc của người dùng',
-            'tiendo'=>'25','thamkhao'=> 0,'daduyet'=>0,'idsinhvien'=> 5,'idgvhd'=> 4],
+            'tiendo'=>'25','daduyet'=>0,'idsinhvien'=> 5,'idgvhd'=> 4],
             ['tendetai' => 'Tìm hiểu hệ mã nguồn mở Laravel và ứng dụng xây dựng Website thương mại điện tử',
             'tomtat'=>'Tìm hiểu hệ mã nguồn mở Laravel và ứng dụng xây dựng Website thương mại điện tử',
-            'tiendo'=>'40','thamkhao'=> 1,'daduyet'=>1,'idsinhvien'=> 4,'idgvhd'=> 3],
+            'tiendo'=>'40','daduyet'=>1,'idsinhvien'=> 4,'idgvhd'=> 3],
             ['tendetai' => 'Xây dựng ứng dụng di động cho chợ nông sản Khánh Hoà trực tuyến',
             'tomtat'=>'Xây dựng ứng dụng di động cho chợ nông sản Khánh Hoà trực tuyến',
-            'tiendo'=>'100','thamkhao'=> 1,'daduyet'=>1,'idsinhvien'=> 3,'idgvhd'=> 1],
+            'tiendo'=>'100','daduyet'=>1,'idsinhvien'=> 3,'idgvhd'=> 1],
             ['tendetai' => 'Nghiên cứu công nghệ Web và xây dựng hệ thống tra cứu tour du lịch tại Nha Trang, Khánh Hòa',
             'tomtat'=>'Nghiên cứu công nghệ Web và xây dựng hệ thống tra cứu tour du lịch tại Nha Trang, Khánh Hòa',
-            'tiendo'=>'85','thamkhao'=> 0,'daduyet'=>0,'idsinhvien'=> 2,'idgvhd'=> 2],
+            'tiendo'=>'85','daduyet'=>0,'idsinhvien'=> 2,'idgvhd'=> 2],
             ['tendetai' => 'Lập trình IoT điều khiển thiết bị trong nhà sử dụng Rapberry',
             'tomtat'=>'Lập trình IoT điều khiển thiết bị trong nhà sử dụng Rapberry',
-            'tiendo'=>'55','thamkhao'=> 0,'daduyet'=>1,'idsinhvien'=> 1,'idgvhd'=> 1]
+            'tiendo'=>'55','daduyet'=>1,'idsinhvien'=> 1,'idgvhd'=> 1]
         ]);
         sukien::insert([
             ['tensukien' => 'Đội SQ26 - TCU chiến thắng rực rỡ tại vòng bán kết Cuộc thi Cuộc đua số khu vực miền Nam',
@@ -190,6 +192,873 @@ class DataController extends Controller
             
             <p><strong><em>Việt Dũng</em></strong></p>',
             'img'=>'img/CDS0.jpeg']
+        ]);
+        thamkhao::insert([
+            ['tieude' => 'Bài 1: Giới thiệu về ngôn ngữ lập trình PHP và hướng dẫn cài đặt',
+            'tomtat'=>'Bài 1: Giới thiệu về ngôn ngữ lập trình PHP và hướng dẫn cài đặt', 
+            'noidung'=>'<h1><a href="https://hoclaptrinhweb.org/lap-trinh/hoc-php/227-bai-1-gioi-thieu-ve-ngon-ngu-lap-trinh-php-va-huong-dan-cai-dat.html">B&agrave;i 1: Giới thiệu về ng&ocirc;n ngữ lập tr&igrave;nh PHP v&agrave; hướng dẫn c&agrave;i đặt</a></h1>
+
+            <p><strong>PHP</strong>&nbsp;- viết tắt hồi quy của&nbsp;<strong>&quot;Hypertext Preprocessor&quot;</strong>, l&agrave; một ng&ocirc;n ngữ lập tr&igrave;nh kịch bản được chạy ở ph&iacute;a server nhằm sinh ra m&atilde; html tr&ecirc;n client.&nbsp;PHP đ&atilde; trải qua rất nhiều phi&ecirc;n bản v&agrave; được tối ưu h&oacute;a cho c&aacute;c ứng dụng web, với c&aacute;ch viết m&atilde; r&otilde; r&atilde;ng, tốc độ nhanh, dễ học n&ecirc;n PHP đ&atilde; trở th&agrave;nh một ng&ocirc;n ngữ&nbsp;<a href="https://hoclaptrinhweb.org/hoc-thiet-ke-web/lap-trinh-web.html">lập tr&igrave;nh web</a>&nbsp;rất phổ biến v&agrave; được ưa chuộng.</p>
+            
+            <p>&nbsp;PHP chạy tr&ecirc;n m&ocirc;i trường Webserver v&agrave; lưu trữ dữ liệu th&ocirc;ng qua hệ quản trị cơ sở dữ liệu n&ecirc;n PHP thường đi k&egrave;m với Apache, MySQL v&agrave; hệ điều h&agrave;nh Linux (LAMP).</p>
+            
+            <ul>
+                <li>Apache l&agrave; một phần mềm web server c&oacute; nhiệm vụ tiếp nhận request từ tr&igrave;nh duyệt người d&ugrave;ng sau đ&oacute; chuyển giao cho PHP xử l&yacute; v&agrave; gửi trả lại cho tr&igrave;nh duyệt.</li>
+                <li>MySQL cũng tương tự như c&aacute;c hệ quản trị cơ sở dữ liệu kh&aacute;c (Postgress, Oracle, SQL server...) đ&oacute;ng vai tr&ograve; l&agrave; nơi lưu trữ v&agrave; truy vấn dữ liệu.</li>
+                <li>Linux: Hệ điều h&agrave;nh m&atilde; nguồn mở được sử dụng rất rộng r&atilde;i cho c&aacute;c webserver. Th&ocirc;ng thường c&aacute;c phi&ecirc;n bản được sử dụng nhiều nhất l&agrave; RedHat Enterprise Linux, Ubuntu...&nbsp;</li>
+            </ul>
+            
+            <p><strong>PHP hoạt động như thế n&agrave;o?</strong></p>
+            
+            <p>Khi người sử dụng gọi trang PHP, Web Server sẽ triệu gọi PHP Engine để th&ocirc;ng dịch dịch trang PHP v&agrave; trả kết quả cho người d&ugrave;ng như h&igrave;nh b&ecirc;n dưới.</p>
+            
+            <p><img alt="hoc lap trinh php" src="https://hoclaptrinhweb.org/images/ecode/hoc-lap-trinh-web/php/hoc-lap-trinh-php.jpg" /></p>
+            
+            <p><strong>C&aacute;c bước c&agrave;i đặt Web server:</strong></p>
+            
+            <p><strong>Bước 1:</strong>&nbsp;Download XAMPP tại&nbsp;<a href="https://www.apachefriends.org/download.html">https://www.apachefriends.org/download.html</a>&nbsp;v&agrave; tiến h&agrave;nh c&agrave;i đặt như c&aacute;c chương tr&igrave;nh th&ocirc;ng thường.</p>
+            
+            <p><strong>Bước 2:</strong>&nbsp;Start Apache v&agrave; MySQL trong XAMPP control panel</p>
+            
+            <p><img alt="cai dat xampp" src="https://hoclaptrinhweb.org/images/ecode/hoc-lap-trinh-web/php/cai-dat-xampp.jpg" /></p>
+            
+            <p><strong>Bước 3:</strong>&nbsp;G&otilde; v&agrave;o tr&igrave;nh duyệt địa chỉ localhost. Nếu hiện ra m&agrave;n h&igrave;nh sau th&igrave; việc c&agrave;i đặt đ&atilde; th&agrave;nh c&ocirc;ng.</p>
+            
+            <p><img alt="cai dat xampp 2" src="https://hoclaptrinhweb.org/images/ecode/hoc-lap-trinh-web/php/cai-dat-xampp-2.jpg" /></p>
+            
+            <p><strong>Bước 4:</strong>&nbsp;V&agrave;o thư mục c&agrave;i đặt XAMPP/htdocs v&agrave; tiến h&agrave;nh tạo file test.php với nội dung như sau:</p>
+            
+            <p><a href="https://hoclaptrinhweb.org/lap-trinh/hoc-php/227-bai-1-gioi-thieu-ve-ngon-ngu-lap-trinh-php-va-huong-dan-cai-dat.html#">?</a></p>
+            
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td>
+                        <p>1</p>
+            
+                        <p>2</p>
+            
+                        <p>3</p>
+                        </td>
+                        <td>
+                        <p><code>&lt;?php</code></p>
+            
+                        <p><code>&nbsp;&nbsp;&nbsp;&nbsp;</code><code>echo</code> <code>&quot;Hello World&quot;</code><code>;</code></p>
+            
+                        <p><code>?&gt;</code></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>G&otilde; tr&ecirc;n tr&igrave;nh duyệt địa chỉ localhost/test.php. Nếu hiện ra d&ograve;ng chữ Hello World nghĩa l&agrave; ứng dụng PHP đầu ti&ecirc;n đ&atilde; chạy th&agrave;nh c&ocirc;ng.</p>
+            
+            <p><img alt="cai dat xampp 3" src="https://hoclaptrinhweb.org/images/ecode/hoc-lap-trinh-web/php/cai-dat-xampp-3.jpg" /></p>
+            
+            <p><strong>TIPS:</strong>&nbsp;Để lập tr&igrave;nh PHP ch&uacute;ng ta c&oacute; thể sử dụng c&aacute;c IDE sau: Netbeans, Eclipse, Zend Studio, PHP Storm...để đẩy nhanh qu&aacute; tr&igrave;nh ph&aacute;t triển v&agrave; hạn chế lỗi xảy ra trong qu&aacute; tr&igrave;nh lập tr&igrave;nh.</p>',
+            'img'=>'NULL'],
+
+            ['tieude' => 'Bài 2: Cú pháp khai báo PHP, sử dụng hằng và biến',
+            'tomtat'=>'Bài 2: Cú pháp khai báo PHP, sử dụng hằng và biến', 
+            'noidung'=>'<h1><a href="https://hoclaptrinhweb.org/lap-trinh/hoc-php/228-bai-2-cu-phap-khai-bao-php-su-dung-hang-va-bien.html">B&agrave;i 2: C&uacute; ph&aacute;p khai b&aacute;o PHP, sử dụng hằng v&agrave; biến</a></h1>
+
+            <p>C&uacute; ph&aacute;p v&agrave; ngữ nghĩa c&aacute;c h&agrave;m của PHP cũng tương tự như hầu hết c&aacute;c ng&ocirc;n ngữ lập tr&igrave;nh kh&aacute;c (C, Java, Perl) chỉ kh&aacute;c l&agrave; m&atilde; PHP được chứa trong một thẻ c&oacute; dạng như sau:</p>
+            
+            <p><a href="https://hoclaptrinhweb.org/lap-trinh/hoc-php/228-bai-2-cu-phap-khai-bao-php-su-dung-hang-va-bien.html#">?</a></p>
+            
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td>
+                        <p>1</p>
+            
+                        <p>2</p>
+            
+                        <p>3</p>
+                        </td>
+                        <td>
+                        <p><code>&lt;?php</code></p>
+            
+                        <p><code>//code của bạn</code></p>
+            
+                        <p><code>?&gt;</code></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>hoặc</p>
+            
+            <p><a href="https://hoclaptrinhweb.org/lap-trinh/hoc-php/228-bai-2-cu-phap-khai-bao-php-su-dung-hang-va-bien.html#">?</a></p>
+            
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td>
+                        <p>1</p>
+            
+                        <p>2</p>
+            
+                        <p>3</p>
+                        </td>
+                        <td>
+                        <p><code>&lt;?</code></p>
+            
+                        <p><code>//code của bạn</code></p>
+            
+                        <p><code>?&gt;</code></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>Lưu &yacute; l&agrave; nếu sử dụng c&aacute;ch thứ hai trong file php.ini phải cấu h&igrave;nh&nbsp;<strong>short_open_tag=On.&nbsp;</strong>Nếu bạn sử dụng sharehosting v&agrave; muốn ứng dụng web của m&igrave;nh tương th&iacute;ch với c&aacute;c hosting th&igrave; n&ecirc;n khai b&aacute;o theo c&aacute;ch 1. Để PHP Engine c&oacute; thể th&ocirc;ng dịch được file chứa m&atilde; nguồn PHP phải được lưu dưới dạng .php thay v&igrave; .html</p>
+            
+            <p><strong>Hằng</strong>:&nbsp;Tương tự như trong những ng&ocirc;n ngữ lập tr&igrave;nh kh&aacute;c, hằng trong PHP cũng l&agrave; một gi&aacute; trị được khai b&aacute;o trước khi sử dụng. N&oacute; phải bắt đầu bằng chữ c&aacute;i hoặc dấu gạch dưới _ v&agrave; kh&ocirc;ng được bắt đầu bằng số, n&oacute; c&oacute; thể l&agrave; một chuỗi. Hằng trong PHP được định nghĩa bằng h&agrave;m define(). N&oacute; kh&ocirc;ng thay đổi v&agrave; kh&ocirc;ng được được định nghĩa lại.</p>
+            
+            <p>V&iacute; dụ:&nbsp;</p>
+            
+            <p><a href="https://hoclaptrinhweb.org/lap-trinh/hoc-php/228-bai-2-cu-phap-khai-bao-php-su-dung-hang-va-bien.html#">?</a></p>
+            
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td>
+                        <p>1</p>
+            
+                        <p>2</p>
+            
+                        <p>3</p>
+            
+                        <p>4</p>
+            
+                        <p>5</p>
+                        </td>
+                        <td>
+                        <p><code>&lt;?php</code></p>
+            
+                        <p><code>define (&ldquo;OS&rdquo;, &ldquo;Linux&rdquo;);</code></p>
+            
+                        <p><code>echo</code> <code>&ldquo;My operating system is &ldquo;;</code></p>
+            
+                        <p><code>echo</code> <code>OS;</code></p>
+            
+                        <p><code>?&gt;</code></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>Kết quả xuất ra: My operating system is Linux</p>
+            
+            <p><strong>Biến</strong>:&nbsp;Kh&ocirc;ng giống như hằng, biến kh&ocirc;ng cần định nghĩa, c&oacute; thể thay đổi trong chương tr&igrave;nh. C&aacute;ch đặt t&ecirc;n của biến cũng giống như c&aacute;ch đặt t&ecirc;n của hằng. Biến ph&acirc;n biệt chữ hoa v&agrave; chữ thường.&nbsp;Tất cả biến trong PHP đều bắt đầu bằng dấu &quot;$&quot;. PHP tự động hiểu c&aacute;c kiểu biến n&ecirc;n người d&ugrave;ng kh&ocirc;ng cần phải khai b&aacute;o kiểu biến.</p>
+            
+            <p>V&iacute; dụ:</p>
+            
+            <p><a href="https://hoclaptrinhweb.org/lap-trinh/hoc-php/228-bai-2-cu-phap-khai-bao-php-su-dung-hang-va-bien.html#">?</a></p>
+            
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td>
+                        <p>1</p>
+            
+                        <p>2</p>
+            
+                        <p>3</p>
+            
+                        <p>4</p>
+            
+                        <p>5</p>
+                        </td>
+                        <td>
+                        <p><code>&lt;?php</code></p>
+            
+                        <p><code>$movierate</code> <code>= 5;</code></p>
+            
+                        <p><code>echo</code> <code>&quot;My movie rating for this movie is: &quot;</code><code>;</code></p>
+            
+                        <p><code>echo</code> <code>$movierate</code><code>;</code></p>
+            
+                        <p><code>?&gt;</code></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>Kết quả xuất ra:&nbsp;My movie rating for this movie is: 5</p>
+            
+            <p>Truyền biến giữa c&aacute;c trang:&nbsp;C&oacute; bốn c&aacute;ch cơ bản để truyền biến giữa c&aacute;c trang: truyền biến trong URL, qua session, cookie hoặc với một HTML form.</p>
+            
+            <p>Truyền biến qua URL:</p>
+            
+            <p>V&iacute; dụ: Để truyền gi&aacute; trị 123 cho biến id v&agrave; gi&aacute; trị 4 cho biến category v&agrave;o trong file product.php ta sử dụng url sau:</p>
+            
+            <p><a href="http://example.com/product.php?id=123&amp;category=4">http://example.com/product.php?id=123&amp;categoryid=4</a></p>
+            
+            <p>Trong file product.php ch&uacute;ng ta sẽ tiến h&agrave;nh hiển thị gi&aacute; trị của c&aacute;c biến n&agrave;y:</p>
+            
+            <p><a href="https://hoclaptrinhweb.org/lap-trinh/hoc-php/228-bai-2-cu-phap-khai-bao-php-su-dung-hang-va-bien.html#">?</a></p>
+            
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td>
+                        <p>1</p>
+            
+                        <p>2</p>
+            
+                        <p>3</p>
+            
+                        <p>4</p>
+            
+                        <p>5</p>
+            
+                        <p>6</p>
+            
+                        <p>7</p>
+            
+                        <p>8</p>
+            
+                        <p>9</p>
+            
+                        <p>10</p>
+            
+                        <p>11</p>
+                        </td>
+                        <td>
+                        <p><code>&lt;html&gt;</code></p>
+            
+                        <p><code>&lt;body&gt;</code></p>
+            
+                        <p><code>&lt;?php</code></p>
+            
+                        <p><code>echo</code> <code>&ldquo;ID of product is &ldquo;;</code></p>
+            
+                        <p><code>echo</code> <code>$id</code><code>;</code></p>
+            
+                        <p><code>echo</code> <code>&ldquo;&lt;br&gt;&rdquo;;</code></p>
+            
+                        <p><code>echo</code> <code>&ldquo;Category id of product is &ldquo;;</code></p>
+            
+                        <p><code>echo</code> <code>$categoryid</code><code>;</code></p>
+            
+                        <p><code>?&gt;</code></p>
+            
+                        <p><code>&lt;/body&gt;</code></p>
+            
+                        <p><code>&lt;/html&gt;</code></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>Kết quả xuất ra:&nbsp;</p>
+            
+            <p>ID of product is 123<br />
+            Category id of product is 4</p>
+            
+            <p>C&aacute;c h&igrave;nh thức truyền biến qua session, cookie v&agrave; html form ch&uacute;ng ta sẽ lần lượt t&igrave;m hiểu trong c&aacute;c b&agrave;i tiếp theo.</p>
+            
+            <p>&nbsp;</p>',
+            'img'=>'NULL'],
+
+            ['tieude' => 'Bài 3: Các kiểu dữ liệu và phạm vi biến trong PHP',
+            'tomtat'=>'Bài 3: Các kiểu dữ liệu và phạm vi biến trong PHP', 
+            'noidung'=>'<h1><a href="https://hoclaptrinhweb.org/lap-trinh/hoc-php/229-bai-3-cac-kieu-du-lieu-va-pham-vi-bien-trong-php.html">B&agrave;i 3: C&aacute;c kiểu dữ liệu v&agrave; phạm vi biến trong PHP</a></h1>
+
+            <p>PHP c&oacute; tổng cộng t&aacute;m loại dữ liệu được sử dụng cho c&aacute;c biến, c&aacute;c kiểu dữ liệu n&agrave;y thường được hiểu ngầm dựa v&agrave;o gi&aacute; trị của biến m&agrave; kh&ocirc;ng cần phải khai b&aacute;o. Để c&oacute; thể&nbsp;<a href="https://hoclaptrinhweb.org/hoc-thiet-ke-web/lap-trinh-web.html">học lập tr&igrave;nh php</a>&nbsp;ch&uacute;ng ta cần phải nắm vững c&aacute;c kiểu dữ liệu v&agrave; to&aacute;n tử của PHP.</p>
+            
+            <ul>
+                <li>
+                <p>Integers:&nbsp;l&agrave; kiểu số nguy&ecirc;n, kh&ocirc;ng c&oacute; dấu thập ph&acirc;n, v&iacute; dụ 1234.</p>
+                </li>
+                <li>
+                <p>Doubles:&nbsp;l&agrave; kiểu số thực, v&iacute; dụ 3.64576.</p>
+                </li>
+                <li>
+                <p>Booleans:&nbsp;chỉ c&oacute; hai gi&aacute; trị true hoặc false.</p>
+                </li>
+                <li>
+                <p>NULL:&nbsp;l&agrave; một kiểu dữ liệu đặc biệt chỉ c&oacute; một gi&aacute; trị: NULL.</p>
+                </li>
+                <li>
+                <p>Strings:&nbsp;l&agrave; chuỗi k&yacute; tự, giống như &#39;t&ocirc;i học php&#39;.</p>
+                </li>
+                <li>
+                <p>Array: kiểu dữ liệu mảng - l&agrave; một tập hợp c&aacute;c phần tử c&oacute; c&ugrave;ng kiểu dữ liệu với nhau.</p>
+                </li>
+                <li>
+                <p>Object:&nbsp;l&agrave; 1 thể hiện (instance) của 1 lớp đ&atilde; được định nghĩa trước - được sử dụng trong lập tr&igrave;nh hướng đối tượng.</p>
+                </li>
+                <li>Resource: l&agrave; kiểu dữ liệu đặc biệt d&ugrave;ng để lưu trữ tham chiếu đến c&aacute;c t&agrave;i nguy&ecirc;n b&ecirc;n ngo&agrave;i PHP chẳng hạn như kết nối đến database.</li>
+            </ul>
+            
+            <p>Kh&ocirc;ng c&oacute; giới hạn về độ d&agrave;i của chuỗi - trong phạm vi giới hạn sẵn c&oacute; của bộ nhớ, bạn c&oacute; thể tạo chuỗi d&agrave;i t&ugrave;y &yacute;.</p>
+            
+            <p>Chuỗi được bao quanh bởi c&aacute;c dấu ngoặc k&eacute;p (v&iacute; dụ &quot;abc&quot;) hoặc ngoặc đơn (v&iacute; dụ &#39;cde&#39;). Để nối c&aacute;c chuỗi lại với nhau ch&uacute;ng ta d&ugrave;ng dấu &quot;.&quot; Một số k&yacute; tự bắt đầu bằng dấu gạch ch&eacute;o ngược (\) được sử dụng để thay thế cho c&aacute;c k&yacute; tự đặc biệt</p>
+            
+            <p><strong>Một số k&yacute; tự đặc biệt trong chuỗi:</strong></p>
+            
+            <ul>
+                <li>
+                <p>\ N được thay thế bằng k&yacute; tự xuống d&ograve;ng</p>
+                </li>
+                <li>\ R được thay thế bởi k&yacute; tự&nbsp;carriage-return (di chuyển con trỏ đến vị tr&iacute; bắt đầu của d&ograve;ng hiện tại m&agrave; kh&ocirc;ng thay đổi tọa độ y)&nbsp;</li>
+                <li>
+                <p>\ T được thay thế bằng k&yacute; tự tab</p>
+                </li>
+                <li>
+                <p>\ $ Được thay thế bằng &nbsp;k&yacute; hiệu $</p>
+                </li>
+                <li>
+                <p>\ &quot;Được thay thế bằng một dấu nh&aacute;y k&eacute;p (&quot;)</p>
+                </li>
+                <li>
+                <p>\\ Được thay thế bằng một dấu gạch ch&eacute;o ngược (\)</p>
+                </li>
+            </ul>
+            
+            <p>V&iacute; dụ:</p>
+            
+            <p><a href="https://hoclaptrinhweb.org/lap-trinh/hoc-php/229-bai-3-cac-kieu-du-lieu-va-pham-vi-bien-trong-php.html#">?</a></p>
+            
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td>
+                        <p>1</p>
+            
+                        <p>2</p>
+            
+                        <p>3</p>
+            
+                        <p>4</p>
+            
+                        <p>5</p>
+            
+                        <p>6</p>
+            
+                        <p>7</p>
+            
+                        <p>8</p>
+                        </td>
+                        <td>
+                        <p><code>&lt;?php</code></p>
+            
+                        <p><code>$line</code> <code>=&nbsp;</code><code>&quot;A newline is \n&quot;</code><code>;</code></p>
+            
+                        <p><code>$line</code> <code>.=&nbsp;</code><code>&quot;A carriage return is \r&quot;</code><code>;</code></p>
+            
+                        <p><code>$line</code> <code>.=&nbsp;</code><code>&quot;A tab is \t&quot;</code><code>;</code></p>
+            
+                        <p><code>$line</code> <code>.=&nbsp;</code><code>&quot;A dollar sign is \$&quot;</code><code>;</code></p>
+            
+                        <p><code>$line</code> <code>.=&nbsp;</code><code>&quot;A double-quote is \&quot;&quot;</code><code>;</code></p>
+            
+                        <p><code>echo</code> <code>$line</code><code>;</code></p>
+            
+                        <p><code>?&gt;</code></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>Dấu .= được sử dụng để nối gi&aacute; trị hiện tại của biến với gi&aacute; trị mới của biến (sử dụng cho chuỗi).<br />
+            Kết quả in ra:</p>
+            
+            <p>A newline is&nbsp;<br />
+            A carriage return is&nbsp;<br />
+            A tab is &nbsp;&nbsp;&nbsp; A dollar sign is $A double-quote is &quot;</p>
+            
+            <p><strong>Phạm vi của biến trong PHP</strong></p>
+            
+            <p>&nbsp;<strong>Biến cục bộ</strong>:&nbsp;Một biến được khai b&aacute;o trong một h&agrave;m được xem l&agrave; cục bộ (local);&nbsp;nghĩa l&agrave; n&oacute; chỉ c&oacute; thể được tham chiếu chỉ trong h&agrave;m đ&oacute;.&nbsp;Việc g&aacute;n biến b&ecirc;n ngo&agrave;i h&agrave;m sẽ được xem như l&agrave; một biến kh&aacute;c.</p>
+            
+            <p>V&iacute; dụ:</p>
+            
+            <p><a href="https://hoclaptrinhweb.org/lap-trinh/hoc-php/229-bai-3-cac-kieu-du-lieu-va-pham-vi-bien-trong-php.html#">?</a></p>
+            
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td>
+                        <p>1</p>
+            
+                        <p>2</p>
+            
+                        <p>3</p>
+            
+                        <p>4</p>
+            
+                        <p>5</p>
+            
+                        <p>6</p>
+            
+                        <p>7</p>
+            
+                        <p>8</p>
+            
+                        <p>9</p>
+            
+                        <p>10</p>
+            
+                        <p>11</p>
+                        </td>
+                        <td>
+                        <p><code>&lt;?php</code></p>
+            
+                        <p><code>$y</code> <code>= 4;</code></p>
+            
+                        <p><code>function</code> <code>assign_y () {</code></p>
+            
+                        <p><code>$y</code> <code>= 0;</code></p>
+            
+                        <p><code>print</code> <code>&quot;\</code><code>$y</code> <code>inside&nbsp;</code><code>function</code> <code>is&nbsp;</code><code>$y</code><code>.</code></p>
+            
+                        <p><code>&quot;;</code></p>
+            
+                        <p><code>}</code></p>
+            
+                        <p><code>assign_y();</code></p>
+            
+                        <p><code>print</code> <code>&quot;\</code><code>$y</code> <code>outside of&nbsp;</code><code>function</code> <code>is&nbsp;</code><code>$y</code><code>.</code></p>
+            
+                        <p><code>&quot;;</code></p>
+            
+                        <p><code>?&gt;</code></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>Kết quả xuất ra:</p>
+            
+            <p>$y inside function is 0.&nbsp;<br />
+            $y outside of function is 4.&nbsp;</p>
+            
+            <p><strong>Tham số</strong>: Tham số được khai b&aacute;o sau t&ecirc;n h&agrave;m v&agrave; nằm trong dấu ().</p>
+            
+            <p>V&iacute; dụ:</p>
+            
+            <p><a href="https://hoclaptrinhweb.org/lap-trinh/hoc-php/229-bai-3-cac-kieu-du-lieu-va-pham-vi-bien-trong-php.html#">?</a></p>
+            
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td>
+                        <p>1</p>
+            
+                        <p>2</p>
+            
+                        <p>3</p>
+            
+                        <p>4</p>
+            
+                        <p>5</p>
+            
+                        <p>6</p>
+            
+                        <p>7</p>
+            
+                        <p>8</p>
+                        </td>
+                        <td>
+                        <p><code>&lt;?</code></p>
+            
+                        <p><code>function</code> <code>multiply (</code><code>$value</code><code>) {</code></p>
+            
+                        <p><code>&nbsp;&nbsp;&nbsp;&nbsp;</code><code>$value</code> <code>=&nbsp;</code><code>$value</code> <code>* 10;</code></p>
+            
+                        <p><code>&nbsp;&nbsp;&nbsp;&nbsp;</code><code>return</code> <code>$value</code><code>;</code></p>
+            
+                        <p><code>}</code></p>
+            
+                        <p><code>$retval</code> <code>= multiply (10);</code></p>
+            
+                        <p><code>Print</code> <code>&quot;Return value is $retval\n&quot;</code><code>;</code></p>
+            
+                        <p><code>?&gt;</code></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>&nbsp;Kết quả in ra:</p>
+            
+            <p>Return value is 100</p>
+            
+            <p><strong>Biến to&agrave;n cục:</strong>&nbsp;kh&aacute;c với biến cục bộ, biến to&agrave;n cục c&oacute; thể được truy cập từ bất k&igrave; đ&acirc;u trong chương tr&igrave;nh.&nbsp;Tuy nhi&ecirc;n, để c&oacute; thể được sửa đổi, một biến to&agrave;n cục phải được khai b&aacute;o l&agrave; global trong h&agrave;m bằng c&aacute;ch đặt c&aacute;c từ kh&oacute;a&nbsp;<strong>GLOBAL</strong>&nbsp;ở ph&iacute;a trước của biến đ&atilde; c&oacute; sẵn.</p>
+            
+            <p>V&iacute; dụ:</p>
+            
+            <p><a href="https://hoclaptrinhweb.org/lap-trinh/hoc-php/229-bai-3-cac-kieu-du-lieu-va-pham-vi-bien-trong-php.html#">?</a></p>
+            
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td>
+                        <p>1</p>
+            
+                        <p>2</p>
+            
+                        <p>3</p>
+            
+                        <p>4</p>
+            
+                        <p>5</p>
+            
+                        <p>6</p>
+            
+                        <p>7</p>
+                        </td>
+                        <td>
+                        <p><code>$a</code> <code>= 15;</code></p>
+            
+                        <p><code>function</code> <code>add () {</code></p>
+            
+                        <p><code>GLOBAL&nbsp;</code><code>$a</code><code>;</code></p>
+            
+                        <p><code>$a</code><code>++;</code></p>
+            
+                        <p><code>print</code> <code>&quot;value of a is $a&quot;</code><code>;</code></p>
+            
+                        <p><code>}</code></p>
+            
+                        <p><code>add ();</code></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>Kết quả in ra:</p>
+            
+            <p>value of a is 16</p>
+            
+            <p>Biến tĩnh (static): kh&aacute;c với tham số sẽ bị mất gi&aacute; trị khi tho&aacute;t khỏi h&agrave;m, biến tĩnh kh&ocirc;ng bị mất gi&aacute; trị khi tho&aacute;t khỏi h&agrave;m. Biến tĩnh được khai b&aacute;o bằng từ kh&oacute;a STATIC.</p>
+            
+            <p>V&iacute; dụ:</p>
+            
+            <p><a href="https://hoclaptrinhweb.org/lap-trinh/hoc-php/229-bai-3-cac-kieu-du-lieu-va-pham-vi-bien-trong-php.html#">?</a></p>
+            
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td>
+                        <p>1</p>
+            
+                        <p>2</p>
+            
+                        <p>3</p>
+            
+                        <p>4</p>
+            
+                        <p>5</p>
+            
+                        <p>6</p>
+            
+                        <p>7</p>
+            
+                        <p>8</p>
+            
+                        <p>9</p>
+            
+                        <p>10</p>
+                        </td>
+                        <td>
+                        <p><code>function</code> <code>keep_track() {</code></p>
+            
+                        <p><code>&nbsp;&nbsp;&nbsp;</code><code>STATIC&nbsp;</code><code>$count</code> <code>= 0;</code></p>
+            
+                        <p><code>&nbsp;&nbsp;&nbsp;</code><code>$count</code><code>++;</code></p>
+            
+                        <p><code>&nbsp;&nbsp;&nbsp;</code><code>print</code> <code>$count</code><code>;</code></p>
+            
+                        <p><code>&nbsp;&nbsp;&nbsp;</code><code>print</code> <code>&quot;</code></p>
+            
+                        <p><code>&quot;;</code></p>
+            
+                        <p><code>}</code></p>
+            
+                        <p><code>keep_track();</code></p>
+            
+                        <p><code>keep_track();</code></p>
+            
+                        <p><code>keep_track();</code></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>&nbsp;Kết quả in ra</p>
+            
+            <p>1<br />
+            2<br />
+            3</p>',
+            'img'=>'NULL'],
+            
+            ['tieude' => 'Bài 4: Toán tử trong PHP',
+            'tomtat'=>'Bài 4: Toán tử trong PHP',
+            'noidung'=>'<h1><a href="https://hoclaptrinhweb.org/lap-trinh/hoc-php/233-bai-4-toan-tu-trong-php.html">B&agrave;i 4: To&aacute;n tử trong PHP</a></h1>
+
+            <p>To&aacute;n tử l&agrave; g&igrave;? V&iacute; dụ ta c&oacute; một biểu thức sau: 1+2=3 th&igrave; 1 v&agrave; 2 được gọi l&agrave; to&aacute;n hạng c&ograve;n + được gọi l&agrave; to&aacute;n tử. PHP hỗ trợ 5 loại to&aacute;n tử sau:</p>
+            
+            <ul>
+                <li>To&aacute;n tử số học (Arithmetic Operators)</li>
+                <li>To&aacute;n tử so s&aacute;nh (Comparision Operators)</li>
+                <li>To&aacute;n tử logic (Logical Operators)</li>
+                <li>To&aacute;n tử g&aacute;n (Assignment Operators)</li>
+                <li>To&aacute;n tử điều kiện (Conditional Operators)</li>
+            </ul>
+            
+            <p><strong>To&aacute;n tử số học:</strong></p>
+            
+            <p>V&iacute; dụ: A=10;B=20</p>
+            
+            <table>
+                <tbody>
+                    <tr>
+                        <td>To&aacute;n tử</td>
+                        <td>M&ocirc; tả</td>
+                        <td>V&iacute; dụ</td>
+                    </tr>
+                    <tr>
+                        <td>+</td>
+                        <td>Cộng 2 số</td>
+                        <td>A + B = 30</td>
+                    </tr>
+                    <tr>
+                        <td>-</td>
+                        <td>Trừ 2 số</td>
+                        <td>A - B = -10</td>
+                    </tr>
+                    <tr>
+                        <td>*</td>
+                        <td>Nh&acirc;n 2 số</td>
+                        <td>A * B = 200</td>
+                    </tr>
+                    <tr>
+                        <td>/</td>
+                        <td>Chia 2 số</td>
+                        <td>B / A = 2</td>
+                    </tr>
+                    <tr>
+                        <td>%</td>
+                        <td>To&aacute;n tử Modulo - lấy số dư c&ograve;n lại sau khi chia 2 số</td>
+                        <td>B % A = 0</td>
+                    </tr>
+                    <tr>
+                        <td>++</td>
+                        <td>Cộng th&ecirc;m 1</td>
+                        <td>A++ = 11</td>
+                    </tr>
+                    <tr>
+                        <td>--</td>
+                        <td>Trừ đi 1</td>
+                        <td>A-- = 9</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p><strong>To&aacute;n tử so s&aacute;nh:</strong></p>
+            
+            <table>
+                <tbody>
+                    <tr>
+                        <td>To&aacute;n tử</td>
+                        <td>M&ocirc; tả</td>
+                        <td>V&iacute; dụ</td>
+                    </tr>
+                    <tr>
+                        <td>==</td>
+                        <td>Kiểm tra gi&aacute; trị 2 to&aacute;n hạng c&oacute; bằng nhau hay kh&ocirc;ng, nếu bẳng trả về true, ngược lại l&agrave; false.</td>
+                        <td>(A == B) is not true.</td>
+                    </tr>
+                    <tr>
+                        <td>!=</td>
+                        <td>Kiểm tra gi&aacute; trị 2 to&aacute;n hạng c&oacute; kh&ocirc;ng bằng nhau hay kh&ocirc;ng, nếu kh&ocirc;ng bẳng trả về true, ngược lại l&agrave; false.</td>
+                        <td>(A != B) is true.</td>
+                    </tr>
+                    <tr>
+                        <td>&gt;</td>
+                        <td>Kiểm tra to&aacute;n hạng b&ecirc;n tr&aacute;i c&oacute; lớn hơn b&ecirc;n phải hay kh&ocirc;ng, nếu đ&uacute;ng trả về true.</td>
+                        <td>(A &gt; B) is not true.</td>
+                    </tr>
+                    <tr>
+                        <td>&lt;</td>
+                        <td>Kiểm tra to&aacute;n hạng b&ecirc;n tr&aacute;i c&oacute; nhỏ hơn b&ecirc;n phải hay kh&ocirc;ng, nếu đ&uacute;ng trả về true.</td>
+                        <td>(A &lt; B) is true.</td>
+                    </tr>
+                    <tr>
+                        <td>&gt;=</td>
+                        <td>Kiểm tra to&aacute;n hạng b&ecirc;n tr&aacute;i c&oacute; lớn hơn hoặc bằng b&ecirc;n phải hay kh&ocirc;ng, nếu đ&uacute;ng trả về true.</td>
+                        <td>(A &gt;= B) is not true.</td>
+                    </tr>
+                    <tr>
+                        <td>&lt;=</td>
+                        <td>Kiểm tra to&aacute;n hạng b&ecirc;n tr&aacute;i c&oacute; nhỏ hơn hoặc bằng b&ecirc;n phải hay kh&ocirc;ng, nếu đ&uacute;ng trả về true.</td>
+                        <td>(A &lt;= B) is true.</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p><strong>To&aacute;n tử g&aacute;n</strong></p>
+            
+            <table>
+                <tbody>
+                    <tr>
+                        <td>To&aacute;n tử</td>
+                        <td>M&ocirc; tả</td>
+                        <td>V&iacute; dụ</td>
+                    </tr>
+                    <tr>
+                        <td>=</td>
+                        <td>G&aacute;n gi&aacute; trị to&aacute;n hạng b&ecirc;n phải sang to&aacute;n hạng b&ecirc;n tr&aacute;i</td>
+                        <td>C = A + B sẽ g&aacute;n gi&aacute; trị của A + B cho C</td>
+                    </tr>
+                    <tr>
+                        <td>+=</td>
+                        <td>
+                        <p>Cộng to&aacute;n hạng b&ecirc;n tr&aacute;i với to&aacute;n hạng b&ecirc;n phải v&agrave; g&aacute;n kết quả cho to&aacute;n hạng b&ecirc;n tr&aacute;i</p>
+                        </td>
+                        <td>C += A tương đương với C = C + A</td>
+                    </tr>
+                    <tr>
+                        <td>-=</td>
+                        <td>Trừ to&aacute;n hạng b&ecirc;n tr&aacute;i với to&aacute;n hạng b&ecirc;n phải v&agrave; g&aacute;n kết quả cho to&aacute;n hạng b&ecirc;n tr&aacute;i</td>
+                        <td>C -= A tương đương với C = C - A</td>
+                    </tr>
+                    <tr>
+                        <td>*=</td>
+                        <td>Nh&acirc;n to&aacute;n hạng b&ecirc;n tr&aacute;i với to&aacute;n hạng b&ecirc;n phải v&agrave; g&aacute;n kết quả cho to&aacute;n hạng b&ecirc;n tr&aacute;i</td>
+                        <td>C *= A tương đương với C = C * A</td>
+                    </tr>
+                    <tr>
+                        <td>/=</td>
+                        <td>Chia to&aacute;n hạng b&ecirc;n tr&aacute;i với to&aacute;n hạng b&ecirc;n phải v&agrave; g&aacute;n kết quả cho to&aacute;n hạng b&ecirc;n tr&aacute;i</td>
+                        <td>C /= A tương đương với C = C / A</td>
+                    </tr>
+                    <tr>
+                        <td>%=</td>
+                        <td>Modulo to&aacute;n hạng b&ecirc;n tr&aacute;i với to&aacute;n hạng b&ecirc;n phải v&agrave; g&aacute;n kết quả cho to&aacute;n hạng b&ecirc;n tr&aacute;i</td>
+                        <td>C %= A tương đương với&nbsp;C = C % A</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p><strong>To&aacute;n tử điều kiện</strong></p>
+            
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Operator</td>
+                        <td>Description</td>
+                        <td>Example</td>
+                    </tr>
+                    <tr>
+                        <td>? :</td>
+                        <td>Biểu thức điều kiện</td>
+                        <td>Nếu điều kiện l&agrave; true ? G&aacute;n gi&aacute; trị l&agrave; X : Ngược lại l&agrave; Y</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p>V&iacute; dụ:</p>
+            
+            <p><a href="https://hoclaptrinhweb.org/lap-trinh/hoc-php/233-bai-4-toan-tu-trong-php.html#">?</a></p>
+            
+            <table border="0" cellpadding="0" cellspacing="0">
+                <tbody>
+                    <tr>
+                        <td>
+                        <p>1</p>
+            
+                        <p>2</p>
+            
+                        <p>3</p>
+            
+                        <p>4</p>
+            
+                        <p>5</p>
+            
+                        <p>6</p>
+            
+                        <p>7</p>
+            
+                        <p>8</p>
+            
+                        <p>9</p>
+                        </td>
+                        <td>
+                        <p><code>&lt;?php</code></p>
+            
+                        <p><code>&nbsp;&nbsp;&nbsp;&nbsp;</code><code>$a = 10;</code></p>
+            
+                        <p><code>&nbsp;&nbsp;&nbsp;&nbsp;</code><code>$b = 20;</code></p>
+            
+                        <p><code>&nbsp;&nbsp;&nbsp;&nbsp;</code>&nbsp;</p>
+            
+                        <p><code>&nbsp;&nbsp;&nbsp;&nbsp;</code><code>/* If điều kiện l&agrave; true th&igrave; g&aacute;n biến a cho result nếu kh&ocirc;ng sẽ g&aacute;n biến b */</code></p>
+            
+                        <p><code>&nbsp;&nbsp;&nbsp;&nbsp;</code><code>$result = ($a &gt; $b ) ? $a :$b;</code></p>
+            
+                        <p><code>&nbsp;&nbsp;&nbsp;&nbsp;</code><code>echo &quot;Value of result is $result&lt;br/&gt;&quot;;</code></p>
+            
+                        <p><code>//kết quả in ra: Value of result is 20</code></p>
+            
+                        <p><code>?&gt;</code></p>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <p><strong>Thứ tự ưu ti&ecirc;n của c&aacute;c to&aacute;n tử:</strong></p>
+            
+            <table>
+                <tbody>
+                    <tr>
+                        <td>Operator&nbsp;</td>
+                        <td>Thứ tự ưu ti&ecirc;n</td>
+                    </tr>
+                    <tr>
+                        <td>! ++ --&nbsp;</td>
+                        <td>Phải sang tr&aacute;i</td>
+                    </tr>
+                    <tr>
+                        <td>* / %&nbsp;</td>
+                        <td>Tr&aacute;i sang phải&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>+ -&nbsp;</td>
+                        <td>Tr&aacute;i sang phải&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&lt; &lt;= &gt; &gt;=&nbsp;</td>
+                        <td>Tr&aacute;i sang phải&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>== !=&nbsp;</td>
+                        <td>Tr&aacute;i sang phải&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>&amp;&amp;&nbsp;</td>
+                        <td>Tr&aacute;i sang phải&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>||&nbsp;</td>
+                        <td>Tr&aacute;i sang phải&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>?:&nbsp;</td>
+                        <td>Phải sang tr&aacute;i</td>
+                    </tr>
+                    <tr>
+                        <td>= += -= *= /= %=</td>
+                        <td>Phải sang tr&aacute;i</td>
+                    </tr>
+                </tbody>
+            </table>',
+            'img'=>'NULL']
         ]);
     }
 }

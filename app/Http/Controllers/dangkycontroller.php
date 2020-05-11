@@ -18,10 +18,12 @@ class dangkycontroller extends Controller
 {
     function __construct() { 
         $lop = lop::get();
-        $giangvien = giangvien::get();
-        $khoa = khoa::get();
         view::share('lop',$lop);
+        
+        $giangvien = giangvien::get();
         view::share('giangvien',$giangvien);
+
+        $khoa = khoa::get();
         view::share('khoa',$khoa);
     }
     public function getRegister(){
@@ -84,7 +86,7 @@ class dangkycontroller extends Controller
     }
 
     public function getaddadmin(){
-    	return view('addadmin');
+    	return view('layout.admin.addadmin');
     }
 
     public function addadmin(Request $request){

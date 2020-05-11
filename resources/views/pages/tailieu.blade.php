@@ -12,7 +12,7 @@
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">{{$tailieu->tendetai}}</h6>
+        <h6 class="m-0 font-weight-bold text-primary">{{$tailieu->tieude}}</h6>
     </div>
     
     <span class="error-center" style="margin: 5px 25px;">
@@ -34,13 +34,19 @@
                 <div class="col-xl-12 col-md-6">
                     <h4 class="small font-weight-bold">Tên tiêu đề</h4>
                     <div class="form-group" >
-                    <input type='text' name='tieude' value="{{$tailieu->tendetai}}" class="form-control form-control-sm">
+                    <input type='text' name='tieude' value="{{$tailieu->tieude}}" class="form-control form-control-sm">
                     </div>
                 </div>
                 <div class="col-xl-12 col-md-6">
                     <h4 class="small font-weight-bold">Tóm tắt</h4>
                     <div class="form-group" >
                     <input type='text' name='tomtat' value="{{$tailieu->tomtat}}" class="form-control form-control-sm">
+                    </div>
+                </div>
+                <div class="col-xl-12 col-md-6">
+                    <h4 class="small font-weight-bold">Ảnh bìa</h4>
+                    <div class="form-group" >
+                    <input type='file' name='img' class="form-control form-control-sm">
                     </div>
                 </div>
                 <div class="col-xl-12 col-md-6 mb-4">

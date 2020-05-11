@@ -9,9 +9,11 @@ use Illuminate\Routing\Controller;
 use App\Repositories\UserRepository;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Hash;
 use File; 
 use Session;
 use Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use App\User;
 use App\giangvien;
@@ -21,10 +23,17 @@ use App\lop;
 use App\detai;
 use App\sukien;
 use App\source;
+use App\thamkhao;
 class homeController extends sharecontroller
 {
     function __construct() { 
         view::share('stt','1');
+
+        $lop = lop::get();
+        view::share('lop',$lop);
+
+        $khoa = khoa::get();
+        view::share('khoa',$khoa);
 
         $sukien = sukien::get();
         view::share('sukien',$sukien);
@@ -32,18 +41,19 @@ class homeController extends sharecontroller
         $detai = detai::get();
         view::share('detai',$detai);
 
-        $user = user::get();
-        view::share('user',$user);
+        $users = user::get();
+        view::share('users',$users);
 
         $danhsachdt = detai::join('sinhvien','sinhvien.id','detais.idsinhvien')
-        ->where('daduyet','1')->where('thamkhao','0')->get();
+        ->where('daduyet','1')->get();
         view::share('danhsachdt',$danhsachdt);
 
-        $thamkhao = detai::where('thamkhao','1')->get();
+        $thamkhao = thamkhao::get();
         view::share('thamkhao',$thamkhao);
 
         $duyet = sinhvien::join('detais','detais.idsinhvien', 'sinhvien.id')
-        ->where('daduyet','0')->where('thamkhao','0')->get();
+        ->select(DB::raw('CONCAT(ho, " ", ten) AS hoten'),'sinhvien.*','detais.*')
+        ->where('daduyet','0')->get();
         view::share('duyet',$duyet);
 
         $gvlist = giangvien::get();
@@ -57,12 +67,25 @@ class homeController extends sharecontroller
         $this->middleware(function ($request, $next) {
         $this->id = Auth::user();
         if($this->id!=null){
-            $id = Auth::user()->id;
-            $sinhvien = sinhvien::where('idusers',$id)->get();
-            $giangvien = giangvien::where('idusers',$id)->get();    
-            view::share('sinhvien',$sinhvien);
-            view::share('giangvien',$giangvien);
+            $user = Auth::user();
+            $id = $user->id;
             view::share('iduser',$id);
+            view::share('user',$user);
+
+            $sinhvien = sinhvien::where('idusers',$id)->first();
+            $giangvien = giangvien::where('idusers',$id)->first();
+            
+            if(isset($sinhvien)){
+            $svlop = lop::find($sinhvien->idlop);
+            view::share('svlop',$svlop);
+            view::share('sinhvien',$sinhvien);
+            }
+            
+            if(isset($giangvien)){
+            $gvkhoa = khoa::find($giangvien->idkhoa);
+            view::share('gvkhoa',$gvkhoa);
+            view::share('giangvien',$giangvien);
+            }
             $dkdt = detai::join('sinhvien','sinhvien.id', 'detais.idsinhvien')
             ->where('idusers',$id)->get();
             view::share('dkdt',$dkdt); 
@@ -75,12 +98,110 @@ class homeController extends sharecontroller
     public function gethome(){
         return view('pages.home');
     }
-    //Trang cá nhân//
-    public function infor(){
-        if(Auth::check())
-        {   
-            return view('pages.inforuser');
-        }
+    //Thông tin cá nhân//
+    public function inforuser($id){
+        $inforuser = User::find($id);
+        $svinfor = sinhvien::where('idusers',$id);
+        $gvinfor = giangvien::where('idusers',$id);
+        return view('pages.inforuser');
+    }
+     //Chỉnh sửa thông tin//
+    public function editinfor(Request $request){
+        $usertable = User::find($request->id);
+        $user = $usertable->first();
+        $sv = sinhvien::where('idusers',$request->id)->first();
+        $gv = giangvien::where('idusers',$request->id)->first();
+            $this->validate($request,[
+                'email'=>['required','email',Rule::unique('users')->ignore($usertable->id)],
+                'ho'        => 'required',
+                'ten'       => 'required',
+                'gioitinh'  => 'required',
+                'sodt'      => 'required|numeric|min:10',
+                'diachi'    => 'required'
+            ],[
+                'email.required'=>'Bạn chưa nhập email',
+                'email.email'=>'Email không đúng định dạng',
+                'email.unique'=>'Email của bạn đã có người đăng ký',
+                'ho.required'=>'Bạn chưa nhập họ',
+                'ten.required'=>'Bạn chưa nhập tên',
+                'gioitinh.required'=>'Bạn chưa nhập giới tính',
+                'sodt.required'=>'Bạn chưa nhập số điện thoại',
+                'sodt.numeric'=>'Số điện thoại phải là một dãy số',
+                'sodt.min:10'=>'Số điện thoại phải có 10 số',
+                'diachi.required'=>'Bạn chưa nhập địa chỉ',
+            ]);
+            if(isset($request->password)){ 
+                    $this->validate($request,[
+                        'password' => 'required|min:6|max:32'
+                    ],[
+                        'password.required'=>'Bạn chưa nhập mật khẩu mới',
+                        'password.min:6'=>'Mật khẩu phải chứa nhiều hơn 6 ký tự và ít hơn 32 ký tự',
+                        'password.max:32'=>'Mật khẩu phải chứa nhiều hơn 6 ký tự và ít hơn 32 ký tự',
+                    ]);
+                    $usertable->password = bcrypt($request->password); 
+                    $usertable->save();  
+                }
+            if(isset($request->img)){
+                $img = $request->file('img');
+                $fileimg=['png','jpg','gif','jpeg','raw'];
+                $extension = $img->getClientOriginalExtension();
+                $checkfileimg=array($extension,$fileimg);
+                $name = $img->getClientOriginalName();
+                $img->move('img',$name);
+                $usertable->img = 'img/'.$name;
+                $usertable->save();  
+            }
+            if(isset($sv)){
+                $this->validate($request,[
+                    'ngaysinh'  => 'required',
+                    'lop'       => 'required',
+                    'quequan'   => 'required',
+                ],[
+                    'ngaysinh.required'=>'Bạn chưa nhập ngày sinh',
+                    'lop.required'=>'Bạn chưa nhập lớp',
+                    'quequan.required'=>'Bạn chưa nhập quê quán',
+                ]);
+                User::updateOrInsert(['email'=>$request->email]);
+                $sv->idlop = $request->lop;
+                $sv->ho = $request->ho;
+                $sv->ten = $request->ten;
+                $sv->gioitinh = $request->gioitinh;
+                $sv->ngaysinh = $request->ngaysinh;
+                $sv->quequan = $request->quequan;
+                $sv->diachi = $request->diachi;
+                $sv->sodt = $request->sodt;
+                $sv->save();
+                if($sv->save()){
+                    return redirect()->back()->with('status','Đã sửa thành công');
+                }else{
+                    return redirect()->back()
+                    ->with('status',"Xãy ra lỗi trong quá trình sửa");
+                }
+            }
+            if(isset($gv)){
+                $this->validate($request,[
+                    'khoa' => 'required',
+                    'hocvi' => 'required',
+                ],[
+                    'khoa.required'=>'Bạn chưa nhập khoa',
+                    'hocvi.required'=>'Bạn chưa nhập học vị',
+                ]);
+                User::updateOrInsert(['email'=>$request->email]);
+                $gv->idkhoa = $request->khoa;
+                $gv->ho = $request->ho;
+                $gv->ten = $request->ten;
+                $gv->gioitinh = $request->gioitinh;
+                $gv->hocvi = $request->hocvi;
+                $gv->diachi = $request->diachi;
+                $gv->sodt = $request->sodt;
+                $gv->save();
+                if($gv->save()){
+                    return redirect()->back()->with('status','Đã sửa thành công');
+                }else{
+                    return redirect()->back()
+                    ->with('status',"Xãy ra lỗi trong quá trình sửa");
+                }
+            }
     }
     //Đề tài sinh viên
     public function userdetai($id){
@@ -88,7 +209,7 @@ class homeController extends sharecontroller
         $iddetai = $detai->id;
         $source = source::where('iddetai',$iddetai)->get();
         $idedit = sinhvien::find($id)->idusers;
-        return view('pages.inforuser',['detai'=>$detai,'idedit'=>$idedit,'source'=>$source]);
+        return view('pages.userdetai',['detai'=>$detai,'idedit'=>$idedit,'source'=>$source]);
     }
     //Chỉnh sửa đề tài 
     public function editdetai(Request $request){
@@ -138,7 +259,6 @@ class homeController extends sharecontroller
             }       
         }
     
-    
         $detai->tendetai = $request->tendetai;
         $detai->tomtat = $request->tomtat;
         $detai->noidung = $request->noidung;
@@ -177,13 +297,7 @@ class homeController extends sharecontroller
 
     //Đăng ký đề tài//    
     public function getdkdetai(){
-        if(Auth::check())
-        {   
-            return view('pages.dangkydetai');
-        }
-        else{
-            return redirect()->route('getlogin');
-        }
+        return view('pages.dangkydetai');
     }
     //Xử lý đăng ký//
     public function dkdetai(Request $request){
@@ -214,7 +328,6 @@ class homeController extends sharecontroller
         $detai->noidung = $request->noidung;
         $detai->tiendo = 0;
         $detai->daduyet = 0;
-        $detai->thamkhao = 0;
         $detai->idgvhd = $request->gv;
         $detai->save();
         if($sinhvien->save() && $detai->save()){
@@ -225,7 +338,7 @@ class homeController extends sharecontroller
 
     //Duyệt đề tài//
     public function getduyetdt(){
-        return view('pages.duyetdetai');
+        return view('layout.admin.duyetdetai');
     }
     public function duyetdt(Request $request){
         $duyetdt = detai::find($request->id);
@@ -240,12 +353,12 @@ class homeController extends sharecontroller
         $duyetdt->delete();
     }
     
-    //Tham khảo//
+    //Danh sách tham khảo//
     public function thamkhao(){
         return view('pages.thamkhao');
     }
-    public function tailieu(Request $request){
-        $tailieu = detai::find($request->id);
+    public function tailieu($id){
+        $tailieu = thamkhao::find($id);
         return view('pages.tailieu',['tailieu'=>$tailieu]);
     }
     //Thêm tham khảo//
@@ -253,39 +366,33 @@ class homeController extends sharecontroller
         $this->validate($request,[
             'tieude'=>'required',
             'tomtat'=>'required',
-            // 'file'=>'required',
             'noidung'=>'required'
         ],[
             'tieude.required'=>'Chưa nhập tiêu đề',
             'tomtat.required'=>'Chưa nhập tóm tắt',
-            // 'file.required'=>'Chưa chọn file',
             'noidung.required'=>'Chưa nhập nội dung'
         ]);
-        $detai = new detai;
-        $detai->tendetai = $request->tieude;
-        $detai->tomtat = $request->tomtat;
-        // $file = $request->file('file');
-        // if($file-> getClientMimeType('file') != "file/php"){
-        //     $name = $file->getClientOriginalName('file');
-        //     $file->move('file',$name);
-        //     $detai->file = 'file/'.$name;
-        // }
-        $detai->noidung = $request->noidung;
-        $detai->tiendo = 0;
-        $detai->daduyet = 0;
-        $detai->thamkhao = 1;
-        $detai->idsinhvien = 1;
-        $detai->save();
-        if($detai->save()){
+        $thamkhao = new thamkhao;
+        $thamkhao->tieude = $request->tieude;
+        $thamkhao->tomtat = $request->tomtat;
+        if(isset($request->file)){
+            $img = $request->file('img');
+            $name = $img->getClientOriginalName();
+            $img->move('img',$name);
+            $thamkhao->img = 'img/'.$name;
+        }
+        $thamkhao->noidung = $request->noidung;
+        $thamkhao->save();
+        if($thamkhao->save()){
             return redirect()->back()->with('status','Đã thêm thành công');
         }else{
             return redirect()->back()->with('status', 'Xãy ra lỗi trong quá trình thêm');
         }
     }   
     public function editThamkhao(Request $request){
-        $detai = detai::find($request->id);
+        $thamkhao = thamkhao::find($request->id);
             $this->validate($request,[
-                'tieude'=>['required',Rule::unique('detais')->ignore($detai->id)],
+                'tieude'=>['required',Rule::unique('thamkhao')->ignore($thamkhao->id)],
                 'tomtat'=>'required',
                 'noidung'=>'required'
             ],[
@@ -295,20 +402,20 @@ class homeController extends sharecontroller
                 'noidung.required'=>'Chưa nhập nội dung'
             ]);
         
-        $detai->tendetai = $request->tieude;
-        $detai->tomtat = $request->tomtat;
-        $detai->noidung = $request->noidung;
-        $detai->save();
-        if($detai->save()){
-            return redirect()->route('thamkhao')->with('status','Đã sửa thành công');
+        $thamkhao->tieude = $request->tieude;
+        $thamkhao->tomtat = $request->tomtat;
+        $thamkhao->noidung = $request->noidung;
+        $thamkhao->save();
+        if($thamkhao->save()){
+            return redirect()->back()->with('status','Đã sửa thành công');
         } else{
-            return redirect()->route('thamkhao')
+            return redirect()->back()
             ->with('status',"Xãy ra lỗi trong quá trình sửa");
         }
     }
     //Xóa tham khảo//
     public function delThamkhao(Request $request){
-        $delthamkhao = detai::find($request->id);
+        $delthamkhao = thamkhao::find($request->id);
         $delthamkhao->delete();
     }
 
@@ -387,7 +494,7 @@ class homeController extends sharecontroller
 
     //Quản lý người dùng//
     public function quanlyUser() {
-        return view('admin');
+        return view('layout.admin.admin');
     }
     //Sửa người dùng//
     public function editUser(Request $request){
@@ -422,8 +529,7 @@ class homeController extends sharecontroller
         $idgv = $giangvien->id;
         $dssvhd = sinhvien::join('detais','detais.idsinhvien','sinhvien.id')
         ->where('daduyet','1')
-        ->where('thamkhao','0')
         ->where('idgvhd',$idgv)->get();
-        return view('pages.svhuongdan',['dssvhd'=>$dssvhd]);
+        return view('layout.admin.svhuongdan',['dssvhd'=>$dssvhd]);
     }
 }

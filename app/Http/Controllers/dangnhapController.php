@@ -32,10 +32,11 @@ class dangnhapController extends Controller
 
     public function login(Request $request){
         $this->validate($request,[
-        'email' =>'required',
+        'email' =>'required|email',
         'password' => 'required|min:6'
         ],[
             'email.required' => 'Bạn chưa nhập email',
+            'email.email' => 'Email không đúng định dạng',
             'password.required' => 'Bạn chưa nhập mật khẩu',
             'password.min' => 'Mật khẩu chứa ít nhất 6 ký tự',
         ]);
@@ -57,18 +58,6 @@ class dangnhapController extends Controller
         return redirect()->route('getlogin');
     }
 
-    public function infor(){
-        if(Auth::check())
-        {
-            $id = Auth::user()->id;
-            $sinhvien = sinhvien::where('idusers',$id)->get();
-            $giangvien = giangvien::where('idusers',$id)->get();
-            view()->share('id',$id);
-            view()->share('sinhvien',$sinhvien);
-            view()->share('giangvien',$giangvien);
-        }
-        return view('pages.inforuser');
-    }
 }
 
 
