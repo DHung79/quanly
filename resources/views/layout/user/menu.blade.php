@@ -29,8 +29,8 @@
     <li class="nav-item active">
       <a class="nav-link">
         {{-- <i class="fas fa-fw fa-tachometer-alt"></i> --}}
-        <div style="text-align: center;"><i class="fas fa-fw fa-user-tie" style=""></i>
-        <span>Giảng viên</span></div>
+        <i class="fas fa-fw fa-user-tie" style=""></i>
+        <span>Giảng viên</span>
       </a>
     </li>
   @endif
