@@ -23,6 +23,7 @@
                 <tr>
                     <th>STT</th>
                     <th>Sinh viên thực hiện</th>
+                    <th>Lớp</th>
                     <th>Tên đề tài</th>
                     <th>Tóm tắt</th>
                     <th>GVHD</th>
@@ -35,6 +36,7 @@
                             <tr>
                                 <th scope="row">{{$stt++}}</th>
                                 <td>{{$dt->hoten}}</td>
+                                <td>{{$sinhvienlop->where('idlop',$dt->idlop)->first()->tenlop}}</td>
                                 <td><a href="{{route('userdetai',['id'=>$dt->id])}}" 
                                     style=" text-decoration: none; color: #000000e6;">
                                     {{$dt->tendetai}}</a></td>
