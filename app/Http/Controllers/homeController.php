@@ -46,6 +46,8 @@ class homeController extends sharecontroller
 
         $danhsachdt = detai::join('sinhvien','sinhvien.id','detais.idsinhvien')
         ->where('daduyet','1')->get();
+        $sinhvienlop = sinhvien::join('lop','lop.id','sinhvien.idlop')->get();
+        view::share('sinhvienlop',$sinhvienlop);
         view::share('danhsachdt',$danhsachdt);
 
         $thamkhao = thamkhao::get();
