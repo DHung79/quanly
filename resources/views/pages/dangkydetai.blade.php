@@ -39,12 +39,10 @@
                     <div class="col-xl-4">
                         <p class="mt-7">
                         Sinh viên: 
-                    @foreach ($sinhvien as $sv)
-                        {{$sv->ho}}     
-                        {{$sv->ten}}
+                        {{$sinhvien->ho}}     
+                        {{$sinhvien->ten}}
                         </p> 
-                        <input type="hidden" name="idsinhvien" value={{$sv->id}}>
-                    @endforeach
+                        <input type="hidden" name="idsinhvien" value={{$sinhvien->id}}>
                 @endif
             @endif
                     <h4 class="small font-weight-bold">Giảng viên hướng dẫn:</h4>

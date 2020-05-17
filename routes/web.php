@@ -57,7 +57,7 @@ Route::group(['prefix'=>'thamkhao'],function(){
     Route::post('del','homeController@delThamkhao')->name('delthamkhao');
 });
 
-Route::get('detai/{id}','homeController@userdetai')->name('userdetai');
+Route::get('detai/{id}','homeController@userdetai')->name('userdetai')->middleware('isdangky');
 Route::post('editdetai','homeController@editdetai')->name('editdetai');
 Route::post('deldetai','homeController@deldetai')->name('deldetai');
 

@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
         'islogin'=>\App\Http\Middleware\CheckLoginMiddleware::class,
         'issuperadmin' =>\App\Http\Middleware\superadminMiddleware::class,
         'isdaduyet' =>\App\Http\Middleware\dangkydetaiMiddleware::class,
+        'isdangky' =>\App\Http\Middleware\detaiMiddleware::class,
     ];
 
     /**
