@@ -33,6 +33,17 @@
                             </option>
                             @endforeach
                         </select>
+                        <h4 class="small font-weight-bold">Giảng viên hướng dẫn:</h4>
+                        <select class="form-control form-group" name='gv' >
+                            <option value=""hidden>Giảng viên hướng dẫn:</option>
+                            @foreach($gvlist as $gv)
+                            <option value="{{$gv->id}}">
+                                {{$gv->hocvi}}. 
+                                {{$gv->ho}}    
+                                {{$gv->ten}}
+                            </option>
+                            @endforeach
+                        </select>
                 @endif
                 @if(Auth::user()->level==3)
                 <div class="row">
@@ -43,19 +54,19 @@
                         {{$sinhvien->ten}}
                         </p> 
                         <input type="hidden" name="idsinhvien" value={{$sinhvien->id}}>
+                        <h4 class="small font-weight-bold">Giảng viên hướng dẫn:</h4>
+                        <select class="form-control form-group" name='gv' >
+                            <option value=""hidden>Giảng viên hướng dẫn:</option>
+                            @foreach($gvhdkhoa as $gv)
+                            <option value="{{$gv->id}}">
+                                {{$gv->hocvi}}. 
+                                {{$gv->ho}}    
+                                {{$gv->ten}}
+                            </option>
+                            @endforeach
+                        </select>
+                    @endif
                 @endif
-            @endif
-                    <h4 class="small font-weight-bold">Giảng viên hướng dẫn:</h4>
-                    <select class="form-control form-group" name='gv' >
-                        <option value=""hidden>Giảng viên hướng dẫn:</option>
-                        @foreach($gvlist as $gv)
-                        <option value="{{$gv->id}}">
-                            {{$gv->hocvi}}. 
-                            {{$gv->ho}}    
-                            {{$gv->ten}}
-                        </option>
-                        @endforeach
-                    </select>
                     <div class="row">
                         <div class="col-xl-12">
                             <h4 class="small font-weight-bold">Tên đề tài:</h4>

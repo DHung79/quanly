@@ -76,16 +76,6 @@
         <i class="fas fa-fw fa-user-graduate"></i>
         <span>Sinh viên</span></a>
     </li>
-  @endif
-  @else 
-    <!-- Nav Item - Dashboard -->
-    <li class="nav-item active">
-      <a class="nav-link">
-        <img class="img-profile rounded-circle" src="\bootstrap\bootstrap_table_login\img\Untitled-1.png">
-        <span>ĐH thông tin liên lạc</span><br>
-      </a>
-    </li>
-@endif
     <!-- Divider -->
     <hr class="sidebar-divider">
 
@@ -111,6 +101,42 @@
         <i class="fas fa-fw fa-book"></i>
         <span>Tham khảo</span>
       </a>
+  @endif
+  @else 
+    <!-- Nav Item - Dashboard -->
+    <li class="nav-item active">
+      <a class="nav-link">
+        <img class="img-profile rounded-circle" src="\bootstrap\bootstrap_table_login\img\Untitled-1.png">
+        <span>ĐH thông tin liên lạc</span><br>
+      </a>
+    </li>
+    <!-- Divider -->
+    <hr class="sidebar-divider">
+
+    <!-- Heading -->
+    <div class="sidebar-heading" style="font-size: .75rem;">
+      Đề tài khoa học
+    </div>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{{route('dsdetai')}}" data-toggle="" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        {{-- <i class="fas fa-fw fa-cog"></i> --}}
+        <i class="fas fa-fw fa-clipboard-list"></i>
+        <span>Danh sách đề tài</span>
+      </a>
+    <a class="nav-link collapsed" href="{{route('getdkdetai')}}" data-toggle="" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        {{-- <i class="fas fa-fw fa-cog"></i> --}}
+        <i class="fas fa-fw fa-edit"></i>
+        <span>Đăng ký đề tài</span>
+      </a>
+      <a class="nav-link collapsed" href="{{route('thamkhao')}}" data-toggle="" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+        {{-- <i class="fas fa-fw fa-cog"></i> --}}
+        <i class="fas fa-fw fa-book"></i>
+        <span>Tham khảo</span>
+      </a>
+@endif
+    
       <li></li>
       {{-- <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
         <div class="bg-white py-2 collapse-inner rounded">

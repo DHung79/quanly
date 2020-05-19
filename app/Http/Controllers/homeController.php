@@ -78,9 +78,11 @@ class homeController extends sharecontroller
             $giangvien = giangvien::where('idusers',$id)->first();
             
             if(isset($sinhvien)){
-            $svlop = lop::find($sinhvien->idlop);
+            $svlop = lop::where('id',$sinhvien->idlop)->first();
+            $gvhdkhoa = giangvien::where('idkhoa',$svlop->idkhoa)->get();
             view::share('svlop',$svlop);
             view::share('sinhvien',$sinhvien);
+            view::share('gvhdkhoa',$gvhdkhoa);
             }
             
             if(isset($giangvien)){
