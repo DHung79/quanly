@@ -21,15 +21,19 @@ class detaiMiddleware
     {
         if(Auth::check()){
             $user = Auth::user();
-            $iduser = $user->id;
-            $sinhvien = sinhvien::where('idusers',$iduser)->first();
-            $idsinhvien = $sinhvien->id;
-            $dangkydetai = sinhvien::join('detais','detais.idsinhvien', 'sinhvien.id')
-            ->where('idsinhvien',$idsinhvien)->first();
-            if(isset($dangkydetai)){
+            if($user->level == 1||$user->level == 2){
                 return $next($request);
-            }else{
-                return redirect()->route('getdkdetai');
+            }if($user->level == 3){
+                $iduser = $user->id;
+                $sinhvien = sinhvien::where('idusers',$iduser)->first();
+                $idsinhvien = $sinhvien->id;
+                $dangkydetai = sinhvien::join('detais','detais.idsinhvien', 'sinhvien.id')
+                ->where('idsinhvien',$idsinhvien)->first();
+                if(isset($dangkydetai)){
+                    return $next($request);
+                }else{
+                    return redirect()->route('getdkdetai');
+                }
             }
         }
     }
