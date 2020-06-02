@@ -207,7 +207,15 @@ class homeController extends sharecontroller
                 }
             }
     }
-    //Đề tài sinh viên
+     //Đề tài sinh viên
+    public function detaiprivate(Request $request){
+        $detai = detai::where('idsinhvien',$request->idsinhvien)->first();
+        $iddetai = $detai->id;
+        $source = source::where('iddetai',$iddetai)->get();
+        $idedit = sinhvien::find($request->idsinhvien)->idusers;
+        return view('pages.userdetai',['detai'=>$detai,'idedit'=>$idedit,'source'=>$source]);
+    }
+
     public function userdetai($id){
         $detai = detai::where('idsinhvien',$id)->first();
         $iddetai = $detai->id;
