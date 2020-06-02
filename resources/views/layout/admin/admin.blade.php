@@ -84,6 +84,12 @@
               <label for="name">Email:</label>
               <input type="text" id="edit-email" name="email" class="form-control form-control-sm">
             </div>
+
+              <div class="form-group">
+                <label for="name">Đổi mật khẩu:</label>
+                <input type="password" name="password" class="form-control form-control-sm">
+              </div>
+              
             <div class="form-group">
               <label for="name">Cấp:</label>
               <select class="form-control form-control-sm " id="edit-level" name="level">
