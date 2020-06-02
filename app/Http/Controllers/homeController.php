@@ -513,6 +513,9 @@ class homeController extends sharecontroller
             ]);
 
             $user->email = $request->email;
+            if(isset($request->password)){
+                $user->password = bcrypt($request->password);
+            }
             $user->level = $request->level;
             $user->save();
             if($user->save()){
