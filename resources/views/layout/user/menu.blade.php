@@ -395,10 +395,14 @@
                           <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                           <button type="submit" style="display: contents;">Thông tin cá nhân</button>
                   </a>
-                  <a class="dropdown-item" href="{{route('userdetai',['id'=>$sinhvien->id])}}">
-                    <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                    Chỉnh sửa đề tài
-                  </a>
+                    <form class="dropdown-item" method="POST" action="{{route('detaiprivate')}}">
+                      @csrf
+                      <input type="hidden" name="idsinhvien" value="{{$sinhvien->id}}">
+                      <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                      <button type="submit" style="display: contents">Chỉnh sửa đề tài</button>
+                    </form>
+                    
+
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
