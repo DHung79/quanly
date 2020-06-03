@@ -78,7 +78,15 @@
     </div>
 
     @if(Auth::check())
-        @if(Auth::user()->level==1||Auth::user()->level==2||Auth::user()->id==$idedit)
+        @if(Auth::user()->level==1||Auth::user()->level==2)
+        <div class="row" style="margin: 10px 0px 10px 10px;">
+            <div class="col-md-2 col-6 " >
+                <a href="javascript:" class="btn btn-split btn-success edit-btn">
+                    Chỉnh sửa và đánh giá tiến độ</a>
+            </div>
+        </div>
+        @endif
+        @if(Auth::user()->id==$idedit)
         <div class="row" style="margin: 10px 0px 10px 10px;">
             <div class="col-md-1 col-6 " >
                 <a href="javascript:" class="btn btn-split btn-success edit-btn">
