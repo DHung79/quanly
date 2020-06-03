@@ -68,7 +68,7 @@
             </div>
             <div class="row">
                 <div class="col-md-1 col-6">
-                    <button type="submit" class="btn btn-success btn-md " name="">Sửa</button>
+                    <button type="submit" class="btn btn-success btn-md " name="">Cập nhật</button>
                 </div>
                 <div class="col-md-1 col-6">
                     <button type="button" id="cancel-edit" class="btn btn-primary btn-md " style="background: #dc3545; border-color: #dc3545;">Hủy</button>
