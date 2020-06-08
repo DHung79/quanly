@@ -53,7 +53,7 @@
                         {{$sinhvien->ho}}     
                         {{$sinhvien->ten}}
                         </p> 
-                        <input type="hidden" name="idsinhvien" value={{$sinhvien->id}}>
+                        <input type="hidden" name="idsv" value={{$sinhvien->id}}>
                         <h4 class="small font-weight-bold">Giảng viên hướng dẫn:</h4>
                         <select class="form-control form-group" name='gv' >
                             <option value=""hidden>Giảng viên hướng dẫn:</option>
