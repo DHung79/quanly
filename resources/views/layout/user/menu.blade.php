@@ -68,6 +68,15 @@
       </div>
     </li>
   @endif
+  @if(Auth::user()->level==2)
+  <li class="nav-item">
+    <a class="nav-link collapsed" href="{{route('getdkdetai')}}" data-toggle="" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+      {{-- <i class="fas fa-fw fa-cog"></i> --}}
+      <i class="fas fa-fw fa-edit"></i>
+      <span>Đăng ký đề tài</span>
+    </a>
+  </li>
+  @endif
   @if(Auth::user()->level==3)
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
