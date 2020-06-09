@@ -36,14 +36,24 @@
                 @if($dt->count() > 0)
                     <tr>
                     <th scope="row">{{$stt++}}</th>
-                    <td>{{$dt->ho}} {{$dt->ten}}</td>
-                    <td>{{$sinhvienlop->where('idlop',$dt->idlop)->first()->tenlop}}</td>
+                    @if($svlist->where('idusers',$dt->idtacgia)->count() > 0)
+                        <td>{{$svlist->where('idusers',$dt->idtacgia)->first()->hotensv}}</td>
+                        <td>{{$sinhvienlop->where('idusers',$dt->idtacgia)->first()->tenlop}}</td>
+                    @endif
+                    @if($gvlist->where('idusers',$dt->idtacgia)->count() > 0)
+                        <td>{{$gvlist->where('idusers',$dt->idtacgia)->first()->hotengv}}</td>
+                        <td>{{$giangvienkhoa->where('idusers',$dt->idtacgia)->first()->tenkhoa}}</td>
+                    @endif
                     <td>
                         <a href="{{route('userdetai',['id'=>$dt->id])}}" 
                         style=" text-decoration: none; color: #000000e6;">
                         {{$dt->tendetai}}</a>
                     </td>
-                    <td>{{$dt->gvhd}}</td>
+                    @if($gvhdlist->where('id',$dt->idgvhd)->count() > 0)
+                        <td>{{$gvhdlist->where('id',$dt->idgvhd)->first()->hotengv}}</td>
+                    @else
+                        <td></td>
+                    @endif
                     <td>{{$dt->tiendo}}%
                         <div class="progress mb-4">
                         <div class="progress-bar" role="progressbar" style="width: {{$dt->tiendo}}%" aria-valuenow="{{$dt->tiendo}}" aria-valuemin="0" aria-valuemax="100"></div>

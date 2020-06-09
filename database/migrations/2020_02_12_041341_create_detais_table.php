@@ -22,8 +22,8 @@ class CreateDetaisTable extends Migration
             $table->boolean('daduyet');
             $table->unsignedBigInteger('idgvhd')->nullable();
             $table->foreign('idgvhd')->references('id')->on('giangvien')->onDelete('cascade');
-            $table->unsignedBigInteger('idsinhvien');
-            $table->foreign('idsinhvien')->references('id')->on('sinhvien')->onDelete('cascade');
+            $table->unsignedBigInteger('idtacgia');
+            $table->foreign('idtacgia')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

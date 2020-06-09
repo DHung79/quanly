@@ -21,7 +21,7 @@
             </span>
             @endif
             @if(Auth::check())
-                @if(Auth::user()->level==1||Auth::user()->level==2)
+                @if(Auth::user()->level==1)
                 <div class="row" style="margin-top: 10px">
                     <div class="col-xl-4">
                         <h4 class="small font-weight-bold">Sinh viên:</h4>
@@ -44,6 +44,16 @@
                             </option>
                             @endforeach
                         </select>
+                @endif
+                @if(Auth::user()->level==2)
+                <div class="row">
+                    <div class="col-xl-4">
+                        <p class="mt-7">
+                            Giảng viên: 
+                        {{$giangvien->ho}}     
+                        {{$giangvien->ten}}
+                        </p> 
+                        <input type="hidden" name="idtg" value={{$giangvien->idusers}}>
                 @endif
                 @if(Auth::user()->level==3)
                 <div class="row">

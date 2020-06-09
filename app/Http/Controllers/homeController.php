@@ -44,24 +44,33 @@ class homeController extends sharecontroller
         $users = user::get();
         view::share('users',$users);
 
-        $danhsachdt = detai::join('sinhvien','sinhvien.id','detais.idsinhvien')
+        $danhsachdt = detai::join('users','users.id','detais.idtacgia')->select('detais.*','users.*')
         ->where('daduyet','1')->get();
+        view::share('danhsachdt',$danhsachdt);
+
         $sinhvienlop = sinhvien::join('lop','lop.id','sinhvien.idlop')->get();
         view::share('sinhvienlop',$sinhvienlop);
-        view::share('danhsachdt',$danhsachdt);
+        
+        $giangvienkhoa = giangvien::join('khoa','khoa.id','giangvien.idkhoa')->get();
+        view::share('giangvienkhoa', $giangvienkhoa);
 
         $thamkhao = thamkhao::get();
         view::share('thamkhao',$thamkhao);
 
-        $duyet = sinhvien::join('detais','detais.idsinhvien', 'sinhvien.id')
-        ->select(DB::raw('CONCAT(ho, " ", ten) AS hoten'),'sinhvien.*','detais.*')
+        $duyet = detai::join('users','users.id','detais.idtacgia')->select('detais.*','users.*')
         ->where('daduyet','0')->get();
         view::share('duyet',$duyet);
 
-        $gvlist = giangvien::get();
+        $gvlist = giangvien::join('users','users.id','giangvien.idusers')->select(DB::raw('CONCAT(ho, " ", ten) AS hotengv'),'giangvien.*','users.*')->get();
         view::share('gvlist',$gvlist);
 
-        $svlist = sinhvien::get();
+        $gvhdlist = giangvien::select(DB::raw('CONCAT(ho, " ",ten) AS hotengv'),'id')->get();
+        view::share('gvhdlist',$gvhdlist);
+
+        $listsv = sinhvien::select(DB::raw('CONCAT(ho, " ",ten) AS hotensv'),'id')->get();
+        view::share('listsv',$listsv);
+
+        $svlist = sinhvien::join('users','users.id','sinhvien.idusers')->select(DB::raw('CONCAT(ho, " ", ten) AS hotensv'),'sinhvien.*','users.*')->get();
         view::share('svlist',$svlist);
         
         // $this->middleware('auth')->except('logout');
@@ -86,12 +95,13 @@ class homeController extends sharecontroller
             }
             
             if(isset($giangvien)){
-            $gvkhoa = khoa::find($giangvien->idkhoa);
+            $gvkhoa = khoa::where('id',$giangvien->idkhoa)->first();
             view::share('gvkhoa',$gvkhoa);
             view::share('giangvien',$giangvien);
             }
-            $dkdt = detai::join('sinhvien','sinhvien.id', 'detais.idsinhvien')
-            ->where('idusers',$id)->get();
+            $dkdt = detai::join('users','users.id','detais.idtacgia')
+            ->select('detais.*','users.*')
+            ->where('idtacgia',$id)->get();
             view::share('dkdt',$dkdt); 
             return $next($request);
         }else{
@@ -208,25 +218,29 @@ class homeController extends sharecontroller
             }
     }
      //Đề tài sinh viên
-    public function detaiprivate(Request $request){
-        $detai = detai::where('idsinhvien',$request->idsinhvien)->first();
-        $iddetai = $detai->id;
-        $source = source::where('iddetai',$iddetai)->get();
-        $idedit = sinhvien::find($request->idsinhvien)->idusers;
-        return view('pages.userdetai',['detai'=>$detai,'idedit'=>$idedit,'source'=>$source]);
+    public function detaiprivate($id){
+        $detai = detai::where('idtacgia',$id)->first();
+        if(isset($detai)){
+            $iddetai = $detai->id;
+            $source = source::where('iddetai',$iddetai)->get();
+            $idedit = $detai->idtacgia;
+            return view('pages.userdetai',['detai'=>$detai,'idedit'=>$idedit,'source'=>$source]);
+        }else{
+            return redirect()->route('getdkdetai');
+        }
     }
 
     public function userdetai($id){
-        $detai = detai::where('idsinhvien',$id)->first();
+        $detai = detai::where('idtacgia',$id)->first();
         $iddetai = $detai->id;
         $source = source::where('iddetai',$iddetai)->get();
-        $idedit = sinhvien::find($id)->idusers;
+        $idedit = $detai->idtacgia;
         return view('pages.userdetai',['detai'=>$detai,'idedit'=>$idedit,'source'=>$source]);
     }
     //Chỉnh sửa đề tài 
     public function editdetai(Request $request){
         $detai = detai::find($request->id);
-        $idsv = $detai->idsinhvien;
+        $idtg = $detai->idtacgia;
             $this->validate($request,[
                 'tendetai'=>['required',Rule::unique('detais')->ignore($detai->id)],
                 'tomtat'=>'required',
@@ -281,9 +295,9 @@ class homeController extends sharecontroller
         }
         $detai->save();
         if($detai->save()){
-            return redirect()->route('userdetai',['id'=>$idsv])->with('status','Đã sửa thành công');
+            return redirect()->route('userdetai',['id'=>$idtg])->with('status','Đã sửa thành công');
         } else{
-            return redirect()->route('userdetai',['id'=>$idsv])
+            return redirect()->route('userdetai',['id'=>$idtg])
             ->with('status',"Xãy ra lỗi trong quá trình sửa");
         }
     }
@@ -295,7 +309,7 @@ class homeController extends sharecontroller
     }
     //Xóa đề tài //
     public function deldetai(Request $request){
-        $deldetai = detai::where('idsinhvien',$request->id)->first();
+        $deldetai = detai::where('idtacgia',$request->id)->first();
         $iddetai = $deldetai->id;
         $delfile = source::where('iddetai',$iddetai);
         File::delete('file/'.$delfile->tenfile);
@@ -313,38 +327,65 @@ class homeController extends sharecontroller
     }
     //Xử lý đăng ký//
     public function dkdetai(Request $request){
-        $this->validate($request,[
-            'idsv'=> 'required',
-            'tomtat'=> 'required',
-            'noidung'=> 'required',
-            'gv'=> 'required',
-            'tendt'=> 'required'
-        ],[
-            'idsv.required'=> 'Chưa chọn sinh viên',
-            'tomtat.required'=>'Chưa nhập tóm tắt',
-            'noidung.required'=>'Chưa nhập nội dung',
-            'gv.required' =>'Chưa chọn gvhd',
-            'tendt.required'=>'Bạn chưa nhập tên đề tài'
-        ]);
-        $giangvien = giangvien::find($request->gv);
-        $tengv = $giangvien->ten;
-        $hogv = $giangvien->ho;
-        $hotengv = "$hogv $tengv";
-        $sinhvien = sinhvien::find($request->idsv);
-        $sinhvien->gvhd = $hotengv;
-        $sinhvien->save();
-        $detai = new detai;
-        $detai->idsinhvien = $request->idsv;
-        $detai->tendetai = $request->tendt;
-        $detai->tomtat = $request->tomtat;
-        $detai->noidung = $request->noidung;
-        $detai->tiendo = 0;
-        $detai->daduyet = 0;
-        $detai->idgvhd = $request->gv;
-        $detai->save();
-        if($sinhvien->save() && $detai->save()){
-            return redirect()->route('getdkdetai')
-            ->with('status',"Đăng ký đề tài thành công");
+        if(Auth::user()->level == 3){
+            $this->validate($request,[
+                'idtg'=> 'required',
+                'tomtat'=> 'required',
+                'noidung'=> 'required',
+                'gv'=> 'required',
+                'tendt'=> 'required'
+            ],[
+                'idsv.required'=> 'Chưa chọn sinh viên',
+                'tomtat.required'=>'Chưa nhập tóm tắt',
+                'noidung.required'=>'Chưa nhập nội dung',
+                'gv.required' =>'Chưa chọn gvhd',
+                'tendt.required'=>'Bạn chưa nhập tên đề tài'
+            ]);
+            $giangvien = giangvien::find($request->gv);
+            $tengv = $giangvien->ten;
+            $hogv = $giangvien->ho;
+            $hotengv = "$hogv $tengv";
+            $sinhvien = sinhvien::find($request->idsv);
+            $sinhvien->gvhd = $hotengv;
+            $sinhvien->save();
+            $detai = new detai;
+            $detai->idtacgia = $request->idtg;
+            $detai->tendetai = $request->tendt;
+            $detai->tomtat = $request->tomtat;
+            $detai->noidung = $request->noidung;
+            $detai->tiendo = 0;
+            $detai->daduyet = 0;
+            $detai->idgvhd = $request->gv;
+            $detai->save();
+            if($sinhvien->save() && $detai->save()){
+                return redirect()->route('getdkdetai')
+                ->with('status',"Đăng ký đề tài thành công");
+            }
+        }
+        if(Auth::user()->level == 2){
+            $this->validate($request,[
+                'idtg'=> 'required',
+                'tomtat'=> 'required',
+                'noidung'=> 'required',
+                'tendt'=> 'required'
+            ],[
+                'idsv.required'=> 'Chưa nhập tác giả',
+                'tomtat.required'=>'Chưa nhập tóm tắt',
+                'noidung.required'=>'Chưa nhập nội dung',
+                'tendt.required'=>'Bạn chưa nhập tên đề tài'
+            ]);
+            $detai = new detai;
+            $detai->idtacgia = $request->idtg;
+            $detai->tendetai = $request->tendt;
+            $detai->tomtat = $request->tomtat;
+            $detai->noidung = $request->noidung;
+            $detai->tiendo = 0;
+            $detai->daduyet = 0;
+            $detai->save();
+            if($detai->save()){
+                return redirect()->route('getdkdetai')
+                ->with('status',"Đăng ký đề tài thành công");
+            }
         }
     }
 
@@ -353,14 +394,14 @@ class homeController extends sharecontroller
         return view('layout.admin.duyetdetai');
     }
     public function duyetdt(Request $request){
-        $duyetdt = detai::find($request->id);
+        $duyetdt = detai::where('idtacgia',$request->id)->first();
         $this->validate($request,[]);
         $duyetdt->daduyet = 1;
         $duyetdt->save();
         }
     //Xóa đề tài duyệt//
     public function delduyetdetai(Request $request){
-        $duyetdt = detai::find($request->id);
+        $duyetdt = detai::where('idtacgia',$request->id)->first();
         $this->validate($request,[]);
         $duyetdt->delete();
     }
@@ -543,7 +584,7 @@ class homeController extends sharecontroller
         $iduser = Auth::user()->id;
         $giangvien = giangvien::where('idusers',$iduser)->first();
         $idgv = $giangvien->id;
-        $dssvhd = sinhvien::join('detais','detais.idsinhvien','sinhvien.id')
+        $dssvhd = detai::join('users','users.id','detais.idtacgia')
         ->where('daduyet','1')
         ->where('idgvhd',$idgv)->get();
         return view('layout.admin.svhuongdan',['dssvhd'=>$dssvhd]);

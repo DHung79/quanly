@@ -8,8 +8,8 @@ class detai extends Model
 {
     protected $table = "detais";
     
-    public function sinhvien(){
-        return $this->belongsTo('App\sinhvien','idsinhvien','id');
+    public function tacgia(){
+        return $this->belongsTo('App\user','idtacgia','id');
     }
     public function giangvien(){
         return $this->belongsTo('App\giangvien','idgvhd','id');

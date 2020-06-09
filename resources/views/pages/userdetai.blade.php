@@ -12,7 +12,7 @@
 
 <div class="card shadow mb-4">
 <div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold text-primary">{{$detai->tendetai}}</h6>
+    <h6 class="m-0 font-weight-bold text-primary">Đề tài, công trình nghiên cứu khoa học: {{$detai->tendetai}}</h6>
 </div>
     
     <span class="error-center" style="margin: 5px 25px;">
@@ -67,7 +67,7 @@
                 @endif
             </div>
             <div class="row">
-                <div class="col-md-1 col-6">
+                <div class="col-md-2 col-6">
                     <button type="submit" class="btn btn-success btn-md " name="">Cập nhật</button>
                 </div>
                 <div class="col-md-1 col-6">
@@ -80,13 +80,13 @@
     @if(Auth::check())
         @if(Auth::user()->level==1||Auth::user()->level==2)
         <div class="row" style="margin: 10px 0px 10px 10px;">
-            <div class="col-md-2 col-6 " >
+            <div class="col-md-4 col-6 " >
                 <a href="javascript:" class="btn btn-split btn-success edit-btn">
                     Chỉnh sửa và đánh giá tiến độ</a>
             </div>
         </div>
         @endif
-        @if(Auth::user()->id==$idedit)
+        @if(Auth::user()->id==$idedit && Auth::user()->level==3)
         <div class="row" style="margin: 10px 0px 10px 10px;">
             <div class="col-md-1 col-6 " >
                 <a href="javascript:" class="btn btn-split btn-success edit-btn">

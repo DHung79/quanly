@@ -25,10 +25,8 @@ class detaiMiddleware
                 return $next($request);
             }if($user->level == 3){
                 $iduser = $user->id;
-                $sinhvien = sinhvien::where('idusers',$iduser)->first();
-                $idsinhvien = $sinhvien->id;
-                $dangkydetai = sinhvien::join('detais','detais.idsinhvien', 'sinhvien.id')
-                ->where('idsinhvien',$idsinhvien)->first();
+                $dangkydetai = detai::join('users','users.id', 'detais.idtacgia')
+                ->where('idtacgia',$iduser)->first();
                 if(isset($dangkydetai)){
                     return $next($request);
                 }else{

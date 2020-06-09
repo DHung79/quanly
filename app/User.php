@@ -43,4 +43,7 @@ class User extends Authenticatable
     public function giangvien(){
         return $this->hasMany('App\giangvien','idUser','id');
     }
+    public function detai(){
+        return $this->hasMany('App\detai','idtacgia','id');
+    }
 }

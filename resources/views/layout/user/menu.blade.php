@@ -20,7 +20,7 @@
     <li class="nav-item active">
       <a class="nav-link">
         {{-- <i class="fas fa-fw fa-tachometer-alt"></i> --}}
-        <i class="fas fa-user-secret"></i>
+        <i class="fab fa-fw fa-teamspeak" style="font-size: 25px"></i>
         <span>Quản trị viên</span></a>
     </li>
   @endif
@@ -29,7 +29,7 @@
     <li class="nav-item active">
       <a class="nav-link">
         {{-- <i class="fas fa-fw fa-tachometer-alt"></i> --}}
-        <i class="fas fa-fw fa-user-tie" style=""></i>
+        <i class="fas fa-fw fa-user-tie" style="font-size: 25px"></i>
         <span>Giảng viên</span>
       </a>
     </li>
@@ -72,7 +72,7 @@
   <li class="nav-item">
     <a class="nav-link collapsed" href="{{route('getdkdetai')}}" data-toggle="" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
       {{-- <i class="fas fa-fw fa-cog"></i> --}}
-      <i class="fas fa-fw fa-edit"></i>
+      <i class="fas fa-fw fa-pen-square"></i>
       <span>Đăng ký đề tài</span>
     </a>
   </li>
@@ -82,7 +82,7 @@
     <li class="nav-item active">
       <a class="nav-link">
         {{-- <i class="fas fa-fw fa-tachometer-alt"></i> --}}
-        <i class="fas fa-fw fa-user-graduate"></i>
+        <i class="fas fa-fw fa-user-graduate" style="font-size: 25px"></i>
         <span>Sinh viên</span></a>
     </li>
     <!-- Divider -->
@@ -102,7 +102,7 @@
       </a>
     <a class="nav-link collapsed" href="{{route('getdkdetai')}}" data-toggle="" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
         {{-- <i class="fas fa-fw fa-cog"></i> --}}
-        <i class="fas fa-fw fa-edit"></i>
+        <i class="fas fa-fw fa-pen-square"></i>
         <span>Đăng ký đề tài</span>
       </a>
       <a class="nav-link collapsed" href="{{route('thamkhao')}}" data-toggle="" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
@@ -136,7 +136,7 @@
       </a>
     <a class="nav-link collapsed" href="{{route('getdkdetai')}}" data-toggle="" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
         {{-- <i class="fas fa-fw fa-cog"></i> --}}
-        <i class="fas fa-fw fa-edit"></i>
+        <i class="fas fa-fw fa-pen-square"></i>
         <span>Đăng ký đề tài</span>
       </a>
       <a class="nav-link collapsed" href="{{route('thamkhao')}}" data-toggle="" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
@@ -404,13 +404,16 @@
                           <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                           <button type="submit" style="display: contents;">Thông tin cá nhân</button>
                   </a>
-                    <form class="dropdown-item" method="POST" action="{{route('detaiprivate')}}">
+                    {{-- <form class="dropdown-item" method="POST" action="{{route('detaiprivate')}}">
                       @csrf
-                      <input type="hidden" name="idsinhvien" value="{{$sinhvien->id}}">
-                      <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                      <input type="hidden" name="idusers" value="{{$sinhvien->idusers}}">
+                      <i class="fas fa-edit fa-sm fa-fw mr-2 text-gray-400"></i>
                       <button type="submit" style="display: contents">Chỉnh sửa đề tài</button>
-                    </form>
-                    
+                    </form> --}}
+                  <a class="dropdown-item" href="{{route('detaiprivate',['id'=>$iduser])}}">
+                    <i class="fas fa-edit fa-sm fa-fw mr-2 text-gray-400"></i>
+                    <button type="submit" style="display: contents;">Chỉnh sửa đề tài</button>
+                  </a>
 
                   <div class="dropdown-divider"></div>
                   <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
@@ -441,6 +444,10 @@
                   <a class="dropdown-item" href="{{route('inforuser',['id'=>$iduser])}}">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                     <button type="submit" style="display: contents;">Thông tin cá nhân</button>
+                  </a>
+                  <a class="dropdown-item" href="{{route('detaiprivate',['id'=>$iduser])}}">
+                    <i class="fas fa-edit fa-sm fa-fw mr-2 text-gray-400"></i>
+                    <button type="submit" style="display: contents;">Chỉnh sửa đề tài</button>
                   </a>
                   <a class="dropdown-item" href="{{route('svhd')}}">
                     <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
