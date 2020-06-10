@@ -62,16 +62,16 @@ class DataController extends Controller
             ['ho' => 'Long Thị','ten'=>'Lanh','idusers'=>7,'idkhoa'=>1,'hocvi'=>'Tiến sĩ']
         ]);
         sinhvien::insert([
-            ['ho' => 'Trịnh Thị Kim','ten'=>'Ngân','gvhd'=>'Nguyễn Văn Hoàn','idusers'=>8,'idlop'=>1],
-            ['ho' => 'Nguyễn Ngọc','ten'=>'Hiền','gvhd'=>'Trần Văn Minh','idusers'=>9,'idlop'=>1],
-            ['ho' => 'Nguyễn Ngọc','ten'=>'Quỳnh','gvhd'=>'Nguyễn Văn Hoàn','idusers'=>10,'idlop'=>2],
-            ['ho' => 'Phạm Văn','ten'=>'Mạnh','gvhd'=>'Võ Công Thành','idusers'=>11,'idlop'=>2],
-            ['ho' => 'Nguyễn Trọng','ten'=>'Nghĩa','gvhd'=>'Lê Thị Thanh Hằng','idusers'=>12,'idlop'=>3],
-            ['ho' => 'Hoàng Thiên','ten'=>'Phú','gvhd'=>'Trần Văn Minh','idusers'=>13,'idlop'=>4],
-            ['ho' => 'Nguyễn Cao Hà','ten'=>'Linh','gvhd'=>'Long Thị Lanh','idusers'=>14,'idlop'=>5],
-            ['ho' => 'Trần Trung','ten'=>'Hiếu','gvhd'=>'Đỗ Quang Hiếu','idusers'=>15,'idlop'=>5],
-            ['ho' => 'Nguyễn Phương','ten'=>'Quỳnh','gvhd'=>'Nguyễn Văn Hoàn','idusers'=>16,'idlop'=>3],
-            ['ho' => 'Lung Thị','ten'=>'Linh','gvhd'=>'Võ Công Thành','idusers'=>17,'idlop'=>6]
+            ['ho' => 'Trịnh Thị Kim','ten'=>'Ngân','idusers'=>8,'idlop'=>1],
+            ['ho' => 'Nguyễn Ngọc','ten'=>'Hiền','idusers'=>9,'idlop'=>1],
+            ['ho' => 'Nguyễn Ngọc','ten'=>'Quỳnh','idusers'=>10,'idlop'=>2],
+            ['ho' => 'Phạm Văn','ten'=>'Mạnh','idusers'=>11,'idlop'=>2],
+            ['ho' => 'Nguyễn Trọng','ten'=>'Nghĩa','idusers'=>12,'idlop'=>3],
+            ['ho' => 'Hoàng Thiên','ten'=>'Phú','idusers'=>13,'idlop'=>4],
+            ['ho' => 'Nguyễn Cao Hà','ten'=>'Linh','idusers'=>14,'idlop'=>5],
+            ['ho' => 'Trần Trung','ten'=>'Hiếu','idusers'=>15,'idlop'=>5],
+            ['ho' => 'Nguyễn Phương','ten'=>'Quỳnh','idusers'=>16,'idlop'=>3],
+            ['ho' => 'Lung Thị','ten'=>'Linh','idusers'=>17,'idlop'=>6]
         ]);
         detai::insert([
             ['tendetai' => 'Nghiên cứu các giải pháp bảo đảm an ninh, an toàn thông tin cho các cổng thông tin điện tử ',

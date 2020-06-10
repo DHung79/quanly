@@ -244,13 +244,12 @@ class homeController extends sharecontroller
             $this->validate($request,[
                 'tendetai'=>['required',Rule::unique('detais')->ignore($detai->id)],
                 'tomtat'=>'required',
-                'files' => 'required|max:1000000',
+                'files' => 'max:1000000',
                 'noidung'=>'required'
             ],[
                 'tendetai.required'=>'Chưa nhập tên đề tài',
                 'tendetai.unique'=>'Đề tài đã tồn tại',
                 'tomtat.required'=>'Chưa nhập tóm tắt',
-                'files.required' =>'Chưa chọn file',
                 'files.max:10000' =>'File được chọn phải nhỏ hơn 1MB',
                 'noidung.required'=>'Chưa nhập nội dung'
             ]);
@@ -258,33 +257,34 @@ class homeController extends sharecontroller
             $filepdf=['pdf'];
             $filedoc=['doc','docx'];
             $files = $request->file('files');
-            foreach($files as $file){    
-            $filename = $file->getClientOriginalName();
-            $extension = $file->getClientOriginalExtension();
-            $checkfilepdf=in_array($extension,$filepdf);
-            $checkfiledoc=in_array($extension,$filedoc);
-            if($checkfilepdf){
-                $file->move('file',$filename);
-                foreach ($request->files as $file){
-                    $iddetai = $request->id;
-                    source::updateOrInsert(['tenfile'=>$filename,
-                        'iddetai'=>$iddetai,
-                        'img'=>'img/pdf.png']
-                    );
+            if(isset($files)){
+                foreach($files as $file){    
+                    $filename = $file->getClientOriginalName();
+                    $extension = $file->getClientOriginalExtension();
+                    $checkfilepdf=in_array($extension,$filepdf);
+                    $checkfiledoc=in_array($extension,$filedoc);
+                    if($checkfilepdf){
+                        $file->move('file',$filename);
+                        foreach ($request->files as $file){
+                            $iddetai = $request->id;
+                            source::updateOrInsert(['tenfile'=>$filename,
+                                'iddetai'=>$iddetai,
+                                'img'=>'img/pdf.png']
+                            );
+                        }
+                    }
+                    if($checkfiledoc){
+                        $file->move('file',$filename);
+                        foreach ($request->files as $file){
+                            $iddetai = $request->id;
+                            source::updateOrInsert(['tenfile'=>$filename,
+                                'iddetai'=>$iddetai,
+                                'img'=>'img/doc.png']
+                            );
+                        }
+                    }       
                 }
             }
-            if($checkfiledoc){
-                $file->move('file',$filename);
-                foreach ($request->files as $file){
-                    $iddetai = $request->id;
-                    source::updateOrInsert(['tenfile'=>$filename,
-                        'iddetai'=>$iddetai,
-                        'img'=>'img/doc.png']
-                    );
-                }
-            }       
-        }
-    
         $detai->tendetai = $request->tendetai;
         $detai->tomtat = $request->tomtat;
         $detai->noidung = $request->noidung;
@@ -341,13 +341,6 @@ class homeController extends sharecontroller
                 'gv.required' =>'Chưa chọn gvhd',
                 'tendt.required'=>'Bạn chưa nhập tên đề tài'
             ]);
-            $giangvien = giangvien::find($request->gv);
-            $tengv = $giangvien->ten;
-            $hogv = $giangvien->ho;
-            $hotengv = "$hogv $tengv";
-            $sinhvien = sinhvien::find($request->idsv);
-            $sinhvien->gvhd = $hotengv;
-            $sinhvien->save();
             $detai = new detai;
             $detai->idtacgia = $request->idtg;
             $detai->tendetai = $request->tendt;
@@ -357,7 +350,7 @@ class homeController extends sharecontroller
             $detai->daduyet = 0;
             $detai->idgvhd = $request->gv;
             $detai->save();
-            if($sinhvien->save() && $detai->save()){
+            if($detai->save()){
                 return redirect()->route('getdkdetai')
                 ->with('status',"Đăng ký đề tài thành công");
             }

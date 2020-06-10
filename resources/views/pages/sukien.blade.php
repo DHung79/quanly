@@ -68,7 +68,7 @@
     </div>
 
     @if(Auth::check())
-        @if(Auth::user()->level==1||Auth::user()->level==2||Auth::user()->id==$idedit)
+        @if(Auth::user()->level==1||Auth::user()->level==2)
         <div class="row" style="margin: 10px 0px 0 10px;">
             <div class="col-md-1 col-6 " >
                 <a href="javascript:" class="btn btn-split btn-success edit-btn">
@@ -78,7 +78,7 @@
         @endif
     @endif
     <div class="card-body" style=" color: #000000;">
-        <div>
+        <div style="padding: 0 5%;">
             <div>
                 @if(isset($sukien->noidung))
                     {!!$sukien->noidung!!}

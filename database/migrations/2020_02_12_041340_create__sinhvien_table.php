@@ -22,7 +22,6 @@ class CreateSinhvienTable extends Migration
             $table->string('quequan',255)->nullable();
             $table->string('diachi',255)->nullable();
             $table->integer('sodt')->nullable();
-            $table->string('gvhd')->nullable();
             $table->unsignedBigInteger('idusers');
             $table->foreign('idusers')->references('id')->on('users')->onDelete('cascade');
             $table->unsignedBigInteger('idlop');
