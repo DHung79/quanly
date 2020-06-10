@@ -61,7 +61,8 @@ class homeController extends sharecontroller
         ->where('daduyet','0')->get();
         view::share('duyet',$duyet);
 
-        $gvlist = giangvien::join('users','users.id','giangvien.idusers')->select(DB::raw('CONCAT(ho, " ", ten) AS hotengv'),'giangvien.*','users.*')->get();
+        $gvlist = giangvien::join('users','users.id','giangvien.idusers')
+        ->select(DB::raw('CONCAT(ho, " ", ten) AS hotengv'),'giangvien.*','users.*')->get();
         view::share('gvlist',$gvlist);
 
         $gvhdlist = giangvien::select(DB::raw('CONCAT(ho, " ",ten) AS hotengv'),'id')->get();
@@ -70,7 +71,8 @@ class homeController extends sharecontroller
         $listsv = sinhvien::select(DB::raw('CONCAT(ho, " ",ten) AS hotensv'),'id')->get();
         view::share('listsv',$listsv);
 
-        $svlist = sinhvien::join('users','users.id','sinhvien.idusers')->select(DB::raw('CONCAT(ho, " ", ten) AS hotensv'),'sinhvien.*','users.*')->get();
+        $svlist = sinhvien::join('users','users.id','sinhvien.idusers')
+        ->select(DB::raw('CONCAT(ho, " ", ten) AS hotensv'),'sinhvien.*','users.*')->get();
         view::share('svlist',$svlist);
         
         // $this->middleware('auth')->except('logout');
