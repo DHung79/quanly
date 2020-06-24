@@ -12,7 +12,7 @@
 
 <div class="card shadow mb-4">
 <div class="card-header py-3">
-    <center><h6 class="m-0 font-weight-bold text-primary">Thông tin cá nhân</h6></center>
+    <center><h6 class="m-0 font-weight-bold text-primary" style="font-size:large;">Thông tin cá nhân</h6></center>
     @if(isset($sinhvien))
         <div class="" style="position: absolute;
             top: 7px; left: 0;">
@@ -41,7 +41,7 @@
         <form method="POST" action="{{route('editinfor')}}" style="margin: 30px 25px;" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="id" value="{{$iduser}}">
-            <div class="row">
+            <div class="row" style="color: #3a3b45">
                 <div class="row col-xl-6 col-md-3 mb-4">
                     <div class="col-xl-6 col-md-6 mb-4">
                         <h4 class="small font-weight-bold">Họ</h4>
@@ -67,13 +67,6 @@
                         class="form-control form-control-user">
                         </div>
                     </div>
-                    {{-- <div class="col-xl-6 col-md-6">
-                        <h4 class="small font-weight-bold">Ảnh đại diện</h4>
-                        <div class="form-group" >
-                        <input type='file' name='img' 
-                        class="form-control form-control-user">
-                        </div>
-                    </div> --}}
                     <div class="col-xl-12 col-md-6">
                         <h4 class="small font-weight-bold">Ngày sinh</h4>
                         <div class="form-group" >
@@ -243,7 +236,7 @@
         <form method="POST" action="{{route('editinfor')}}" style="margin: 30px 25px;" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="id" value="{{$iduser}}">
-            <div class="row">
+            <div class="row" style="color: #3a3b45">
                 <div class="row col-xl-6 col-md-3 mb-4">
                     <div class="col-xl-6 col-md-3 mb-4">
                         <h4 class="small font-weight-bold">Họ</h4>
