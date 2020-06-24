@@ -23,6 +23,8 @@ use App\lop;
 use App\detai;
 use App\sukien;
 use App\source;
+use App\tiendo;
+use App\nghiemthu;
 use App\thamkhao;
 class homeController extends sharecontroller
 {
@@ -44,7 +46,7 @@ class homeController extends sharecontroller
         $users = user::get();
         view::share('users',$users);
 
-        $danhsachdt = detai::join('users','users.id','detais.idtacgia')->select('detais.*','users.*')
+        $danhsachdt = detai::join('users','users.id','detais.idtacgia')->select('detais.*','users.*','detais.id as id')
         ->where('daduyet','1')->get();
         view::share('danhsachdt',$danhsachdt);
 
@@ -56,6 +58,9 @@ class homeController extends sharecontroller
 
         $thamkhao = thamkhao::get();
         view::share('thamkhao',$thamkhao);
+
+        $dstiendo = tiendo::get();
+        view::share('dstiendo',$dstiendo);
 
         $duyet = detai::join('users','users.id','detais.idtacgia')->select('detais.*','users.*')
         ->where('daduyet','0')->get();
@@ -224,9 +229,10 @@ class homeController extends sharecontroller
         $detai = detai::where('idtacgia',$id)->first();
         if(isset($detai)){
             $iddetai = $detai->id;
+            $tiendo = tiendo::where('iddetai',$iddetai)->get();
             $source = source::where('iddetai',$iddetai)->get();
             $idedit = $detai->idtacgia;
-            return view('pages.userdetai',['detai'=>$detai,'idedit'=>$idedit,'source'=>$source]);
+            return view('pages.userdetai',['detai'=>$detai,'idedit'=>$idedit,'source'=>$source,'tiendo'=>$tiendo]);
         }else{
             return redirect()->route('getdkdetai');
         }
@@ -235,13 +241,15 @@ class homeController extends sharecontroller
     public function userdetai($id){
         $detai = detai::where('idtacgia',$id)->first();
         $iddetai = $detai->id;
+        $tiendo = tiendo::where('iddetai',$iddetai)->get();
         $source = source::where('iddetai',$iddetai)->get();
         $idedit = $detai->idtacgia;
-        return view('pages.userdetai',['detai'=>$detai,'idedit'=>$idedit,'source'=>$source]);
+        return view('pages.userdetai',['detai'=>$detai,'idedit'=>$idedit,'source'=>$source,'tiendo'=>$tiendo]);
     }
     //Chỉnh sửa đề tài 
     public function editdetai(Request $request){
         $detai = detai::find($request->id);
+        $tiendo = tiendo::where('iddetai',$request->id)->first();
         $idtg = $detai->idtacgia;
             $this->validate($request,[
                 'tendetai'=>['required',Rule::unique('detais')->ignore($detai->id)],
@@ -255,7 +263,6 @@ class homeController extends sharecontroller
                 'files.max:10000' =>'File được chọn phải nhỏ hơn 1MB',
                 'noidung.required'=>'Chưa nhập nội dung'
             ]);
-        
             $filepdf=['pdf'];
             $filedoc=['doc','docx'];
             $files = $request->file('files');
@@ -290,17 +297,65 @@ class homeController extends sharecontroller
         $detai->tendetai = $request->tendetai;
         $detai->tomtat = $request->tomtat;
         $detai->noidung = $request->noidung;
-        if(isset($request->tiendo)){
-            $detai->tiendo = $request->tiendo;
-        } else{
-            $detai->tiendo = 0;
-        }
         $detai->save();
+        
+        // tiendo::updateOrInsert(['cosolythuyet'=>$request->cosolythuyet, 
+        // 'ptthietkehethong'=>$request->ptthietkehethong, 
+        // 'ketquadatduoc'=>$request->ketquadatduoc, 
+        // 'phantramhoanthanh'=>$tiendo->phantramhoanthanh]);
         if($detai->save()){
             return redirect()->route('userdetai',['id'=>$idtg])->with('status','Đã sửa thành công');
         } else{
             return redirect()->route('userdetai',['id'=>$idtg])
             ->with('status',"Xãy ra lỗi trong quá trình sửa");
+        }
+    }
+    //Đánh giá tiến độ//
+    public function danhgiatiendo(Request $request){
+        $detai = detai::find($request->id);
+        $tiendo = tiendo::where('iddetai',$request->id)->first();
+        if(isset($request->cosolythuyet)){
+            $tiendo->phantramhoanthanh = round((($request->cosolythuyet + 0 + 0)/3),2);
+        }if(isset($request->ptthietkehethong)){
+            $tiendo->phantramhoanthanh = round(((0 + $request->ptthietkehethong + 0)/3),2);
+        }if(isset($request->ketquadatduoc)){
+            $tiendo->phantramhoanthanh = round(((0 + 0 + $request->ketquadatduoc)/3),2);
+        }if(isset($request->cosolythuyet) && isset($request->ptthietkehethong)){
+            $tiendo->phantramhoanthanh = round((($request->cosolythuyet + $request->ptthietkehethong + 0)/3),2);
+        }if(isset($request->cosolythuyet) && isset($request->ketquadatduoc)){
+            $tiendo->phantramhoanthanh = round((($request->cosolythuyet + 0 + $request->ketquadatduoc)/3),2);
+        }if(isset($request->ptthietkehethong) && isset($request->ketquadatduoc)){
+            $tiendo->phantramhoanthanh = round(((0 + $request->ptthietkehethong + $request->ketquadatduoc)/3),2);
+        }if(isset($request->cosolythuyet) && isset($request->ptthietkehethong) && isset($request->ketquadatduoc)){
+            $tiendo->phantramhoanthanh = round((($request->cosolythuyet + $request->ptthietkehethong + $request->ketquadatduoc)/3),2);
+        }else{
+            $tiendo->phantramhoanthanh = 0;
+        }
+        $tiendo->cosolythuyet = $request->cosolythuyet;
+        $tiendo->ptthietkehethong = $request->ptthietkehethong;
+        $tiendo->ketquadatduoc = $request->ketquadatduoc;
+        $tiendo->save();
+        if($tiendo->save()){
+            return redirect()->route('userdetai',['id'=>$idtg])->with('status','Đã đánh giá');
+        } else{
+            return redirect()->route('userdetai',['id'=>$idtg])
+            ->with('status',"Xãy ra lỗi trong quá trình đánh giá");
+        }
+    }
+    //Nghiem thu//
+    public function nghiemthu(Request $request){
+        $detai = detai::find($request->id);
+        $nghiemthu = nghiemthu::where('iddetai',$request->id)->first();
+        
+        $tiendo->cosolythuyet = $request->cosolythuyet;
+        $tiendo->ptthietkehethong = $request->ptthietkehethong;
+        $tiendo->ketquadatduoc = $request->ketquadatduoc;
+        $tiendo->save();
+        if($nghiemthu->save()){
+            return redirect()->route('userdetai',['id'=>$idtg])->with('status','Đã đánh giá');
+        } else{
+            return redirect()->route('userdetai',['id'=>$idtg])
+            ->with('status',"Xãy ra lỗi trong quá trình đánh giá");
         }
     }
     //Xóa file //
@@ -315,6 +370,10 @@ class homeController extends sharecontroller
         $iddetai = $deldetai->id;
         $delfile = source::where('iddetai',$iddetai);
         File::delete('file/'.$delfile->tenfile);
+        $deltiendo = tiendo::where('iddetai',$iddetai);
+        $delnghiemthu = nghiemthu::where('iddetai',$iddetai);
+        $deltiendo->delete();
+        $delnghiemthu->delete();
         $delfile->delete();
         $deldetai->delete();
     }
@@ -344,11 +403,14 @@ class homeController extends sharecontroller
                 'tendt.required'=>'Bạn chưa nhập tên đề tài'
             ]);
             $detai = new detai;
+            $tiendo = new tiendo;
+            $detai->id = $tiendo->iddetai;
+            $tiendo->phantramhoanthanh = 0;
+            $tiendo->save();
             $detai->idtacgia = $request->idtg;
             $detai->tendetai = $request->tendt;
             $detai->tomtat = $request->tomtat;
             $detai->noidung = $request->noidung;
-            $detai->tiendo = 0;
             $detai->daduyet = 0;
             $detai->idgvhd = $request->gv;
             $detai->save();
@@ -370,11 +432,14 @@ class homeController extends sharecontroller
                 'tendt.required'=>'Bạn chưa nhập tên đề tài'
             ]);
             $detai = new detai;
+            $tiendo = new tiendo;
+            $detai->id = $tiendo->iddetai;
+            $tiendo->phantramhoanthanh = 0;
+            $tiendo->save();
             $detai->idtacgia = $request->idtg;
             $detai->tendetai = $request->tendt;
             $detai->tomtat = $request->tomtat;
             $detai->noidung = $request->noidung;
-            $detai->tiendo = 0;
             $detai->daduyet = 0;
             $detai->save();
             if($detai->save()){
@@ -579,7 +644,7 @@ class homeController extends sharecontroller
         $iduser = Auth::user()->id;
         $giangvien = giangvien::where('idusers',$iduser)->first();
         $idgv = $giangvien->id;
-        $dssvhd = detai::join('users','users.id','detais.idtacgia')
+        $dssvhd = detai::join('users','users.id','detais.idtacgia')->select('detais.*','users.*','detais.id as id')
         ->where('daduyet','1')
         ->where('idgvhd',$idgv)->get();
         return view('layout.admin.svhuongdan',['dssvhd'=>$dssvhd]);

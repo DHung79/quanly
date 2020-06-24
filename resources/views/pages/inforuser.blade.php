@@ -42,7 +42,7 @@
             @csrf
             <input type="hidden" name="id" value="{{$iduser}}">
             <div class="row">
-                <div class="row col-xl-12 col-md-6 mb-4">
+                <div class="row col-xl-6 col-md-3 mb-4">
                     <div class="col-xl-6 col-md-6 mb-4">
                         <h4 class="small font-weight-bold">Họ</h4>
                         <input type="text" class="form-control form-control-user"
@@ -67,14 +67,14 @@
                         class="form-control form-control-user">
                         </div>
                     </div>
-                    <div class="col-xl-6 col-md-6">
+                    {{-- <div class="col-xl-6 col-md-6">
                         <h4 class="small font-weight-bold">Ảnh đại diện</h4>
                         <div class="form-group" >
                         <input type='file' name='img' 
                         class="form-control form-control-user">
                         </div>
-                    </div>
-                    <div class="col-xl-6 col-md-6">
+                    </div> --}}
+                    <div class="col-xl-12 col-md-6">
                         <h4 class="small font-weight-bold">Ngày sinh</h4>
                         <div class="form-group" >
                         <input type='date' name='ngaysinh' value="{{$sinhvien->ngaysinh}}"
@@ -127,6 +127,24 @@
                             <input type='text' name='diachi' value="{{$sinhvien->diachi}}" 
                             class="form-control form-control-user">
                         </div>
+                    </div>
+                </div>
+                <div class="row col-xl-6 col-md-3">
+                    <div class="col-xl-12 col-md-6">
+                        <h4 class="small font-weight-bold">Ảnh đại diện</h4>
+                        <div class="form-group" >
+                        <input type='file' name='img' 
+                        class="form-control form-control-user">
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-md-6">
+                        <center><img class="img-profile rounded-circle" 
+                        @if(isset($user->img))
+                            src="{{$user->img}}"
+                        @else
+                            src="img/person-icon-blue-18.png"
+                        @endif
+                        ></center>
                     </div>
                 </div>
             </div>
@@ -226,13 +244,13 @@
             @csrf
             <input type="hidden" name="id" value="{{$iduser}}">
             <div class="row">
-                <div class="row col-xl-12 col-md-6 mb-4">
-                    <div class="col-xl-6 col-md-6 mb-4">
+                <div class="row col-xl-6 col-md-3 mb-4">
+                    <div class="col-xl-6 col-md-3 mb-4">
                         <h4 class="small font-weight-bold">Họ</h4>
                         <input type="text" class="form-control form-control-user"
                             name='ho' value="{{$giangvien->ho}}">
                     </div>
-                    <div class="col-xl-6 col-md-6 mb-4">
+                    <div class="col-xl-6 col-md-3 mb-4">
                         <h4 class="small font-weight-bold">Tên</h4>
                         <input type="text" class="form-control form-control-user" 
                         name='ten' value="{{$giangvien->ten}}">
@@ -251,20 +269,14 @@
                         class="form-control form-control-user">
                         </div>
                     </div>
+                    
                     <div class="col-xl-6 col-md-6">
-                        <h4 class="small font-weight-bold">Ảnh đại diện</h4>
-                        <div class="form-group" >
-                        <input type='file' name='img' 
-                        class="form-control form-control-user">
-                        </div>
-                    </div>
-                    {{-- <div class="col-xl-6 col-md-6">
                         <h4 class="small font-weight-bold">Ngày sinh</h4>
                         <div class="form-group" >
                         <input type='date' name='ngaysinh' value="{{$giangvien->ngaysinh}}"
                         class="form-control form-control-user">
                         </div>
-                    </div> --}}
+                    </div>
                     <div class="col-xl-6 col-md-6">
                         <h4 class="small font-weight-bold">Giới tính</h4>
                         <div class="form-group" >
@@ -305,7 +317,13 @@
                             class="form-control form-control-user">
                         </div>
                     </div>
-                    
+                    <div class="col-xl-12 col-md-6">
+                        <h4 class="small font-weight-bold">Quê quán</h4>
+                        <div class="form-group" >
+                            <input type='text' name='quequan' value="{{$giangvien->quequan}}" 
+                            class="form-control form-control-user">
+                        </div>
+                    </div>
                     <div class="col-xl-12 col-md-6">
                         <h4 class="small font-weight-bold">Địa chỉ</h4>
                         <div class="form-group" >
@@ -314,7 +332,26 @@
                         </div>
                     </div>
                 </div>
+                <div class="row col-xl-6 col-md-3">
+                    <div class="col-xl-12 col-md-6">
+                        <h4 class="small font-weight-bold">Ảnh đại diện</h4>
+                        <div class="form-group" >
+                        <input type='file' name='img' 
+                        class="form-control form-control-user">
+                        </div>
+                    </div>
+                    <div class="col-xl-12 col-md-6">
+                        <center><img class="img-profile rounded-circle" 
+                        @if(isset($user->img))
+                            src="{{$user->img}}"
+                        @else
+                            src="img/person-icon-blue-18.png"
+                        @endif
+                        ></center>
+                    </div>
+                </div>
             </div>
+            
             <div class="row">
                 <div class="col-md-1 col-6">
                     <button type="submit" 
@@ -353,10 +390,10 @@
                         @endif
                     </div>
                 </div>
-                {{-- <div class="row font-weight-bold text-uppercase">
+                <div class="row font-weight-bold text-uppercase">
                     <div class="text-info">Ngày sinh:</div>&nbsp;
                     <div class="">{{date("d-m-Y",strtotime($giangvien->ngaysinh))}}</div>
-                </div> --}}
+                </div>
                 <div class="row font-weight-bold text-uppercase">
                     <div class="text-info">Số điện thoại:</div>&nbsp;
                     <div class="">{{$giangvien->sodt}}</div>
@@ -368,6 +405,10 @@
                 <div class="row font-weight-bold text-uppercase">
                     <div class="text-info">Học vị:</div>&nbsp;
                     <div class="">{{$giangvien->hocvi}}</div>
+                </div>
+                <div class="row font-weight-bold text-uppercase">
+                    <div class="text-info">Quê quán:</div>&nbsp;
+                    <div class="">{{$giangvien->quequan}}</div>
                 </div>
                 <div class="row font-weight-bold text-uppercase">
                     <div class="text-info">Địa chỉ:</div>&nbsp;

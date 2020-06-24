@@ -30,37 +30,87 @@
         <form method="POST" action="{{route('editdetai')}}" style="margin: 30px 25px;" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="id" value="{{$detai->id}}">
+            <h4 class="font-weight-bold">Chỉnh sửa đề tài</h4>
+            <hr style="margin-top: 0; margin-bottom: 10px">
             <div class="row">
                 <div class="col-xl-12 col-md-6">
-                    <h4 class="small font-weight-bold">Tên đề tài</h4>
+                    <h4 class="font-weight-bold" style="font-size: large">Tên đề tài</h4>
                     <div class="form-group" >
                     <input type='text' name='tendetai' value="{{$detai->tendetai}}" class="form-control form-control-sm">
                     </div>
                 </div>
                 <div class="col-xl-12 col-md-6">
-                    <h4 class="small font-weight-bold">Tóm tắt đề tài</h4>
+                    <h4 class="small font-weight-bold" style="font-size: large">Tóm tắt đề tài</h4>
                     <div class="form-group" >
                     <input type='text' name='tomtat' value="{{$detai->tomtat}}" class="form-control form-control-sm">
                     </div>
                 </div>
                 <div class="col-xl-12 col-md-6">
-                    <h4 class="small font-weight-bold">File</h4>
+                    <h4 class="small font-weight-bold" style="font-size: large">File</h4>
                     <div class="form-group" >
                     <input type='file' name='files[]' class="form-control form-control-sm" multiple>
                     </div>
                 </div>
                 <div class="col-xl-12 col-md-6 mb-4">
-                    <h4 class="small font-weight-bold">Nội dung</h4>
+                    <h4 class="small font-weight-bold" style="font-size: large">Nội dung</h4>
                     <textarea name="noidung" 
                     class="form-control form-group form-control-sm ckeditor" 
                     style="">{{$detai->noidung}}</textarea>	
                 </div>
+            </div>
+                <div class="row">
+                    <div class="col-md-2 col-6">
+                        <button type="submit" class="btn btn-success btn-md " name="">Cập nhật</button>
+                    </div>
+                    <div class="col-md-1 col-6">
+                        <button type="button" id="cancel-edit" class="btn btn-primary btn-md " style="background: #dc3545; border-color: #dc3545;">Hủy</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        
+    <div class="form-danhgia" style=" display: none;">
+        <form method="POST" action="{{route('editdetai')}}" style="margin: 30px 25px;" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" name="id" value="{{$detai->id}}">
+            <div class="row">
                 @if(Auth::check())
                     @if(Auth::user()->level==1||Auth::user()->level==2)
-                    <div class="col-xl-12 col-md-6">
-                        <h4 class="small font-weight-bold">Tiến độ</h4>
+                    <div class="col-xl-12 col-md-6"> 
+                        <h4 class="font-weight-bold">Đánh giá tiến độ</h4>
+                        <hr style="margin-top: 0; margin-bottom: 10px">
                         <div class="form-group" >
-                        <input type='text' name='tiendo' value="{{$detai->tiendo}}" class="form-control form-control-sm">
+                            <h4 class="small font-weight-bold">Cơ sở lý thuyết</h4>
+                            <div class="col-xl-6 col-md-6" style="padding-left:0;"> 
+                                <input type='number' name='cosolythuyet' class="form-control form-control-sm" 
+                                    @if(isset($tiendo->where('iddetai',$detai->id)->first()->cosolythuyet))
+                                        value="{{$cosolythuyet = $tiendo->where('iddetai',$detai->id)->first()->cosolythuyet}}">
+                                    @else
+                                        value="{{$cosolythuyet = 0}}">
+                                    @endif
+                            </div>
+                        </div>
+                        <div class="form-group" >
+                            <h4 class="small font-weight-bold">Phân tích thiết kế hệ thống</h4>
+                            <div class="col-xl-6 col-md-6" style="padding-left:0;"> 
+                                <input type='number' name='ptthietkehethong' class="form-control form-control-sm" 
+                                    @if(isset($tiendo->where('iddetai',$detai->id)->first()->ptthietkehethong))
+                                        value="{{$ptthietkehethong = $tiendo->where('iddetai',$detai->id)->first()->ptthietkehethong}}">
+                                    @else
+                                        value="{{$ptthietkehethong = 0}}">
+                                    @endif
+                            </div>
+                        </div>
+                        <div class="form-group" >
+                            <h4 class="small font-weight-bold">Kết quả đạt được</h4>
+                            <div class="col-xl-6 col-md-6" style="padding-left:0;"> 
+                                <input type='number' name='ketquadatduoc' class="form-control form-control-sm" 
+                                    @if(isset($tiendo->where('iddetai',$detai->id)->first()->ketquadatduoc))
+                                        value="{{$ketquadatduoc = $tiendo->where('iddetai',$detai->id)->first()->ketquadatduoc}}">
+                                    @else
+                                        value="{{$ketquadatduoc = 0}}">
+                                    @endif
+                            </div>
                         </div>
                     </div>
                     @endif
@@ -68,10 +118,68 @@
             </div>
             <div class="row">
                 <div class="col-md-2 col-6">
-                    <button type="submit" class="btn btn-success btn-md " name="">Cập nhật</button>
+                    <button type="submit" class="btn btn-success btn-md " name="">Đánh giá</button>
                 </div>
                 <div class="col-md-1 col-6">
-                    <button type="button" id="cancel-edit" class="btn btn-primary btn-md " style="background: #dc3545; border-color: #dc3545;">Hủy</button>
+                    <button type="button" id="cancel-danhgia" class="btn btn-primary btn-md " style="background: #dc3545; border-color: #dc3545;">Hủy</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="form-nghiemthu" style=" display: none;">
+        <form method="POST" action="{{route('editdetai')}}" style="margin: 30px 25px;" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" name="id" value="{{$detai->id}}">
+            <div class="row">
+                @if(Auth::check())
+                    @if(Auth::user()->level==1||Auth::user()->level==2)
+                    <div class="col-xl-12 col-md-6"> 
+                        <h4 class="font-weight-bold">Đánh giá tiến độ</h4>
+                        <hr style="margin-top: 0; margin-bottom: 10px">
+                        <div class="form-group" >
+                            <h4 class="small font-weight-bold">Cơ sở lý thuyết</h4>
+                            <div class="col-xl-6 col-md-6" style="padding-left:0;"> 
+                                <input type='number' name='cosolythuyet' class="form-control form-control-sm" 
+                                    @if(isset($tiendo->where('iddetai',$detai->id)->first()->cosolythuyet))
+                                        value="{{$cosolythuyet = $tiendo->where('iddetai',$detai->id)->first()->cosolythuyet}}">
+                                    @else
+                                        value="{{$cosolythuyet = 0}}">
+                                    @endif
+                            </div>
+                        </div>
+                        <div class="form-group" >
+                            <h4 class="small font-weight-bold">Phân tích thiết kế hệ thống</h4>
+                            <div class="col-xl-6 col-md-6" style="padding-left:0;"> 
+                                <input type='number' name='ptthietkehethong' class="form-control form-control-sm" 
+                                    @if(isset($tiendo->where('iddetai',$detai->id)->first()->ptthietkehethong))
+                                        value="{{$ptthietkehethong = $tiendo->where('iddetai',$detai->id)->first()->ptthietkehethong}}">
+                                    @else
+                                        value="{{$ptthietkehethong = 0}}">
+                                    @endif
+                            </div>
+                        </div>
+                        <div class="form-group" >
+                            <h4 class="small font-weight-bold">Kết quả đạt được</h4>
+                            <div class="col-xl-6 col-md-6" style="padding-left:0;"> 
+                                <input type='number' name='ketquadatduoc' class="form-control form-control-sm" 
+                                    @if(isset($tiendo->where('iddetai',$detai->id)->first()->ketquadatduoc))
+                                        value="{{$ketquadatduoc = $tiendo->where('iddetai',$detai->id)->first()->ketquadatduoc}}">
+                                    @else
+                                        value="{{$ketquadatduoc = 0}}">
+                                    @endif
+                            </div>
+                        </div>
+                    </div>
+                    @endif
+                @endif
+            </div>
+            <div class="row">
+                <div class="col-md-2 col-6">
+                    <button type="submit" class="btn btn-success btn-md " name="">Đánh giá</button>
+                </div>
+                <div class="col-md-1 col-6">
+                    <button type="button" id="cancel-nghiemthu" class="btn btn-primary btn-md " style="background: #dc3545; border-color: #dc3545;">Hủy</button>
                 </div>
             </div>
         </form>
@@ -82,7 +190,19 @@
         <div class="row" style="margin: 10px 0px 10px 10px;">
             <div class="col-md-4 col-6 " >
                 <a href="javascript:" class="btn btn-split btn-success edit-btn">
-                    Chỉnh sửa và đánh giá tiến độ</a>
+                    Chỉnh sửa đề tài</a>
+            </div>
+        </div>
+        <div class="row" style="margin: 10px 0px 10px 10px;">
+            <div class="col-md-4 col-6 " >
+                <a href="javascript:" class="btn btn-split btn-success danhgia-btn">
+                    Đánh giá tiến độ</a>
+            </div>
+        </div>
+        <div class="row" style="margin: 10px 0px 10px 10px;">
+            <div class="col-md-4 col-6 " >
+                <a href="javascript:" class="btn btn-split btn-success nghiemthu-btn">
+                    Nghiệm thu</a>
             </div>
         </div>
         @endif
@@ -168,6 +288,24 @@
         $('#cancel-edit').click(function(){
             $('.form-edit').slideUp();
             $('.edit-btn').show();
+        })
+        $('.danhgia-btn').click(function(){
+            $('.danhgia-btn').hide();
+            $('.form-danhgia').slideDown();
+        })
+
+        $('#cancel-danhgia').click(function(){
+            $('.form-danhgia').slideUp();
+            $('.danhgia-btn').show();
+        })
+        $('.nghiemthu-btn').click(function(){
+            $('.nghiemthu-btn').hide();
+            $('.form-nghiemthu').slideDown();
+        })
+
+        $('#cancel-nghiemthu').click(function(){
+            $('.form-nghiemthu').slideUp();
+            $('.nghiemthu-btn').show();
         })
 	})
 </script>

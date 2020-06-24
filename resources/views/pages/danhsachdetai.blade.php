@@ -54,9 +54,10 @@
                       @else
                         <td></td>
                       @endif
-                      <td>{{$dt->tiendo}}%
+                      <td>{{$dstiendo->where('iddetai',$dt->id)->first()->phantramhoanthanh}}%
                         <div class="progress mb-4">
-                          <div class="progress-bar" role="progressbar" style="width: {{$dt->tiendo}}%" aria-valuenow="{{$dt->tiendo}}" aria-valuemin="0" aria-valuemax="100"></div>
+                          <div class="progress-bar" role="progressbar" style="width: {{$dstiendo->where('iddetai',$dt->id)->first()->phantramhoanthanh}}%" 
+                            aria-valuenow="{{$dstiendo->where('iddetai',$dt->id)->first()->phantramhoanthanh}}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                       </td>
                       @if(Auth::check())

@@ -14,4 +14,16 @@ class detai extends Model
     public function giangvien(){
         return $this->belongsTo('App\giangvien','idgvhd','id');
     }
+    public function tiendo()
+    {
+        return $this->hasMany('App\tiendo','iddetai','id');
+    }
+    public function nghiemthu()
+    {
+        return $this->hasMany('App\lop','iddetai','id');
+    }
+    public function source()
+    {
+        return $this->hasMany('App\lop','iddetai','id');
+    }
 }

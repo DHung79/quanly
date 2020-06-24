@@ -18,7 +18,10 @@ class CreateDetaisTable extends Migration
             $table->string('tendetai');
             $table->string('tomtat');
             $table->text('noidung')->nullable();
-            $table->tinyinteger('tiendo');
+            $table->date('thoigianthuchien')->nullable();
+            $table->date('thoigianketthuc')->nullable();
+            $table->text('huongphattrien')->nullable();
+            $table->text('giaiphap')->nullable();
             $table->boolean('daduyet');
             $table->unsignedBigInteger('idgvhd')->nullable();
             $table->foreign('idgvhd')->references('id')->on('giangvien')->onDelete('cascade');

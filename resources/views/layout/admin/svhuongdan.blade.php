@@ -45,7 +45,7 @@
                         <td>{{$giangvienkhoa->where('idusers',$dt->idtacgia)->first()->tenkhoa}}</td>
                     @endif
                     <td>
-                        <a href="{{route('userdetai',['id'=>$dt->id])}}" 
+                        <a href="{{route('userdetai',['id'=>$dt->idtacgia])}}" 
                         style=" text-decoration: none; color: #000000e6;">
                         {{$dt->tendetai}}</a>
                     </td>
@@ -54,16 +54,17 @@
                     @else
                         <td></td>
                     @endif
-                    <td>{{$dt->tiendo}}%
+                    <td>{{$dstiendo->where('iddetai',$dt->id)->first()->phantramhoanthanh}}%
                         <div class="progress mb-4">
-                        <div class="progress-bar" role="progressbar" style="width: {{$dt->tiendo}}%" aria-valuenow="{{$dt->tiendo}}" aria-valuemin="0" aria-valuemax="100"></div>
+                        <div class="progress-bar" role="progressbar" style="width: {{$dstiendo->where('iddetai',$dt->id)->first()->phantramhoanthanh}}%" 
+                            aria-valuenow="{{$dstiendo->where('iddetai',$dt->id)->first()->phantramhoanthanh}}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
                     </td>
                     @if(Auth::check())
                         @if(Auth::user()->level==1||Auth::user()->level==2)
                         <td>
                             <div class="card mb-4">
-                                <a href="{{route('userdetai',['id'=>$dt->id])}}" 
+                                <a href="{{route('userdetai',['id'=>$dt->idtacgia])}}" 
                                     class="btn btn-split btn-success edit-btn"
                                     style=" text-decoration: none;">Cập nhật</a>
                             </div>

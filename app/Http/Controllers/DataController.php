@@ -12,6 +12,8 @@ use App\detai;
 use App\sukien;
 use App\source;
 use App\thamkhao;
+use App\tiendo;
+use App\nghiemthu;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
@@ -76,34 +78,56 @@ class DataController extends Controller
         detai::insert([
             ['tendetai' => 'Nghiên cứu các giải pháp bảo đảm an ninh, an toàn thông tin cho các cổng thông tin điện tử ',
             'tomtat'=>'Nghiên cứu các giải pháp bảo đảm an ninh, an toàn thông tin cho các cổng thông tin điện tử ',
-            'tiendo'=>'0','daduyet'=>1,'idtacgia'=> 10,'idgvhd'=> 3],
+            'daduyet'=>1,'idtacgia'=> 10,'idgvhd'=> 3],
             ['tendetai' => 'Nghiên cứu bảo đảm an toàn thông tin bằng kiểm soát truy nhập ',
             'tomtat'=>'Nghiên cứu bảo đảm an toàn thông tin bằng kiểm soát truy nhập',
-            'tiendo'=>'10','daduyet'=>1,'idtacgia'=> 9,'idgvhd'=> 1],
+            'daduyet'=>1,'idtacgia'=> 9,'idgvhd'=> 1],
             ['tendetai' => 'Xây dựng ứng dụng video conference sử dụng Kurento Media Server',
             'tomtat'=>'Xây dựng ứng dụng video conference sử dụng Kurento Media Server',
-            'tiendo'=>'5','daduyet'=>0,'idtacgia'=> 8,'idgvhd'=> 5],
+            'daduyet'=>0,'idtacgia'=> 8,'idgvhd'=> 5],
             ['tendetai' => 'Xây dựng hệ thống kết nối doanh nghiệp với sinh viên',
             'tomtat'=>'Xây dựng hệ thống kết nối doanh nghiệp với sinh viên',
-            'tiendo'=>'20','daduyet'=>0,'idtacgia'=> 11,'idgvhd'=> 6],
+            'daduyet'=>0,'idtacgia'=> 11,'idgvhd'=> 6],
             ['tendetai' => 'Nghiên cứu lập trình WPF trong xây dựng ứng dụng học tiếng Anh cho trẻ em',
             'tomtat'=>'Nghiên cứu lập trình WPF trong xây dựng ứng dụng học tiếng Anh cho trẻ em',
-            'tiendo'=>'80','daduyet'=>0,'idtacgia'=> 12,'idgvhd'=> 2],
+            'daduyet'=>0,'idtacgia'=> 12,'idgvhd'=> 2],
             ['tendetai' => 'Hệ thống gợi ý tour du lịch tối ưu theo ràng buộc của người dùng',
             'tomtat'=>'Hệ thống gợi ý tour du lịch tối ưu theo ràng buộc của người dùng',
-            'tiendo'=>'25','daduyet'=>0,'idtacgia'=> 13,'idgvhd'=> 4],
+            'daduyet'=>0,'idtacgia'=> 13,'idgvhd'=> 4],
             ['tendetai' => 'Tìm hiểu hệ mã nguồn mở Laravel và ứng dụng xây dựng Website thương mại điện tử',
             'tomtat'=>'Tìm hiểu hệ mã nguồn mở Laravel và ứng dụng xây dựng Website thương mại điện tử',
-            'tiendo'=>'40','daduyet'=>1,'idtacgia'=> 14,'idgvhd'=> 3],
+            'daduyet'=>1,'idtacgia'=> 14,'idgvhd'=> 3],
             ['tendetai' => 'Xây dựng ứng dụng di động cho chợ nông sản Khánh Hoà trực tuyến',
             'tomtat'=>'Xây dựng ứng dụng di động cho chợ nông sản Khánh Hoà trực tuyến',
-            'tiendo'=>'100','daduyet'=>1,'idtacgia'=> 15,'idgvhd'=> 1],
+            'daduyet'=>1,'idtacgia'=> 15,'idgvhd'=> 1],
             ['tendetai' => 'Nghiên cứu công nghệ Web và xây dựng hệ thống tra cứu tour du lịch tại Nha Trang, Khánh Hòa',
             'tomtat'=>'Nghiên cứu công nghệ Web và xây dựng hệ thống tra cứu tour du lịch tại Nha Trang, Khánh Hòa',
-            'tiendo'=>'85','daduyet'=>0,'idtacgia'=> 16,'idgvhd'=> 2],
+            'daduyet'=>0,'idtacgia'=> 16,'idgvhd'=> 2],
             ['tendetai' => 'Lập trình IoT điều khiển thiết bị trong nhà sử dụng Rapberry',
             'tomtat'=>'Lập trình IoT điều khiển thiết bị trong nhà sử dụng Rapberry',
-            'tiendo'=>'55','daduyet'=>1,'idtacgia'=> 17,'idgvhd'=> 1]
+            'daduyet'=>1,'idtacgia'=> 17,'idgvhd'=> 1]
+        ]);
+        tiendo::insert([
+            ['cosolythuyet' => 50,'ptthietkehethong'=> 50,
+            'ketquadatduoc'=> 50,'phantramhoanthanh'=> 50,'iddetai'=> 1],
+            ['cosolythuyet' => 20,'ptthietkehethong'=> 0,
+            'ketquadatduoc'=> 0,'phantramhoanthanh'=> 6.67,'iddetai'=> 2],
+            ['cosolythuyet' => 0,'ptthietkehethong'=> 0,
+            'ketquadatduoc'=> 0,'phantramhoanthanh'=> 0,'iddetai'=> 3],
+            ['cosolythuyet' => 0,'ptthietkehethong'=> 0,
+            'ketquadatduoc'=> 0,'phantramhoanthanh'=> 0,'iddetai'=> 4],
+            ['cosolythuyet' => 0,'ptthietkehethong'=> 0,
+            'ketquadatduoc'=> 0,'phantramhoanthanh'=> 0,'iddetai'=> 5],
+            ['cosolythuyet' => 0,'ptthietkehethong'=> 0,
+            'ketquadatduoc'=> 0,'phantramhoanthanh'=> 0,'iddetai'=> 6],
+            ['cosolythuyet' => 70,'ptthietkehethong'=> 50,
+            'ketquadatduoc'=> 60,'phantramhoanthanh'=> 60,'iddetai'=> 7],
+            ['cosolythuyet' => 60,'ptthietkehethong'=> 20,
+            'ketquadatduoc'=> 0,'phantramhoanthanh'=> 26.67,'iddetai'=> 8],
+            ['cosolythuyet' => 0,'ptthietkehethong'=> 0,
+            'ketquadatduoc'=> 0,'phantramhoanthanh'=> 0,'iddetai'=> 9],
+            ['cosolythuyet' => 20,'ptthietkehethong'=> 10,
+            'ketquadatduoc'=> 0,'phantramhoanthanh'=> 10,'iddetai'=> 10],
         ]);
         sukien::insert([
             ['tensukien' => 'Đội SQ26 - TCU chiến thắng rực rỡ tại vòng bán kết Cuộc thi Cuộc đua số khu vực miền Nam',
@@ -1060,5 +1084,6 @@ class DataController extends Controller
             </table>',
             'img'=>'NULL']
         ]);
+        
     }
 }

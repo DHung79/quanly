@@ -18,6 +18,8 @@ class CreateGiangvienTable extends Migration
             $table->string('ho',255);
             $table->string('ten',255);
             $table->tinyInteger('gioitinh')->nullable();
+            $table->date('ngaysinh')->nullable();
+            $table->string('quequan',255)->nullable();
             $table->string('diachi',255)->nullable();
             $table->integer('sodt')->nullable();
             $table->string('hocvi')->nullable();
