@@ -129,6 +129,18 @@ class DataController extends Controller
             ['cosolythuyet' => 20,'ptthietkehethong'=> 10,
             'ketquadatduoc'=> 0,'phantramhoanthanh'=> 10,'iddetai'=> 10],
         ]);
+        nghiemthu::insert([
+            ['iddetai'=> 1],
+            ['iddetai'=> 2],
+            ['iddetai'=> 3],
+            ['iddetai'=> 4],
+            ['iddetai'=> 5],
+            ['iddetai'=> 6],
+            ['iddetai'=> 7],
+            ['iddetai'=> 8],
+            ['iddetai'=> 9],
+            ['iddetai'=> 10],
+        ]);
         sukien::insert([
             ['tensukien' => 'Đội SQ26 - TCU chiến thắng rực rỡ tại vòng bán kết Cuộc thi Cuộc đua số khu vực miền Nam',
             'tomtat'=>'Đội SQ26 - TCU chiến thắng rực rỡ tại vòng bán kết Cuộc thi Cuộc đua số khu vực miền Nam', 

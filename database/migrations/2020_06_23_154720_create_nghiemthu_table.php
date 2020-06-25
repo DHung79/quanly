@@ -15,8 +15,8 @@ class CreateNghiemthuTable extends Migration
     {
         Schema::create('nghiemthu', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->tinyinteger('diemdanhgia');
-            $table->text('nhanxetchung');
+            $table->tinyinteger('diemdanhgia')->nullable();
+            $table->text('nhanxetchung')->nullable();
             $table->unsignedBigInteger('iddetai');
             $table->foreign('iddetai')->references('id')->on('detais')->onDelete('cascade');
             $table->timestamps();

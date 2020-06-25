@@ -45,7 +45,7 @@
                         <td>{{$giangvienkhoa->where('idusers',$dt->idtacgia)->first()->tenkhoa}}</td>
                       @endif
                       <td>
-                        <a href="{{route('userdetai',['id'=>$dt->id])}}" 
+                        <a href="{{route('userdetai',['id'=>$dt->idtacgia])}}" 
                           style=" text-decoration: none; color: #000000e6;">
                           {{$dt->tendetai}}</a>
                       </td>
@@ -66,7 +66,7 @@
                               <div class="card mb-4">
                                 <a href="javascript:" 
                                 class="btn btn-split btn-danger delete-btn" 
-                                data-id="{{$dt->id}}">Xóa</a>
+                                data-id="{{$dt->idtacgia}}">Xóa</a>
                               </div>
                           </td>
                         @endif

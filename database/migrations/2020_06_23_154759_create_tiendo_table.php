@@ -19,7 +19,7 @@ class CreateTiendoTable extends Migration
             $table->tinyinteger('ptthietkehethong');
             $table->tinyinteger('ketquadatduoc');
             $table->float('phantramhoanthanh',100,2);
-            $table->unsignedBigInteger('iddetai')->nullable();
+            $table->unsignedBigInteger('iddetai');
             $table->foreign('iddetai')->references('id')->on('detais')->onDelete('cascade');
             $table->timestamps();
         });

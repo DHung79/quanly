@@ -25,10 +25,10 @@
                 <div class="row" style="margin-top: 10px">
                     <div class="col-xl-4">
                         <h4 class="small font-weight-bold">Sinh viên:</h4>
-                        <select class="form-control form-group" name="idsv">
+                        <select class="form-control form-group" name="idtg">
                             <option value=""hidden>Sinh viên:</option>
                             @foreach ($svlist as $sv)
-                            <option value="{{$sv->id}}">
+                            <option value="{{$sv->idusers}}">
                                 {{$sv->ho}} {{$sv->ten}}
                             </option>
                             @endforeach
@@ -63,7 +63,7 @@
                         {{$sinhvien->ho}}     
                         {{$sinhvien->ten}}
                         </p> 
-                        <input type="hidden" name="idsv" value={{$sinhvien->id}}>
+                        <input type="hidden" name="idtg" value={{$sinhvien->idusers}}>
                         <h4 class="small font-weight-bold">Giảng viên hướng dẫn:</h4>
                         <select class="form-control form-group" name='gv' >
                             <option value=""hidden>Giảng viên hướng dẫn:</option>

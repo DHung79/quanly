@@ -59,6 +59,8 @@ Route::group(['prefix'=>'thamkhao'],function(){
 Route::get('detaicanhan/{id}','homeController@detaiprivate')->name('detaiprivate');
 Route::get('detai/{id}','homeController@userdetai')->name('userdetai');
 Route::post('editdetai','homeController@editdetai')->name('editdetai');
+Route::post('danhgiatiendo','homeController@danhgiatiendo')->name('danhgiatiendo');
+Route::post('nghiemthu','homeController@nghiemthu')->name('nghiemthudetai');
 Route::post('deldetai','homeController@deldetai')->name('deldetai');
 
 Route::group(['prefix'=>'sukien'],function(){

@@ -71,7 +71,7 @@
                             <div class="card mb-4">
                                 <a href="javascript:" 
                                 class="btn btn-split btn-danger delete-btn" 
-                                data-id="{{$dt->id}}">Xóa</a>
+                                data-id="{{$dt->idtacgia}}">Xóa</a>
                             </div>
                         </td>
                         @endif
