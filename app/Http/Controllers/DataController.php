@@ -143,16 +143,16 @@ class DataController extends Controller
             ['iddetai'=> 10],
         ]);
         thanhvien::insert([
-            ['iddetai'=> 1,'idsv'=> 2],
-            ['iddetai'=> 2,'idsv'=> 3],
-            ['iddetai'=> 3,'idsv'=> 1],
-            ['iddetai'=> 4,'idsv'=> 5],
-            ['iddetai'=> 5,'idsv'=> 6],
-            ['iddetai'=> 6,'idsv'=> 8],
-            ['iddetai'=> 7,'idsv'=> 9],
-            ['iddetai'=> 8,'idsv'=> 10],
-            ['iddetai'=> 9,'idsv'=> 4],
-            ['iddetai'=> 10,'idsv'=> 7],
+            ['iddetai'=> 1,'idsv'=> 2,'idgv'=> 3],
+            ['iddetai'=> 2,'idsv'=> 3,'idgv'=> 1],
+            ['iddetai'=> 3,'idsv'=> 1,'idgv'=> 5],
+            ['iddetai'=> 4,'idsv'=> 5,'idgv'=> 6],
+            ['iddetai'=> 5,'idsv'=> 6,'idgv'=> 2],
+            ['iddetai'=> 6,'idsv'=> 8,'idgv'=> 4],
+            ['iddetai'=> 7,'idsv'=> 9,'idgv'=> 3],
+            ['iddetai'=> 8,'idsv'=> 10,'idgv'=> 1],
+            ['iddetai'=> 9,'idsv'=> 4,'idgv'=> 2],
+            ['iddetai'=> 10,'idsv'=> 7,'idgv'=> 1],
         ]);
         sukien::insert([
             ['tensukien' => 'Đội SQ26 - TCU chiến thắng rực rỡ tại vòng bán kết Cuộc thi Cuộc đua số khu vực miền Nam',

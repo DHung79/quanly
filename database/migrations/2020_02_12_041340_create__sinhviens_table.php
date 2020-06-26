@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSinhvienTable extends Migration
+class CreateSinhviensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateSinhvienTable extends Migration
      */
     public function up()
     {
-        Schema::create('sinhvien', function (Blueprint $table) {
+        Schema::create('sinhviens', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('ho',255)->nullable();
             $table->string('ten',255)->nullable();
@@ -37,6 +37,6 @@ class CreateSinhvienTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sinhvien');
+        Schema::dropIfExists('sinhviens');
     }
 }

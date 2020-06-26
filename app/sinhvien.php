@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class sinhvien extends Model
 {
-    protected $table = "sinhvien";
+    protected $table = "sinhviens";
 
     public function lop(){
         return $this->belongsTo('App\lop','idlop','id');

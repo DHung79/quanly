@@ -43,7 +43,7 @@
                             {{-- @if(isset($tv->idgv))
                                 {{$tv->hotengv}}<br>
                             @endif --}}
-                            @if(isset($tv->idsv) && $tv->id == $dt->id)
+                            @if(isset($tv->idsv) && $tv->id == $dt->id && $sinhvienlop->where('id',$tv->idsv)->first()->idusers != $dt->idtacgia)
                                 {{$tv->hotensv}}<br>
                             @endif
                           @endforeach
@@ -54,7 +54,7 @@
                             {{-- @if(isset($tv->idgv))
                                 {{$giangvienkhoa->where('id',$tv->idgv)->first()->tenkhoa}}<br>
                             @endif --}}
-                            @if(isset($tv->idsv) && $tv->id == $dt->id)
+                            @if(isset($tv->idsv) && $tv->id == $dt->id && $sinhvienlop->where('id',$tv->idsv)->first()->idusers != $dt->idtacgia)
                                 {{$sinhvienlop->where('idlop',$tv->idlop)->first()->tenlop}}<br>
                             @endif
                           @endforeach
@@ -64,10 +64,10 @@
                         <td>
                           {{$gvlist->where('idusers',$dt->idtacgia)->first()->hotengv}}<br>
                             @foreach ($dsthanhvien as $tv)
-                              @if(isset($tv->idgv) && $tv->id == $dt->id)
+                              @if(isset($tv->idgv) && $tv->id == $dt->id && $giangvienkhoa->where('id',$tv->idgv)->first()->idusers != $dt->idtacgia)
                                   {{$tv->hotengv}}<br>
                               @endif
-                              @if(isset($tv->idsv) && $tv->id == $dt->id)
+                              @if(isset($tv->idsv) && $tv->id == $dt->id && $sinhvienlop->where('id',$tv->idsv)->first()->idusers != $dt->idtacgia)
                                   {{$tv->hotensv}}<br>
                               @endif
                             @endforeach
@@ -75,10 +75,10 @@
                         <td>
                           {{$giangvienkhoa->where('idusers',$dt->idtacgia)->first()->tenkhoa}}<br>
                           @foreach ($dsthanhvien as $tv)
-                            @if(isset($tv->idgv) && $tv->id == $dt->id)
+                            @if(isset($tv->idgv) && $tv->id == $dt->id && $giangvienkhoa->where('id',$tv->idgv)->first()->idusers != $dt->idtacgia)
                                 {{$giangvienkhoa->where('id',$tv->idgv)->first()->tenkhoa}}<br>
                             @endif
-                            @if(isset($tv->idsv) && $tv->id == $dt->id)
+                            @if(isset($tv->idsv) && $tv->id == $dt->id && $sinhvienlop->where('id',$tv->idsv)->first()->idusers != $dt->idtacgia)
                                 {{$sinhvienlop->where('idlop',$tv->idlop)->first()->tenlop}}<br>
                             @endif
                           @endforeach

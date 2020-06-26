@@ -299,11 +299,11 @@
                             {{$gvlist->where('idusers',$detai->idtacgia)->first()->hotengv}} (Khoa: {{$giangvienkhoa->where('idusers',$detai->idtacgia)->first()->tenkhoa}})<br>
                         @endif
                         @foreach ($thanhvien as $tv)
-                            @if(isset($tv->idgv))
-                                {{$tv->hotengv}} (Khoa: {{$giangvienkhoa->where('id',$tv->idgv)->first()->tenkhoa}})<br>
+                            @if(isset($tv->idgv) && $giangvienkhoa->where('id',$tv->idgv)->first()->idusers != $idedit)
+                                {{$tv->hotengv}} (Khoa: {{$giangvienkhoa->where('id',$tv->idkhoa)->first()->tenkhoa}})<br>
                             @endif
-                            @if(isset($tv->idsv))
-                                {{$tv->hotensv}} (Lớp: {{$sinhvienlop->where('idlop',$tv->idlop)->first()->tenlop}})
+                            @if(isset($tv->idsv) && $sinhvienlop->where('id',$tv->idsv)->first()->idusers != $idedit)
+                                {{$tv->hotensv}} (Lớp: {{$sinhvienlop->where('idlop',$tv->idlop)->first()->tenlop}})<br>
                             @endif
                         @endforeach
                     </div>

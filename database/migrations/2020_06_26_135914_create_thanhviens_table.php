@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateThanhvienTable extends Migration
+class CreateThanhviensTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,14 @@ class CreateThanhvienTable extends Migration
      */
     public function up()
     {
-        Schema::create('thanhvien', function (Blueprint $table) {
+        Schema::create('thanhviens', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('iddetai');
             $table->foreign('iddetai')->references('id')->on('detais')->onDelete('cascade');
             $table->unsignedBigInteger('idgv')->nullable();
             $table->foreign('idgv')->references('id')->on('giangvien')->onDelete('cascade');
             $table->unsignedBigInteger('idsv')->nullable();
-            $table->foreign('idsv')->references('id')->on('sinhvien')->onDelete('cascade');
+            $table->foreign('idsv')->references('id')->on('sinhviens')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ class CreateThanhvienTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('thanhvien');
+        Schema::dropIfExists('thanhviens');
     }
 }
