@@ -13,6 +13,7 @@ use App\sukien;
 use App\source;
 use App\thamkhao;
 use App\tiendo;
+use App\thanhvien;
 use App\nghiemthu;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
