@@ -206,9 +206,13 @@ class homeController extends sharecontroller
                 $this->validate($request,[
                     'khoa' => 'required',
                     'hocvi' => 'required',
+                    'ngaysinh'  => 'required',
+                    'quequan'   => 'required',
                 ],[
                     'khoa.required'=>'Bạn chưa nhập khoa',
                     'hocvi.required'=>'Bạn chưa nhập học vị',
+                    'ngaysinh.required'=>'Bạn chưa nhập ngày sinh',
+                    'quequan.required'=>'Bạn chưa nhập quê quán',
                 ]);
                 User::updateOrInsert(['email'=>$request->email]);
                 $gv->idkhoa = $request->khoa;
@@ -216,6 +220,8 @@ class homeController extends sharecontroller
                 $gv->ten = $request->ten;
                 $gv->gioitinh = $request->gioitinh;
                 $gv->hocvi = $request->hocvi;
+                $gv->ngaysinh = $request->ngaysinh;
+                $gv->quequan = $request->quequan;
                 $gv->diachi = $request->diachi;
                 $gv->sodt = $request->sodt;
                 $gv->save();
