@@ -15,5 +15,9 @@ class sinhvien extends Model
     public function user(){
         return $this->belongsTo('App\User','idUser','id');
     }
-   
+    
+    public function thanhvien()
+    {
+        return $this->hasMany('App\thanhvien','idsv','id');
+    }
 }

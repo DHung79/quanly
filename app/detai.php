@@ -20,10 +20,14 @@ class detai extends Model
     }
     public function nghiemthu()
     {
-        return $this->hasMany('App\lop','iddetai','id');
+        return $this->hasMany('App\nghiemthu','iddetai','id');
     }
     public function source()
     {
-        return $this->hasMany('App\lop','iddetai','id');
+        return $this->hasMany('App\source','iddetai','id');
+    }
+    public function thanhvien()
+    {
+        return $this->hasMany('App\thanhvien','iddetai','id');
     }
 }

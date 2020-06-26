@@ -12,7 +12,7 @@
 
 <div class="card shadow mb-4">
 <div class="card-header py-3">
-    <h6 class="m-0 font-weight-bold text-primary">Đề tài, công trình nghiên cứu khoa học: {{$detai->tendetai}}</h6>
+    <h6 class="m-0 font-weight-bold text-primary">Đề tài, công trình nghiên cứu khoa học:</h6>
 </div>
     
     <span class="error-center" style="margin: 5px 25px;">
@@ -47,7 +47,7 @@
                         </div>
                     </div>
                     <div class="col-xl-12 col-md-6 mb-4">
-                        <h4 class="small font-weight-bold" style="font-size: large">Nội dung</h4>
+                        <h4 class="small font-weight-bold" style="font-size: large">Mục tiêu đề tài</h4>
                         <textarea name="noidung" 
                         class="form-control form-group form-control-sm ckeditor" 
                         style="">{{$detai->noidung}}</textarea>	
@@ -221,77 +221,97 @@
 
     @if(Auth::check())
         @if(Auth::user()->level==1||Auth::user()->level==2)
-        <div class="row" style="margin: 10px 0px 10px 10px;">
-            <div class="col-md-4 col-6 " >
-                <a href="javascript:" class="btn btn-split btn-success edit-btn">
-                    Chỉnh sửa đề tài</a>
+            <div class="row" style="margin: 10px 0px 10px 10px;">
+                <div class="col-md-4 col-6 " >
+                    <a href="javascript:" class="btn btn-split btn-success edit-btn">
+                        Chỉnh sửa đề tài</a>
+                </div>
             </div>
-        </div>
-        <div class="row" style="margin: 10px 0px 10px 10px;">
-            <div class="col-md-4 col-6 " >
-                <a href="javascript:" class="btn btn-split btn-success danhgia-btn">
-                    Đánh giá tiến độ</a>
+            <div class="row" style="margin: 10px 0px 10px 10px;">
+                <div class="col-md-4 col-6 " >
+                    <a href="javascript:" class="btn btn-split btn-success danhgia-btn">
+                        Đánh giá tiến độ</a>
+                </div>
             </div>
-        </div>
-        <div class="row" style="margin: 10px 0px 10px 10px;">
-            <div class="col-md-4 col-6 " >
-                <a href="javascript:" class="btn btn-split btn-success nghiemthu-btn">
-                    Nghiệm thu</a>
+            <div class="row" style="margin: 10px 0px 10px 10px;">
+                <div class="col-md-4 col-6 " >
+                    <a href="javascript:" class="btn btn-split btn-success nghiemthu-btn">
+                        Nghiệm thu</a>
+                </div>
             </div>
-        </div>
         @endif
         @if(Auth::user()->id==$idedit && Auth::user()->level==3)
-        <div class="row" style="margin: 10px 0px 10px 10px;">
-            <div class="col-md-1 col-6 " >
-                <a href="javascript:" class="btn btn-split btn-success edit-btn">
-                    Sửa</a>
+            <div class="row" style="margin: 10px 0px 10px 10px;">
+                <div class="col-md-1 col-6 " >
+                    <a href="javascript:" class="btn btn-split btn-success edit-btn">
+                        Sửa</a>
+                </div>
             </div>
-        </div>
         @endif
             <div class="card-body" style=" color: #000000;">
-                <div class="col-md-12 mb-4 col-6 ">
-                    @if(count($source)>0)
-                        @if(Auth::user()->level==1||Auth::user()->level==2||Auth::user()->id==$idedit)
-                            <div  class="font-weight-bold text-info text-uppercase ">
-                                File:
-                            </div>
-                            <div class="row">
-                                @foreach ($source as $s)
-                                    <div class="col-md-3 col-6" >
-                                        <a href="javascript:" data-id="{{$s->id}}" 
-                                            class="btn-split delete-btn" >
-                                            <i class="fas fa-times-circle" 
-                                            style="color:#e61d23; 
-                                                right: 5%;
-                                                font-size: 20px;
-                                                position: absolute;
-                                                text-decoration: none;"></i>
-                                        </a>
-                                        <center>
-                                            <a href="file/{{$s->tenfile}}" download>
-                                                <img src="{{$s->img}}" style="max-height:200px; max-width:200px">
-                                            </a><br>
-                                            <p>{{$s->tenfile}}</p>
-                                        </center>
-                                    </div>
-                                @endforeach
-                            </div>
+                <div class="col-md-6 col-6 ">
+                    <div class="col-md-12 mb-4 col-6 ">
+                        @if(count($source)>0)
+                            @if(Auth::user()->level==1||Auth::user()->level==2||Auth::user()->id==$idedit)
+                                <div  class="font-weight-bold text-info text-uppercase ">
+                                    File:
+                                </div>
+                                <div class="row">
+                                    @foreach ($source as $s)
+                                        <div class="col-md-3 col-6" >
+                                            <a href="javascript:" data-id="{{$s->id}}" 
+                                                class="btn-split delete-btn" >
+                                                <i class="fas fa-times-circle" 
+                                                style="color:#e61d23; 
+                                                    right: 5%;
+                                                    font-size: 20px;
+                                                    position: absolute;
+                                                    text-decoration: none;"></i>
+                                            </a>
+                                            <center>
+                                                <a href="file/{{$s->tenfile}}" download>
+                                                    <img src="{{$s->img}}" style="max-height:200px; max-width:200px">
+                                                </a><br>
+                                                <p>{{$s->tenfile}}</p>
+                                            </center>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @endif
                         @endif
-                    @endif
+                    </div>
                 </div>
-                <div class="col-md-12 col-6 ">
+    @endif
+            {{-- <div class="card-body" style=" color: #000000;"> --}}
+                <div class="col-md-12 col-6 " style=" color: #000000; margin-left: 10px;">
+                    <div  class="font-weight-bold text-info text-uppercase">
+                        Tên đề tài:
+                    </div> 
+                    <div class="mb-4" >{{$detai->tendetai}}</div>
+                    <div  class="font-weight-bold text-info text-uppercase">
+                        Thành viên: 
+                    </div>
+                    <div class="mb-4" >
+                        @if($svlist->where('idusers',$detai->idtacgia)->count() > 0)
+                            {{$svlist->where('idusers',$detai->idtacgia)->first()->hotensv}} (Lớp: {{$sinhvienlop->where('idusers',$detai->idtacgia)->first()->tenlop}})<br>
+                        @endif
+                        @if($gvlist->where('idusers',$detai->idtacgia)->count() > 0)
+                            {{$gvlist->where('idusers',$detai->idtacgia)->first()->hotengv}} (Khoa: {{$giangvienkhoa->where('idusers',$detai->idtacgia)->first()->tenkhoa}})<br>
+                        @endif
+                        @foreach ($thanhvien as $tv)
+                            @if(isset($tv->idgv))
+                                {{$tv->hotengv}} (Khoa: {{$giangvienkhoa->where('id',$tv->idgv)->first()->tenkhoa}})<br>
+                            @endif
+                            @if(isset($tv->idsv))
+                                {{$tv->hotensv}} (Lớp: {{$sinhvienlop->where('idlop',$tv->idlop)->first()->tenlop}})
+                            @endif
+                        @endforeach
+                    </div>
                     @if(isset($detai->noidung))
                     <div  class="font-weight-bold text-info text-uppercase mb-4">
-                        Nội dung đề tài:
+                        Mục tiêu đề tài:
                     </div>
                         {!!$detai->noidung!!}
-                    @else
-                        @if(Auth::user()->level==3 && Auth::user()->id!=$idedit)
-                            <center><h4 class="medium font-weight-bold">
-                                Đề tài này chưa có nội dung
-                                <br><a href="{{ url()->previous() }}" style=" text-decoration: none;">Vui lòng quay lại sau</a>
-                            </h4></center>
-                        @endif
                     @endif
                     @if(isset($detai->huongphattrien))
                     <div  class="font-weight-bold text-info text-uppercase mb-4">
@@ -306,7 +326,7 @@
                         {!!$detai->giaiphap!!}
                     @endif
                 </div>
-                <div class="col-md-12 col-6 ">
+                <div class="col-md-12 col-6 " style=" margin-left: 10px;">
                     @if(isset($tiendo->phantramhoanthanh))
                     <div  class="font-weight-bold text-info text-uppercase mb-4">
                         <div class="row">
@@ -337,9 +357,8 @@
                     @endif
                 </div>
             </div>
-    @endif
 </div>
-</div>
+{{-- </div> --}}
 <!-- /.container-fluid -->
 </div>
 <!-- End of Main Content -->

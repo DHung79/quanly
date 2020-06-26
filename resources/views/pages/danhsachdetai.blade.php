@@ -19,7 +19,7 @@
         <thead>
           <tr>
             <th>STT</th>
-            <th>Tác giả</th>
+            <th>Thành viên</th>
             <th>Lớp/ Khoa</th>
             <th>Tên đề tài</th>
             <th>GVHD</th>
@@ -37,12 +37,52 @@
                     <tr>
                       <th scope="row">{{$stt++}}</th>
                       @if($svlist->where('idusers',$dt->idtacgia)->count() > 0)
-                        <td>{{$svlist->where('idusers',$dt->idtacgia)->first()->hotensv}}</td>
-                        <td>{{$sinhvienlop->where('idusers',$dt->idtacgia)->first()->tenlop}}</td>
+                        <td>
+                          {{$svlist->where('idusers',$dt->idtacgia)->first()->hotensv}} (Tác giả)<br>
+                          @foreach ($dsthanhvien as $tv)
+                            {{-- @if(isset($tv->idgv))
+                                {{$tv->hotengv}}<br>
+                            @endif --}}
+                            @if(isset($tv->idsv) && $tv->id == $dt->id)
+                                {{$tv->hotensv}}<br>
+                            @endif
+                          @endforeach
+                        </td>
+                        <td>
+                          {{$sinhvienlop->where('idusers',$dt->idtacgia)->first()->tenlop}}<br>
+                          @foreach ($dsthanhvien as $tv)
+                            {{-- @if(isset($tv->idgv))
+                                {{$giangvienkhoa->where('id',$tv->idgv)->first()->tenkhoa}}<br>
+                            @endif --}}
+                            @if(isset($tv->idsv) && $tv->id == $dt->id)
+                                {{$sinhvienlop->where('idlop',$tv->idlop)->first()->tenlop}}<br>
+                            @endif
+                          @endforeach
+                        </td>
                       @endif
                       @if($gvlist->where('idusers',$dt->idtacgia)->count() > 0)
-                        <td>{{$gvlist->where('idusers',$dt->idtacgia)->first()->hotengv}}</td>
-                        <td>{{$giangvienkhoa->where('idusers',$dt->idtacgia)->first()->tenkhoa}}</td>
+                        <td>
+                          {{$gvlist->where('idusers',$dt->idtacgia)->first()->hotengv}}<br>
+                            @foreach ($dsthanhvien as $tv)
+                              @if(isset($tv->idgv) && $tv->id == $dt->id)
+                                  {{$tv->hotengv}}<br>
+                              @endif
+                              @if(isset($tv->idsv) && $tv->id == $dt->id)
+                                  {{$tv->hotensv}}<br>
+                              @endif
+                            @endforeach
+                        </td>
+                        <td>
+                          {{$giangvienkhoa->where('idusers',$dt->idtacgia)->first()->tenkhoa}}<br>
+                          @foreach ($dsthanhvien as $tv)
+                            @if(isset($tv->idgv) && $tv->id == $dt->id)
+                                {{$giangvienkhoa->where('id',$tv->idgv)->first()->tenkhoa}}<br>
+                            @endif
+                            @if(isset($tv->idsv) && $tv->id == $dt->id)
+                                {{$sinhvienlop->where('idlop',$tv->idlop)->first()->tenlop}}<br>
+                            @endif
+                          @endforeach
+                        </td>
                       @endif
                       <td>
                         <a href="{{route('userdetai',['id'=>$dt->idtacgia])}}" 

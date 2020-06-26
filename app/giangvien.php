@@ -18,6 +18,10 @@ class giangvien extends Model
     {
         return $this->hasMany('App\detai','idgvhd','id');
     }
+    public function thanhvien()
+    {
+        return $this->hasMany('App\thanhvien','idgv','id');
+    }
 }
 
 

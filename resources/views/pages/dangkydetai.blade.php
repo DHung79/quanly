@@ -54,6 +54,19 @@
                         {{$giangvien->ten}}
                         </p> 
                         <input type="hidden" name="idtg" value={{$giangvien->idusers}}>
+                        <h4 class="small font-weight-bold">Thành viên:</h4>
+                            <select class="form-control form-group" name="idgv">
+                            <option value=""hidden>Thành viên:</option>
+                            @foreach ($listuser as $list)
+                                @if($list->idusers != $iduser)
+                                    <option value="{{$list->idgv}}">
+                                        @if(isset($list->idgv))
+                                            {{$list->hotengv}}
+                                        @endif 
+                                    </option>
+                                @endif
+                            @endforeach    
+                        </select>
                 @endif
                 @if(Auth::user()->level==3)
                 <div class="row">
@@ -64,6 +77,17 @@
                         {{$sinhvien->ten}}
                         </p> 
                         <input type="hidden" name="idtg" value={{$sinhvien->idusers}}>
+                        <h4 class="small font-weight-bold">Thành viên:</h4>
+                        <select class="form-control form-group" name="idsv">
+                            <option value=""hidden>Thành viên:</option>
+                            @foreach ($svlist as $sv)
+                                @if($sv->idusers != $iduser)
+                                    <option value="{{$sv->id}}">
+                                        {{$sv->ho}} {{$sv->ten}}
+                                    </option>
+                                @endif
+                            @endforeach    
+                        </select>
                         <h4 class="small font-weight-bold">Giảng viên hướng dẫn:</h4>
                         <select class="form-control form-group" name='gv' >
                             <option value=""hidden>Giảng viên hướng dẫn:</option>
@@ -83,13 +107,14 @@
                             <input class="form-control mb-4" type='text' name='tendt' placeholder='Tên đề tài'/>	
                             <h4 class="small font-weight-bold">Tóm tắt</h4>
                             <input class="form-control mb-4" type='text' name='tomtat' placeholder='Tóm tắt'/>	
+                            
                         </div>
                     </div>
                 </div>
                 <div style="flex: 0 0 8%; max-width: 5%;">
                 </div>
                 <div class="col-xl-7">
-                    <h4 class="small font-weight-bold">Mô tả</h4>
+                    <h4 class="small font-weight-bold">Mục tiêu đề tài</h4>
                     <textarea class="form-control ckeditor" name="noidung" style=""></textarea>
                 </div>
                 

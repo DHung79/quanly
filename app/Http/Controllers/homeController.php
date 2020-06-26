@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Storage;
 use App\User;
 use App\giangvien;
 use App\sinhvien;
+use App\thanhvien;
 use App\khoa;
 use App\lop;
 use App\detai;
@@ -46,7 +47,8 @@ class homeController extends sharecontroller
         $users = user::get();
         view::share('users',$users);
 
-        $danhsachdt = detai::join('users','users.id','detais.idtacgia')->select('detais.*','users.*','detais.id as id')
+        $danhsachdt = detai::join('users','users.id','detais.idtacgia')
+        ->select('detais.*','users.*','detais.id as id')
         ->where('daduyet','1')->get();
         view::share('danhsachdt',$danhsachdt);
 
@@ -61,6 +63,25 @@ class homeController extends sharecontroller
 
         $dstiendo = tiendo::get();
         view::share('dstiendo',$dstiendo);
+
+        $listuser = User::join('giangvien', 'giangvien.idusers', '=', 'users.id')
+        ->select(DB::raw('CONCAT(giangvien.ho, " ", giangvien.ten) AS hotengv'),
+        'users.*','giangvien.*',
+        'users.id as id',
+        'giangvien.id as idgv')->get();
+        view::share('listuser',$listuser);
+
+        $dsthanhvien = detai::join('thanhvien', 'thanhvien.iddetai', '=', 'detais.id')
+        ->join('giangvien', 'giangvien.id', '=', 'thanhvien.idgv')
+        ->join('sinhvien', 'sinhvien.id', '=', 'thanhvien.idsv')
+        ->select(DB::raw('CONCAT(sinhvien.ho, " ", sinhvien.ten) AS hotensv'),
+                DB::raw('CONCAT(giangvien.ho, " ", giangvien.ten) AS hotengv'),
+                'detais.*','thanhvien.*','giangvien.*','sinhvien.*',
+                'detais.id as id',
+                'giangvien.id as idgv',
+                'sinhvien.id as idsv',
+                'thanhvien.id as idthanhvien')->get();
+        view::share('dsthanhvien',$dsthanhvien);
         
         $dsnghiemthu = nghiemthu::get();
         view::share('dsnghiemthu',$dsnghiemthu);
@@ -238,11 +259,27 @@ class homeController extends sharecontroller
         $detai = detai::where('idtacgia',$id)->first();
         if(isset($detai)){
             $iddetai = $detai->id;
-            $tiendo = tiendo::where('iddetai',$iddetai)->get();
-            $nghiemthu = nghiemthu::where('iddetai',$iddetai)->get();
+            $thanhvien = detai::join('thanhvien', 'thanhvien.iddetai', '=', 'detais.id')
+            ->join('giangvien', 'giangvien.id', '=', 'thanhvien.idgv')
+            ->join('sinhvien', 'sinhvien.id', '=', 'thanhvien.idsv')
+            ->select(DB::raw('CONCAT(sinhvien.ho, " ", sinhvien.ten) AS hotensv'),
+                    DB::raw('CONCAT(giangvien.ho, " ", giangvien.ten) AS hotengv'),
+                    'detais.*','thanhvien.*','giangvien.*','sinhvien.*',
+                    'detais.id as id',
+                    'giangvien.id as idgv',
+                    'sinhvien.id as idsv',
+                    'thanhvien.id as idthanhvien')
+            ->where('detais.id', '=', $iddetai)->get();
+            $tiendo = tiendo::where('iddetai',$iddetai)->first();
+            $nghiemthu = nghiemthu::where('iddetai',$iddetai)->first();
             $source = source::where('iddetai',$iddetai)->get();
             $idedit = $detai->idtacgia;
-            return view('pages.userdetai',['detai'=>$detai,'idedit'=>$idedit,'source'=>$source,'tiendo'=>$tiendo,'nghiemthu'=>$nghiemthu]);
+            return view('pages.userdetai',['detai'=>$detai,
+            'idedit'=>$idedit,
+            'source'=>$source,
+            'tiendo'=>$tiendo,
+            'thanhvien'=>$thanhvien,
+            'nghiemthu'=>$nghiemthu]);
         }else{
             return redirect()->route('getdkdetai');
         }
@@ -251,11 +288,27 @@ class homeController extends sharecontroller
     public function userdetai($id){
         $detai = detai::where('idtacgia',$id)->first();
         $iddetai = $detai->id;
+        $thanhvien = detai::join('thanhvien', 'thanhvien.iddetai', '=', 'detais.id')
+        ->join('giangvien', 'giangvien.id', '=', 'thanhvien.idgv')
+        ->join('sinhvien', 'sinhvien.id', '=', 'thanhvien.idsv')
+        ->select(DB::raw('CONCAT(sinhvien.ho, " ", sinhvien.ten) AS hotensv'),
+                DB::raw('CONCAT(giangvien.ho, " ", giangvien.ten) AS hotengv'),
+                'detais.*','thanhvien.*','giangvien.*','sinhvien.*',
+                'detais.id as id',
+                'giangvien.id as idgv',
+                'sinhvien.id as idsv',
+                'thanhvien.id as idthanhvien')
+        ->where('detais.id', '=', $iddetai)->get();
         $tiendo = tiendo::where('iddetai',$iddetai)->first();
         $nghiemthu = nghiemthu::where('iddetai',$iddetai)->first();
         $source = source::where('iddetai',$iddetai)->get();
         $idedit = $detai->idtacgia;
-        return view('pages.userdetai',['detai'=>$detai,'idedit'=>$idedit,'source'=>$source,'tiendo'=>$tiendo,'nghiemthu'=>$nghiemthu]);
+        return view('pages.userdetai',['detai'=>$detai,
+            'idedit'=>$idedit,
+            'source'=>$source,
+            'tiendo'=>$tiendo,
+            'thanhvien'=>$thanhvien,
+            'nghiemthu'=>$nghiemthu]);
     }
     //Chỉnh sửa đề tài 
     public function editdetai(Request $request){
@@ -420,6 +473,7 @@ class homeController extends sharecontroller
             $detai = new detai;
             $tiendo = new tiendo;
             $nghiemthu = new nghiemthu;
+            $thanhvien = new thanhvien;
             $detai->idtacgia = $request->idtg;
             $detai->tendetai = $request->tendt;
             $detai->tomtat = $request->tomtat;
@@ -428,6 +482,10 @@ class homeController extends sharecontroller
             $detai->idgvhd = $request->gv;
             $detai->save();
             $iddetai = $detai->id;
+            $thanhvien->iddetai = $iddetai;
+            $thanhvien->idsv = $request->idsv;
+            $thanhvien->idgv = $request->idgv;
+            $thanhvien->save();
             $nghiemthu->iddetai = $iddetai;
             $tiendo->iddetai = $iddetai;
             $tiendo->cosolythuyet = 0;
@@ -456,6 +514,7 @@ class homeController extends sharecontroller
             $detai = new detai;
             $tiendo = new tiendo;
             $nghiemthu = new nghiemthu;
+            $thanhvien = new thanhvien;
             $detai->idtacgia = $request->idtg;
             $detai->tendetai = $request->tendt;
             $detai->tomtat = $request->tomtat;
@@ -463,6 +522,10 @@ class homeController extends sharecontroller
             $detai->daduyet = 0;
             $detai->save();
             $iddetai = $detai->id;
+            $thanhvien->iddetai = $iddetai;
+            $thanhvien->idsv = $request->idsv;
+            $thanhvien->idgv = $request->idgv;
+            $thanhvien->save();
             $nghiemthu->iddetai = $iddetai;
             $tiendo->iddetai = $iddetai;
             $tiendo->cosolythuyet = 0;
