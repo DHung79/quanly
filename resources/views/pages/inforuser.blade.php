@@ -203,8 +203,14 @@
                     </div>
                 </div>
                 <div col-md-6 col-6 mb-1>
-                    <img src="{{$user->img}}" 
-                    style="max-height: 250px; max-width: 250px">
+                    <h4 class="row font-weight-bold">Ảnh đại diện</h4>
+                    <center><img class="img-profile rounded-circle" style="max-height: 250px; max-width: 250px"
+                        @if(isset($user->img))
+                            src="{{$user->img}}"
+                        @else
+                            src="img/person-icon-blue-18.png"
+                        @endif
+                    ></center>
                 </div>
             </div>
     @endif
@@ -409,8 +415,14 @@
                 </div>
             </div>
             <div col-md-6 col-6 mb-1>
-                <img src="{{$user->img}}" 
-                style="max-height: 250px; max-width: 250px">
+                <h4 class="row font-weight-bold">Ảnh đại diện</h4>
+                <center><img class="img-profile rounded-circle" style="max-height: 250px; max-width: 250px"
+                    @if(isset($user->img))
+                        src="{{$user->img}}"
+                    @else
+                        src="img/person-icon-blue-18.png"
+                    @endif
+                ></center>
             </div>
         </div>
     @endif
