@@ -267,7 +267,7 @@ class homeController extends sharecontroller
             $iddetai = $detai->id;
             $thanhvien = detai::join('thanhviens', 'thanhviens.iddetai', '=', 'detais.id')
             ->join('giangvien', 'giangvien.id', '=', 'thanhviens.idgv')
-            ->join('sinhvien', 'sinhviens.id', '=', 'thanhviens.idsv')
+            ->join('sinhviens', 'sinhviens.id', '=', 'thanhviens.idsv')
             ->select(DB::raw('CONCAT(sinhviens.ho, " ", sinhviens.ten) AS hotensv'),
                     DB::raw('CONCAT(giangvien.ho, " ", giangvien.ten) AS hotengv'),
                     'detais.*','thanhviens.*','giangvien.*','sinhviens.*',
