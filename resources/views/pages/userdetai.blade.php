@@ -229,13 +229,13 @@
             </div>
             <div class="row" style="margin: 10px 0px 10px 10px;">
                 <div class="col-md-4 col-6 " >
-                    <a href="javascript:" class="btn btn-split btn-success danhgia-btn">
+                    <a href="javascript:" class="btn btn-split btn-info danhgia-btn">
                         Đánh giá tiến độ</a>
                 </div>
             </div>
             <div class="row" style="margin: 10px 0px 10px 10px;">
                 <div class="col-md-4 col-6 " >
-                    <a href="javascript:" class="btn btn-split btn-success nghiemthu-btn">
+                    <a href="javascript:" class="btn btn-split btn-warning nghiemthu-btn">
                         Nghiệm thu</a>
                 </div>
             </div>
@@ -248,7 +248,7 @@
                 </div>
             </div>
         @endif
-            <div class="card-body" style=" color: #000000;">
+            <div class="card-body" style=" color: #000000; padding: 0 1.25rem;">
                 <div class="col-md-6 col-6 ">
                     <div class="col-md-12 mb-4 col-6 ">
                         @if(count($source)>0)
@@ -281,8 +281,9 @@
                         @endif
                     </div>
                 </div>
+            </div>
     @endif
-            {{-- <div class="card-body" style=" color: #000000;"> --}}
+            <div class="card-body" style=" color: #000000;">
                 <div class="col-md-12 col-6 " style=" color: #000000; margin-left: 10px;">
                     <div  class="font-weight-bold text-info text-uppercase">
                         Tên đề tài:
@@ -358,7 +359,7 @@
                 </div>
             </div>
 </div>
-{{-- </div> --}}
+</div>
 <!-- /.container-fluid -->
 </div>
 <!-- End of Main Content -->
