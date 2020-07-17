@@ -5,20 +5,19 @@
 
 <!-- Page Wrapper -->
         <!-- Begin Page Content -->
-        <div class="container-fluid">
+<div class="container-fluid">
 
         <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between ">
-            {{-- <h1 class="h3 mb-0 text-gray-800">Tin tức - Sự kiện</h1> --}}
-            {{-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> --}}
-        </div>
+    <div class="d-sm-flex align-items-center justify-content-between ">
+        {{-- <h1 class="h3 mb-0 text-gray-800">Tin tức - Sự kiện</h1> --}}
+        {{-- <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Generate Report</a> --}}
+    </div>
 
         <!-- Content Row -->
 
     <div class="row">
-
             <!-- Area Chart -->
-        <div class="col-xl-12 col-lg-6">
+        <div class="col-auto">
             <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -75,6 +74,7 @@
                     </form>
                 </div>
             </div>
+            
             <span class="error-center" style="margin: 5px 25px;">
                 @if(count($errors)>0)
                 @foreach($errors->all() as $err)
@@ -87,7 +87,7 @@
             </span> 
             @if(Auth::check())
             @if(Auth::user()->level==1||Auth::user()->level==2)
-                <div class="card-body">
+            <div class="card-body">
                 <div class="table-responsive" >
                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="color: #000000e6;">
                     <thead>
@@ -122,13 +122,16 @@
                     </tbody>
                     </table>
                 </div>
-                </div>
+            </div>
             @endif
             @endif
         </div>
-        <!-- /.container-fluid -->
     </div>
 </div>
+</div>
+</div>
+        <!-- /.container-fluid -->
+
 
 <script type="text/javascript" src="{{('/bootstrap/js/add.js')}}"></script>
 <script type="text/javascript">

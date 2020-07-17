@@ -36,6 +36,7 @@
 
   <!-- Custom styles for this template-->
   <link href="bootstrap/bootstrap_table_login/css/sb-admin-2.min.css" rel="stylesheet">
+  <link href="bootstrap/bootstrap_table_login/css/sb-admin-2.css" rel="stylesheet">
 
   <!-- Custom styles for this page -->
   <link href="bootstrap/bootstrap_table_login/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">

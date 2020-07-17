@@ -27,51 +27,38 @@
     </span> 
 
     <div class="form-edit" style=" display: none; color: #3a3b45;">
-        <form method="POST" action="{{route('editdetai')}}" style="margin: 30px 25px;" enctype="multipart/form-data">
+        <form method="POST" action="{{route('editdetai')}}" style="margin: 0px 25px 20px 25px;" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="id" value="{{$detai->id}}">
             <h4 class="font-weight-bold">Chỉnh sửa đề tài</h4>
             <hr style="margin-top: 0; margin-bottom: 10px">
             <div class="row">
-                <div class="col-xl-6 col-md-3">
-                    <div class="col-xl-12 col-md-6">
-                        <h4 class="font-weight-bold" style="font-size: large">Tên đề tài</h4>
-                        <div class="form-group" >
+                <div class="col-auto">
+                    <h4 class="font-weight-bold" style="font-size: large">Tên đề tài</h4>
+                    <div class="form-group" >
                         <input type='text' name='tendetai' value="{{$detai->tendetai}}" class="form-control form-control-sm">
-                        </div>
                     </div>
-                    <div class="col-xl-12 col-md-6">
-                        <h4 class="small font-weight-bold" style="font-size: large">Tóm tắt đề tài</h4>
-                        <div class="form-group" >
+                    <h4 class="small font-weight-bold" style="font-size: large">Tóm tắt đề tài</h4>
+                    <div class="form-group" >
                         <input type='text' name='tomtat' value="{{$detai->tomtat}}" class="form-control form-control-sm">
-                        </div>
                     </div>
-                    <div class="col-xl-12 col-md-6 mb-4">
-                        <h4 class="small font-weight-bold" style="font-size: large">Mục tiêu đề tài</h4>
-                        <textarea name="noidung" 
-                        class="form-control form-group form-control-sm ckeditor" 
-                        style="">{{$detai->noidung}}</textarea>	
+                    <h4 class="small font-weight-bold" style="font-size: large">Mục tiêu đề tài</h4>
+                    <textarea name="noidung" 
+                    class="form-control form-group form-control-sm ckeditor" 
+                    style="">{{$detai->noidung}}</textarea>	
+                    <h4 class="small font-weight-bold" style="font-size: large; margin-top:5px;">Thời gian thực hiện</h4>
+                    <div class="form-group" >
+                        <input type='date' name='thoigianthuchien' id="edit_tgth" class="form-control form-control-sm">
+                    </div> 
+                    <h4 class="small font-weight-bold" style="font-size: large">Thời gian kết thúc</h4>
+                    <div class="form-group" >
+                        <input type='date' name='thoigianketthuc' id="edit_tgkt" class="form-control form-control-sm">
                     </div>
-                    <div class="col-xl-12 col-md-6">
-                        <h4 class="small font-weight-bold" style="font-size: large">Thời gian thực hiện</h4>
-                        <div class="form-group" >
-                        <input type='date' name='thoigianthuchien' class="form-control form-control-sm">
-                        </div>
-                    </div>
-                    <div class="col-xl-12 col-md-6">
-                        <h4 class="small font-weight-bold" style="font-size: large">Thời gian kết thúc</h4>
-                        <div class="form-group" >
-                        <input type='date' name='thoigianketthuc' class="form-control form-control-sm">
-                        </div>
-                    </div>
-                    <div class="col-xl-12 col-md-6">
-                        <h4 class="small font-weight-bold" style="font-size: large">File</h4>
-                        <div class="form-group" >
+                    <h4 class="small font-weight-bold" style="font-size: large">File</h4>
+                    <div class="form-group" >
                         <input type='file' name='files[]' class="form-control form-control-sm" multiple>
-                        </div>
                     </div>
-                    <div class="col-xl-12 col-md-6 mb-4">
-                        <h4 class="small font-weight-bold" style="font-size: large">Hướng phát triển</h4>
+                    <h4 class="small font-weight-bold" style="font-size: large">Hướng phát triển</h4>
                         @if(isset($detai->huongphattrien))
                             <textarea name="huongphattrien" 
                             class="form-control form-group form-control-sm ckeditor" 
@@ -81,48 +68,45 @@
                             class="form-control form-group form-control-sm ckeditor" 
                             style=""></textarea>	
                         @endif
-                    </div>
-                    <div class="col-xl-12 col-md-6 mb-4">
-                        <h4 class="small font-weight-bold" style="font-size: large">Giải pháp</h4>
-                        @if(isset($detai->giaiphap))
-                            <textarea name="giaiphap" 
-                            class="form-control form-group form-control-sm ckeditor" 
-                            style="">{{$detai->giaiphap}}</textarea>	
-                        @else
-                            <textarea name="giaiphap" 
-                            class="form-control form-group form-control-sm ckeditor" 
-                            style=""></textarea>	
-                        @endif	
-                    </div>
+                    <h4 class="small font-weight-bold" style="font-size:large; margin-top:5px;">Giải pháp</h4>
+                    @if(isset($detai->giaiphap))
+                        <textarea name="giaiphap" 
+                        class="form-control form-group form-control-sm ckeditor" 
+                        style="">{{$detai->giaiphap}}</textarea>	
+                    @else
+                        <textarea name="giaiphap" 
+                        class="form-control form-group form-control-sm ckeditor" 
+                        style=""></textarea>	
+                    @endif	
                 </div>
-                    <div class="col-xl-12 col-md-6"> 
-                        <div class="row" style="margin-left: 0">
-                            <div class="col-md-2 col-6">
-                                <button type="submit" class="btn btn-success btn-md " name="">Cập nhật</button>
-                            </div>
-                            <div class="col-md-1 col-6">
-                                <button type="button" id="cancel-edit" class="btn btn-primary btn-md " style="background: #dc3545; border-color: #dc3545;">Hủy</button>
-                            </div>
+                <div class="col-xl-12 col-md-6"> 
+                    <div class="row" style="margin-top: 10px">
+                        <div class="col-auto">
+                            <button type="submit" class="btn btn-success btn-md " name="">Cập nhật</button>
+                        </div>
+                        <div class="col-auto">
+                            <button type="button" id="cancel-edit" class="btn btn-primary btn-md " style="background: #dc3545; border-color: #dc3545;">Hủy</button>
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
+            </div>
+        </form>
+    </div>
         
     <div class="form-danhgia" style=" display: none; color: #3a3b45;">
-        <form method="POST" action="{{route('danhgiatiendo')}}" style="margin: 30px 25px;" enctype="multipart/form-data">
+        <form method="POST" action="{{route('danhgiatiendo')}}" style="margin: 0px 25px 20px 25px;" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="id" value="{{$detai->id}}">
             <div class="row">
                 @if(Auth::check())
                     @if(Auth::user()->level==1||Auth::user()->level==2)
-                    <div class="col-xl-12 col-md-6"> 
+                    <div class="col-auto"> 
                         <h4 class="font-weight-bold">Đánh giá tiến độ</h4>
                         <hr style="margin-top: 0; margin-bottom: 10px">
                         <div class="form-group" >
                             <h4 class="small font-weight-bold">Cơ sở lý thuyết</h4>
-                            <div class="col-xl-6 col-md-6" style="padding-left:0;"> 
-                                <input type='number' name='cosolythuyet' class="form-control form-control-sm" 
+                            <div class="col-auto" style="padding-left:0;"> 
+                                <input type='number' name='cosolythuyet' min="0" max="100" class="form-control form-control-sm" 
                                     @if(isset($dstiendo->where('iddetai',$detai->id)->first()->cosolythuyet))
                                         value="{{$cosolythuyet = $dstiendo->where('iddetai',$detai->id)->first()->cosolythuyet}}">
                                     @else
@@ -132,8 +116,8 @@
                         </div>
                         <div class="form-group" >
                             <h4 class="small font-weight-bold">Phân tích thiết kế hệ thống</h4>
-                            <div class="col-xl-6 col-md-6" style="padding-left:0;"> 
-                                <input type='number' name='ptthietkehethong' class="form-control form-control-sm" 
+                            <div class="col-auto" style="padding-left:0;"> 
+                                <input type='number' name='ptthietkehethong' min="0" max="100" class="form-control form-control-sm" 
                                     @if(isset($dstiendo->where('iddetai',$detai->id)->first()->ptthietkehethong))
                                         value="{{$ptthietkehethong = $dstiendo->where('iddetai',$detai->id)->first()->ptthietkehethong}}">
                                     @else
@@ -143,8 +127,8 @@
                         </div>
                         <div class="form-group" >
                             <h4 class="small font-weight-bold">Kết quả đạt được</h4>
-                            <div class="col-xl-6 col-md-6" style="padding-left:0;"> 
-                                <input type='number' name='ketquadatduoc' class="form-control form-control-sm" 
+                            <div class="col-auto" style="padding-left:0;"> 
+                                <input type='number' name='ketquadatduoc' min="0" max="100" class="form-control form-control-sm" 
                                     @if(isset($dstiendo->where('iddetai',$detai->id)->first()->ketquadatduoc))
                                         value="{{$ketquadatduoc = $dstiendo->where('iddetai',$detai->id)->first()->ketquadatduoc}}">
                                     @else
@@ -157,10 +141,10 @@
                 @endif
             </div>
             <div class="row">
-                <div class="col-md-2 col-6">
+                <div class="col-auto">
                     <button type="submit" class="btn btn-success btn-md " name="">Đánh giá</button>
                 </div>
-                <div class="col-md-1 col-6">
+                <div class="col-auto">
                     <button type="button" id="cancel-danhgia" class="btn btn-primary btn-md " style="background: #dc3545; border-color: #dc3545;">Hủy</button>
                 </div>
             </div>
@@ -168,52 +152,44 @@
     </div>
 
     <div class="form-nghiemthu" style=" display: none; color: #3a3b45;">
-        <form method="POST" action="{{route('nghiemthudetai')}}" style="margin: 30px 25px;" enctype="multipart/form-data">
+        <form method="POST" action="{{route('nghiemthudetai')}}" style="margin: 0px 25px 20px 25px;" enctype="multipart/form-data">
             @csrf
             <input type="hidden" name="id" value="{{$detai->id}}">
             <div class="row">
                 @if(Auth::check())
                     @if(Auth::user()->level==1||Auth::user()->level==2)
-                    <div class="col-xl-12 col-md-6"> 
+                    <div class="col-auto"> 
                         <h4 class="font-weight-bold">Nghiệm thu</h4>
                         <hr style="margin-top: 0; margin-bottom: 10px">
-                            <div class="col-xl-6 col-md-3">
-                                <div class="col-xl-12 col-md-6">
-                                    <h4 class="font-weight-bold" style="font-size: large">Điểm đánh giá</h4>
-                                    <div class="form-group" >
-                                        <input type='number' name='diemdanhgia' class="form-control form-control-sm" 
-                                            @if(isset($nghiemthu->diemdanhgia))
-                                                value="{{$diemdanhgia = $nghiemthu->diemdanhgia}}">
-                                            @else
-                                                value="{{$diemdanhgia = 0}}">
-                                            @endif
-                                    </div>
-                                </div>
-                                <div class="col-xl-12 col-md-6 mb-4">
-                                    <h4 class="small font-weight-bold" style="font-size: large">Nhận xét chung</h4>
-                                    @if(isset($nghiemthu->nhanxetchung))
-                                        <textarea name="nhanxetchung" 
-                                        class="form-control form-group form-control-sm ckeditor" 
-                                        style="">{{$nghiemthu->nhanxetchung}}</textarea>	
-                                    @else
-                                        <textarea name="nhanxetchung" 
-                                        class="form-control form-group form-control-sm ckeditor" 
-                                        style=""></textarea>	
-                                    @endif
-                                </div>
+                        <h4 class="font-weight-bold" style="font-size: large">Điểm đánh giá</h4>
+                        <div class="form-group" >
+                            <input type='number' min="0" max="10" name='diemdanhgia' class="form-control form-control-sm" 
+                                @if(isset($nghiemthu->diemdanhgia))
+                                    value="{{$diemdanhgia = $nghiemthu->diemdanhgia}}">
+                                @else
+                                    value="{{$diemdanhgia = 0}}">
+                                @endif
+                            <h4 class="small font-weight-bold" style="font-size: large; margin-top:5px; ">Nhận xét chung</h4>
+                                @if(isset($nghiemthu->nhanxetchung))
+                                    <textarea name="nhanxetchung" 
+                                    class="form-control form-group form-control-sm ckeditor" 
+                                    style="">{{$nghiemthu->nhanxetchung}}</textarea>	
+                                @else
+                                    <textarea name="nhanxetchung" 
+                                    class="form-control form-group form-control-sm ckeditor" 
+                                    style=""></textarea>	
+                                @endif
                             </div>
                         </div>
                     @endif
                 @endif
             </div>
-            <div class="col-md-12 col-6">
-                <div class="row" style="margin-left: 0">
-                    <div class="col-md-2 col-6">
-                        <button type="submit" class="btn btn-success btn-md " name="">Nghiệm thu</button>
-                    </div>
-                    <div class="col-md-1 col-6">
-                        <button type="button" id="cancel-nghiemthu" class="btn btn-primary btn-md " style="background: #dc3545; border-color: #dc3545;">Hủy</button>
-                    </div>
+            <div class="row">
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-success btn-md " name="">Nghiệm thu</button>
+                </div>
+                <div class="col-auto">
+                    <button type="button" id="cancel-nghiemthu" class="btn btn-primary btn-md " style="background: #dc3545; border-color: #dc3545;">Hủy</button>
                 </div>
             </div>
         </form>
@@ -221,20 +197,18 @@
 
     @if(Auth::check())
         @if(Auth::user()->level==1||Auth::user()->level==2)
-            <div class="row" style="margin: 10px 0px 10px 10px;">
-                <div class="col-md-4 col-6 " >
-                    <a href="javascript:" class="btn btn-split btn-success edit-btn">
+            <div class="row" style="margin: 0px 0px 5px 10px;">
+                <div class="col-auto" >
+                    <a href="javascript:" class="btn btn-split btn-success edit-btn"
+                    data-tgth="{{$detai->thoigianthuchien}}" 
+                    data-tgkt="{{$detai->thoigianketthuc}}">
                         Chỉnh sửa đề tài</a>
                 </div>
-            </div>
-            <div class="row" style="margin: 10px 0px 10px 10px;">
-                <div class="col-md-4 col-6 " >
+                <div class="col-auto" >
                     <a href="javascript:" class="btn btn-split btn-info danhgia-btn">
                         Đánh giá tiến độ</a>
                 </div>
-            </div>
-            <div class="row" style="margin: 10px 0px 10px 10px;">
-                <div class="col-md-4 col-6 " >
+                <div class="col-auto" >
                     <a href="javascript:" class="btn btn-split btn-warning nghiemthu-btn">
                         Nghiệm thu</a>
                 </div>
@@ -243,14 +217,16 @@
         @if(Auth::user()->id==$idedit && Auth::user()->level==3)
             <div class="row" style="margin: 10px 0px 10px 10px;">
                 <div class="col-md-1 col-6 " >
-                    <a href="javascript:" class="btn btn-split btn-success edit-btn">
+                    <a href="javascript:" class="btn btn-split btn-success edit-btn"
+                    data-tgth="{{$detai->thoigianthuchien}}" 
+                    data-tgkt="{{$detai->thoigianketthuc}}">
                         Sửa</a>
                 </div>
             </div>
         @endif
-            <div class="card-body" style=" color: #000000; padding: 0 1.25rem;">
-                <div class="col-md-6 col-6 ">
-                    <div class="col-md-12 mb-4 col-6 ">
+            <div class="card-body" style=" color: #000000; padding: 0 1.25rem; margin-top: 0px; ">
+                <div class="col-auto">
+                    <div class="col-auto">
                         @if(count($source)>0)
                             @if(Auth::user()->level==1||Auth::user()->level==2||Auth::user()->id==$idedit)
                                 <div  class="font-weight-bold text-info text-uppercase ">
@@ -283,16 +259,16 @@
                 </div>
             </div>
     @endif
-            <div class="card-body" style=" color: #000000;">
-                <div class="col-md-12 col-6 " style=" color: #000000; margin-left: 10px;">
+            <div class="card-body" style=" color: #000000; padding: 0 10px" id="info">
+                <div class="col-auto" style=" color: #000000; margin-top: 0px;">
                     <div  class="font-weight-bold text-info text-uppercase">
                         Tên đề tài:
                     </div> 
-                    <div class="mb-4" >{{$detai->tendetai}}</div>
+                    <div class="mb-2" >{{$detai->tendetai}}</div>
                     <div  class="font-weight-bold text-info text-uppercase">
                         Thành viên: 
                     </div>
-                    <div class="mb-4" >
+                    <div class="mb-2" >
                         @if($svlist->where('idusers',$detai->idtacgia)->count() > 0)
                             {{$svlist->where('idusers',$detai->idtacgia)->first()->hotensv}} (Lớp: {{$sinhvienlop->where('idusers',$detai->idtacgia)->first()->tenlop}})<br>
                         @endif
@@ -308,26 +284,46 @@
                             @endif
                         @endforeach
                     </div>
+                    @if(isset($detai->thoigianthuchien))
+                    <div class="font-weight-bold text-uppercase mb-2">
+                        <div class="text-info">Thời gian thực hiện:
+                            {{date("d-m-Y",strtotime($detai->thoigianthuchien))}}
+                        </div>
+                    </div>
+                    @endif
+                    @if(isset($detai->thoigianketthuc))
+                    <div class="font-weight-bold text-uppercase mb-2">
+                        <div class="text-info">Thời gian kết thúc:
+                            {{date("d-m-Y",strtotime($detai->thoigianketthuc))}}
+                        </div>
+                    </div>
+                    @endif
                     @if(isset($detai->noidung))
-                    <div  class="font-weight-bold text-info text-uppercase mb-4">
+                    <div  class="font-weight-bold text-info text-uppercase">
                         Mục tiêu đề tài:
                     </div>
+                    <div class="mb-2">
                         {!!$detai->noidung!!}
+                    </div>
                     @endif
                     @if(isset($detai->huongphattrien))
-                    <div  class="font-weight-bold text-info text-uppercase mb-4">
+                    <div  class="font-weight-bold text-info text-uppercase">
                         Hướng phát triển:
                     </div>
+                    <div class="mb-2">
                         {!!$detai->huongphattrien!!}
+                    </div>
                     @endif
                     @if(isset($detai->giaiphap))
-                    <div  class="font-weight-bold text-info text-uppercase mb-4">
+                    <div  class="font-weight-bold text-info text-uppercase">
                         Giải pháp:
                     </div>
+                    <div class="mb-2">
                         {!!$detai->giaiphap!!}
+                    </div>
                     @endif
                 </div>
-                <div class="col-md-12 col-6 " style=" margin-left: 10px;">
+                <div class="col-md-12 col-6 ">
                     @if(isset($tiendo->phantramhoanthanh))
                     <div  class="font-weight-bold text-info text-uppercase mb-4">
                         <div class="row">
@@ -346,19 +342,21 @@
                 </div>
                 <div class="col-md-12 col-6 ">
                     @if(isset($nghiemthu->diemdanhgia))
-                    <div  class="font-weight-bold text-info text-uppercase mb-4">
+                    <div  class="font-weight-bold text-info text-uppercase mb-2">
                         Điểm đánh giá: {{$diemdanhgia = $nghiemthu->diemdanhgia}}
                     </div>
                     @endif
                     @if(isset($nghiemthu->nhanxetchung))
-                    <div  class="font-weight-bold text-info text-uppercase mb-4">
+                    <div  class="font-weight-bold text-info text-uppercase">
                         Nhận xét chung:
                     </div>
+                    <div class="mb-2">
                         {!!$nghiemthu->nhanxetchung!!}
+                    </div>
                     @endif
                 </div>
             </div>
-</div>
+    </div>
 </div>
 <!-- /.container-fluid -->
 </div>
@@ -377,10 +375,15 @@
             }
         })
         $('.edit-btn').click(function(){
+            tgth = $(this).data('tgth');
+            tgkt = $(this).data('tgkt');
+            $('#edit_tgth').val(tgth);
+            $('#edit_tgkt').val(tgkt);
             $('.edit-btn').hide();
             $('.danhgia-btn').hide();
             $('.nghiemthu-btn').hide();
             $('.form-edit').slideDown();
+            $('#info').hide();
         })
 
         $('#cancel-edit').click(function(){
@@ -388,12 +391,14 @@
             $('.edit-btn').show();
             $('.danhgia-btn').show();
             $('.nghiemthu-btn').show();
+            $('#info').show();
         })
         $('.danhgia-btn').click(function(){
             $('.edit-btn').hide();
             $('.danhgia-btn').hide();
             $('.nghiemthu-btn').hide();
             $('.form-danhgia').slideDown();
+            $('#info').hide();
         })
 
         $('#cancel-danhgia').click(function(){
@@ -401,12 +406,14 @@
             $('.edit-btn').show();
             $('.danhgia-btn').show();
             $('.nghiemthu-btn').show();
+            $('#info').show();
         })
         $('.nghiemthu-btn').click(function(){
             $('.edit-btn').hide();
             $('.danhgia-btn').hide();
             $('.nghiemthu-btn').hide();
             $('.form-nghiemthu').slideDown();
+            $('#info').hide();
         })
 
         $('#cancel-nghiemthu').click(function(){
@@ -414,6 +421,7 @@
             $('.edit-btn').show();
             $('.danhgia-btn').show();
             $('.nghiemthu-btn').show();
+            $('#info').show();
         })
 	})
 </script>

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
-use Illuminate\Routing\Controller;
+use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\Rule;
@@ -319,22 +319,22 @@ class homeController extends sharecontroller
     //Chỉnh sửa đề tài 
     public function editdetai(Request $request){
         $detai = detai::find($request->id);
-        $tiendo = tiendo::where('iddetai',$request->id)->first();
         $idtg = $detai->idtacgia;
             $this->validate($request,[
                 'tendetai'=>['required',Rule::unique('detais')->ignore($detai->id)],
                 'tomtat'=>'required',
-                'files' => 'max:1000000',
+                'files' => 'max:100000',
                 'noidung'=>'required'
             ],[
                 'tendetai.required'=>'Chưa nhập tên đề tài',
                 'tendetai.unique'=>'Đề tài đã tồn tại',
                 'tomtat.required'=>'Chưa nhập tóm tắt',
-                'files.max:10000' =>'File được chọn phải nhỏ hơn 1MB',
+                'files.max:100000' =>'File được chọn phải nhỏ hơn 10MB',
                 'noidung.required'=>'Chưa nhập nội dung'
             ]);
             $filepdf=['pdf'];
             $filedoc=['doc','docx'];
+            $fileppt=['ppt','pptx'];
             $files = $request->file('files');
             if(isset($files)){
                 foreach($files as $file){    
@@ -342,6 +342,7 @@ class homeController extends sharecontroller
                     $extension = $file->getClientOriginalExtension();
                     $checkfilepdf=in_array($extension,$filepdf);
                     $checkfiledoc=in_array($extension,$filedoc);
+                    $checkfileppt=in_array($extension,$fileppt);
                     if($checkfilepdf){
                         $file->move('file',$filename);
                         foreach ($request->files as $file){
@@ -361,7 +362,17 @@ class homeController extends sharecontroller
                                 'img'=>'img/doc.png']
                             );
                         }
-                    }       
+                    }    
+                    if($checkfileppt){
+                        $file->move('file',$filename);
+                        foreach ($request->files as $file){
+                            $iddetai = $request->id;
+                            source::updateOrInsert(['tenfile'=>$filename,
+                                'iddetai'=>$iddetai,
+                                'img'=>'img/ppt.png']
+                            );
+                        }
+                    }          
                 }
             }
         $detai->tendetai = $request->tendetai;
@@ -380,6 +391,15 @@ class homeController extends sharecontroller
     //Đánh giá tiến độ//
     public function danhgiatiendo(Request $request){
         $detai = detai::find($request->id);
+        $this->validate($request,[
+            'cosolythuyet'=>'digits_between:0,100',
+            'ptthietkehethong'=>'digits_between:0,100',
+            'ketquadatduoc' => 'digits_between:0,100'
+        ],[
+            'cosolythuyet.digits_between:0,100' => 'Đánh giá thấp nhất là 0 và cao nhất là 100',
+            'ptthietkehethong.digits_between:0,100' => 'Đánh giá thấp nhất là 0 và cao nhất là 100',
+            'ketquadatduoc.digits_between:0,100' => 'Đánh giá thấp nhất là 0 và cao nhất là 100',
+        ]);
         $tiendo = tiendo::where('iddetai',$request->id)->first();
         $idtg = $detai->idtacgia;
         if(isset($request->cosolythuyet)){
@@ -416,10 +436,11 @@ class homeController extends sharecontroller
         $nghiemthu = nghiemthu::where('iddetai',$request->id)->first();
         $idtg = $detai->idtacgia;
         $this->validate($request,[
-            'diemdanhgia'=>'required',
+            'diemdanhgia'=>'required|digits_between:0,10',
             'nhanxetchung'=>'required'
         ],[
             'diemdanhgia.required'=>'Chưa nhập điểm',
+            'diemdanhgia.digits_between:0,10'=>'Điểm thấp nhất là 0 và cao nhất là 10',
             'nhanxetchung.required'=>'Chưa nhận xét'
         ]);
         $nghiemthu->diemdanhgia = $request->diemdanhgia;
@@ -443,7 +464,9 @@ class homeController extends sharecontroller
         $deldetai = detai::where('idtacgia',$request->id)->first();
         $iddetai = $deldetai->id;
         $delfile = source::where('iddetai',$iddetai);
-        File::delete('file/'.$delfile->tenfile);
+        if(isset($delfile->tenfile)){
+            File::delete('file/'.$delfile->tenfile);
+        }
         $deltiendo = tiendo::where('iddetai',$iddetai);
         $delnghiemthu = nghiemthu::where('iddetai',$iddetai);
         $deltiendo->delete();
@@ -460,7 +483,7 @@ class homeController extends sharecontroller
     public function getdkdetai(){
         return view('pages.dangkydetai');
     }
-    //Xử lý đăng ký//
+    //Xử lý đăng ký đề tài//
     public function dkdetai(Request $request){
         if(Auth::user()->level == 3){
             $this->validate($request,[

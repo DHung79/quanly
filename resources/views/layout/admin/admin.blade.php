@@ -15,7 +15,7 @@
     <h6 class="m-0 font-weight-bold text-primary">Quản lý người dùng</h6>
   </div>
   <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-auto">
       <button class="btn btn-primary btn-md" style="margin: 10px 25px;" href="#" data-toggle="collapse" data-target="#AddUser" aria-expanded="true" aria-controls="AddUser">
         <i class="fas fa-plus-circle"></i>&nbspThêm Người Dùng</button>
     </div>
