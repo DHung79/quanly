@@ -25,17 +25,17 @@
       <form action="{{route('addadmin')}}" method="post">
         @csrf
         <div class="row">
-          <div class="col-xl-12 col-md-6" >
+          <div class="col-auto" style="width: 100%;">
             <div class="form-group" style="width: 30%;">
               <input type="text" placeholder="Email" class="form-control form-control-sm" name="email">
             </div>
           </div>
-          <div class="col-xl-12 col-md-6">
+          <div class="col-auto" style="width: 100%;">
             <div class="form-group" style="width: 30%;">
               <input type="password" placeholder="Mật khẩu" class="form-control form-control-sm" name="password">
             </div>
           </div>
-          <div class="col-xl-12 col-md-6">
+          <div class="col-auto" style="width: 100%;">
             <select class="form-control form-group form-control-sm " style="width: 30%;" name='level'>
                 <option value=""hidden>Cấp</option>
                 @if(Auth::check())
@@ -53,26 +53,28 @@
           </div>
         </div>
         <div class="row">
-          <div class="col-md-1 col-6">
+          <div class="col-auto">
             <button type="submit" class="btn btn-primary btn-md btn-add" name="">Thêm</button>
           </div>
-          <div class="col-md-1 col-6">
+          <div class="col-auto">
             <button type="button" class="btn btn-split btn-danger" style="background: #dc3545; border-color: #dc3545;" data-toggle="collapse" data-target="#AddUser" aria-expanded="true" aria-controls="AddUser">Hủy</button>
           </div>
         </div>
       </form>
     </div>
   </div>
-  <span class="error-center" style="margin: 5px 25px;">
     @if(count($errors)>0)
-      @foreach($errors->all() as $err)
-          {{$err}}</br>
-      @endforeach
+      <span class="error-center" style="margin: 5px 25px;">
+        @foreach($errors->all() as $err)
+            {{$err}}</br>
+        @endforeach
+      </span> 
     @endif
     @if(session('status'))
+      <span class="error-center" style="margin: 5px 25px;">
         {{session('status')}}
+      </span> 
     @endif
-  </span> 
 
     <div class="form-edit" style="margin: 5px 25px; display: none;">
       <form action="{{route('editUser')}}" method="post">
@@ -114,7 +116,7 @@
       </form>
     </div>
 
-  <div class="card-body">
+  <div class="card-body" style="padding: 0 20px 5px 20px">
     <div class="table-responsive">
       <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="color: #000000e6;">
         <thead>

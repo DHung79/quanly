@@ -67,23 +67,20 @@
                 </div>
                 </div>
               </div>
-
                 <div class="card-body">
                   <hr>
                   <div id="demo" class="carousel slide" data-ride="carousel">
                     <!-- The slideshow -->
-                    
                     <div class="carousel-inner" >
                       @foreach($sukien as $key=>$sk)
-                      <div style="padding: 0 15px">
-                        <div class="row slide-height" >
+                        <div style="padding: 0 15px">
+                          <div class="row slide-height" >
                               <a href="{{route('sukien',['id'=>$sk->id])}}" style="text-decoration: none;">
                                 <h3 style="font-size: medium;">{{$sk->tensukien}}</h3>
-                              </a>
-                              
+                              </a> 
+                          </div>
                         </div>
-                      </div>
-                      <hr> 
+                        <hr>
                       @endforeach
                     </div>
                   </div>

@@ -11,15 +11,18 @@
             @if($dkdt->count()==0)
                 <form method="POST" action="{{route('dkdetai')}}" style="margin: 30px 25px;" enctype="multipart/form-data">
                 @csrf
-                <span class="error-center">@if(count($errors)>0)
-                @foreach($errors->all() as $err)
-                    {{$err}}<br>
-                @endforeach
-            @endif
-            @if(session('status'))
-                {{session('status')}}<br>
-            </span>
-            @endif
+                @if(count($errors)>0)
+                    <span class="error-center">
+                    @foreach($errors->all() as $err)
+                        {{$err}}<br>
+                    @endforeach
+                    </span>
+                @endif
+                @if(session('status'))
+                    <span class="error-center">
+                        {{session('status')}}<br>
+                    </span>
+                @endif
             @if(Auth::check())
                 @if(Auth::user()->level==1)
                 <div class="row" style="margin-top: 10px">

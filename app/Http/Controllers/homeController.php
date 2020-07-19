@@ -520,17 +520,16 @@ class homeController extends sharecontroller
     public function dkdetai(Request $request){
         if(Auth::user()->level == 3){
             $this->validate($request,[
-                'idtg'=> 'required',
                 'tomtat'=> 'required',
                 'noidung'=> 'required',
                 'gv'=> 'required',
-                'tendt'=> 'required'
+                'tendt'=> 'required|unique:detais,tendetai'
             ],[
-                'idsv.required'=> 'Chưa chọn sinh viên',
                 'tomtat.required'=>'Chưa nhập tóm tắt',
                 'noidung.required'=>'Chưa nhập nội dung',
                 'gv.required' =>'Chưa chọn gvhd',
-                'tendt.required'=>'Bạn chưa nhập tên đề tài'
+                'tendt.required'=>'Bạn chưa nhập tên đề tài',
+                'tendt.unique'=>'Tên đề tài đã có người đăng ký'
             ]);
             $detai = new detai;
             $tiendo = new tiendo;
@@ -563,15 +562,14 @@ class homeController extends sharecontroller
         }
         if(Auth::user()->level == 2){
             $this->validate($request,[
-                'idtg'=> 'required',
                 'tomtat'=> 'required',
                 'noidung'=> 'required',
-                'tendt'=> 'required'
+                'tendt'=> 'required|unique:detais,tendetai'
             ],[
-                'idsv.required'=> 'Chưa nhập tác giả',
                 'tomtat.required'=>'Chưa nhập tóm tắt',
                 'noidung.required'=>'Chưa nhập nội dung',
-                'tendt.required'=>'Bạn chưa nhập tên đề tài'
+                'tendt.required'=>'Bạn chưa nhập tên đề tài',
+                'tendt.unique'=>'Tên đề tài đã có người đăng ký'
             ]);
             $detai = new detai;
             $tiendo = new tiendo;

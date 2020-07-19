@@ -25,55 +25,58 @@
     </div>
     <div id="AddUser" class="collapse" aria-labelledby="AddUser" data-parent="#accordionSidebar">
         <div class="form-add" >
-            <form method="POST" action="{{route('addthamkhao')}}" style="margin: 30px 25px;" enctype="multipart/form-data">
+            <form method="POST" action="{{route('addthamkhao')}}" style="margin: 10px 25px;" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
-                    <div class="col-xl-12 col-md-6">
+                    <div class="col-auto" style="width: 100%;">
                         <h4 class="small font-weight-bold">Tên tiêu đề</h4>
                         <div class="form-group" >
                         <input type='text' name='tieude' placeholder='Tên đề tài' class="form-control form-control-sm">
                         </div>
                     </div>
-                    <div class="col-xl-12 col-md-6">
+                    <div class="col-auto" style="width: 100%;">
                         <h4 class="small font-weight-bold">Tóm tắt nội dung</h4>
                         <div class="form-group" >
                         <input type='text' name='tomtat' placeholder='Tóm tắt nội dung' class="form-control form-control-sm">
                         </div>
                     </div>
-                    <div class="col-xl-12 col-md-6">
+                    <div class="col-auto" style="width: 100%;">
                         <h4 class="small font-weight-bold">Ảnh bìa</h4>
                         <div class="form-group" >
                         <input type='file' name='img' class="form-control form-control-sm">
                         </div>
                     </div>
-                    <div class="col-xl-12 col-md-6">
+                    <div class="col-auto" style="width: 100%;">
                         <h4 class="small font-weight-bold">Nội dung</h4>
-                        <textarea name="noidung" class="form-control form-group form-control-sm ckeditor" style=" height: 300px;" ></textarea>	
+                        <textarea name="noidung" class="form-control form-group form-control-sm ckeditor" 
+                        style=" height: 300px;" ></textarea>	
                     </div>
                 </div>
                 <div class="row" style="margin-top: 20px">
-                    <div class="col-md-1 col-6">
+                    <div class="col-auto">
                         <button type="submit" class="btn btn-primary btn-md " name="">Thêm</button>
                     </div>
-                    <div class="col-md-1 col-6">
+                    <div class="col-auto">
                         <button type="button" class="btn btn-split btn-danger" style="background: #dc3545; border-color: #dc3545;" data-toggle="collapse" data-target="#AddUser" aria-expanded="true" aria-controls="AddUser">Hủy</button>
                     </div>
                 </div>
             </form>
         </div>
     </div>
-    <span class="error-center" style="margin: 5px 25px;">
-        @if(count($errors)>0)
-        @foreach($errors->all() as $err)
-            {{$err}}</br>
-        @endforeach
+    @if(count($errors)>0)
+        <span class="error-center" style="margin: 5px 25px;">
+            @foreach($errors->all() as $err)
+                {{$err}}</br>
+            @endforeach
+        </span> 
         @endif
         @if(session('status'))
+        <span class="error-center" style="margin: 5px 25px;">
             {{session('status')}}
-        @endif
-    </span> 
+        </span> 
+    @endif
 
-    <div class="card-body">
+    <div class="card-body" style="padding: 0 20px 5px 20px">
         <div class="table-responsive" >
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="color: #000000e6;">
                 <thead>
