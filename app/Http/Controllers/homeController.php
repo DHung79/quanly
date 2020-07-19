@@ -88,6 +88,15 @@ class homeController extends sharecontroller
                 'sinhviens.id as idsv',
                 'thanhviens.id as idthanhvien')->get();
         view::share('dsthanhvien',$dsthanhvien);
+
+        $dsthanhviengv = thanhvien::join('giangvien', 'giangvien.id', '=', 'thanhviens.idgv')
+        ->select(DB::raw('CONCAT(giangvien.ho, " ", giangvien.ten) AS hotengv'),
+                'thanhviens.*','giangvien.*',
+                'thanhviens.iddetai as id',
+                'giangvien.id as idgv',
+                'giangvien.idusers as idusers',
+                'thanhviens.id as idthanhvien')->get();
+        view::share('dsthanhviengv',$dsthanhviengv);
         
         $dsnghiemthu = nghiemthu::get();
         view::share('dsnghiemthu',$dsnghiemthu);
@@ -100,7 +109,7 @@ class homeController extends sharecontroller
         ->select(DB::raw('CONCAT(ho, " ", ten) AS hotengv'),'giangvien.*','users.*')->get();
         view::share('gvlist',$gvlist);
 
-        $gvhdlist = giangvien::select(DB::raw('CONCAT(ho, " ",ten) AS hotengv'),'id')->get();
+        $gvhdlist = giangvien::select(DB::raw('CONCAT(ho, " ",ten) AS hotengv'),'giangvien.*')->get();
         view::share('gvhdlist',$gvhdlist);
 
         $listsv = sinhvien::select(DB::raw('CONCAT(ho, " ",ten) AS hotensv'),'id')->get();
@@ -265,6 +274,48 @@ class homeController extends sharecontroller
         $detai = detai::where('idtacgia',$id)->first();
         if(isset($detai)){
             $iddetai = $detai->id;
+            if(Auth::user()->level == 3){
+                $thanhvien = detai::join('thanhviens', 'thanhviens.iddetai', '=', 'detais.id')
+                ->join('giangvien', 'giangvien.id', '=', 'thanhviens.idgv')
+                ->join('sinhviens', 'sinhviens.id', '=', 'thanhviens.idsv')
+                ->select(DB::raw('CONCAT(sinhviens.ho, " ", sinhviens.ten) AS hotensv'),
+                        DB::raw('CONCAT(giangvien.ho, " ", giangvien.ten) AS hotengv'),
+                        'detais.*','thanhviens.*','giangvien.*','sinhviens.*',
+                        'detais.id as id',
+                        'giangvien.id as idgv',
+                        'sinhviens.id as idsv',
+                        'thanhviens.id as idthanhvien')
+                ->where('detais.id', '=', $iddetai)->get();
+            }
+            if(Auth::user()->level == 2){
+                $thanhvien = detai::join('thanhviens', 'thanhviens.iddetai', '=', 'detais.id')
+                ->join('giangvien', 'giangvien.id', '=', 'thanhviens.idgv')
+                ->select(DB::raw('CONCAT(giangvien.ho, " ", giangvien.ten) AS hotengv'),
+                        'detais.*','thanhviens.*','giangvien.*',
+                        'detais.id as id',
+                        'giangvien.id as idgv',
+                        'thanhviens.id as idthanhvien')
+                ->where('detais.id', '=', $iddetai)->get();
+            }
+                $tiendo = tiendo::where('iddetai',$iddetai)->first();
+                $nghiemthu = nghiemthu::where('iddetai',$iddetai)->first();
+                $source = source::where('iddetai',$iddetai)->get();
+                $idedit = $detai->idtacgia;
+                return view('pages.userdetai',['detai'=>$detai,
+                'idedit'=>$idedit,
+                'source'=>$source,
+                'tiendo'=>$tiendo,
+                'thanhvien'=>$thanhvien,
+                'nghiemthu'=>$nghiemthu]);
+        }else{
+            return redirect()->route('getdkdetai');
+        }
+    }
+
+    public function userdetai($id){
+        $detai = detai::where('idtacgia',$id)->first();
+        $iddetai = $detai->id;
+        if(Auth::user()->level == 3){
             $thanhvien = detai::join('thanhviens', 'thanhviens.iddetai', '=', 'detais.id')
             ->join('giangvien', 'giangvien.id', '=', 'thanhviens.idgv')
             ->join('sinhviens', 'sinhviens.id', '=', 'thanhviens.idsv')
@@ -276,35 +327,17 @@ class homeController extends sharecontroller
                     'sinhviens.id as idsv',
                     'thanhviens.id as idthanhvien')
             ->where('detais.id', '=', $iddetai)->get();
-            $tiendo = tiendo::where('iddetai',$iddetai)->first();
-            $nghiemthu = nghiemthu::where('iddetai',$iddetai)->first();
-            $source = source::where('iddetai',$iddetai)->get();
-            $idedit = $detai->idtacgia;
-            return view('pages.userdetai',['detai'=>$detai,
-            'idedit'=>$idedit,
-            'source'=>$source,
-            'tiendo'=>$tiendo,
-            'thanhvien'=>$thanhvien,
-            'nghiemthu'=>$nghiemthu]);
-        }else{
-            return redirect()->route('getdkdetai');
         }
-    }
-
-    public function userdetai($id){
-        $detai = detai::where('idtacgia',$id)->first();
-        $iddetai = $detai->id;
-        $thanhvien = detai::join('thanhviens', 'thanhviens.iddetai', '=', 'detais.id')
-        ->join('giangvien', 'giangvien.id', '=', 'thanhviens.idgv')
-        ->join('sinhviens', 'sinhviens.id', '=', 'thanhviens.idsv')
-        ->select(DB::raw('CONCAT(sinhviens.ho, " ", sinhviens.ten) AS hotensv'),
-                DB::raw('CONCAT(giangvien.ho, " ", giangvien.ten) AS hotengv'),
-                'detais.*','thanhviens.*','giangvien.*','sinhviens.*',
-                'detais.id as id',
-                'giangvien.id as idgv',
-                'sinhviens.id as idsv',
-                'thanhviens.id as idthanhvien')
-        ->where('detais.id', '=', $iddetai)->get();
+        if(Auth::user()->level == 2){
+            $thanhvien = detai::join('thanhviens', 'thanhviens.iddetai', '=', 'detais.id')
+            ->join('giangvien', 'giangvien.id', '=', 'thanhviens.idgv')
+            ->select(DB::raw('CONCAT(giangvien.ho, " ", giangvien.ten) AS hotengv'),
+                    'detais.*','thanhviens.*','giangvien.*',
+                    'detais.id as id',
+                    'giangvien.id as idgv',
+                    'thanhviens.id as idthanhvien')
+            ->where('detais.id', '=', $iddetai)->get();
+        }
         $tiendo = tiendo::where('iddetai',$iddetai)->first();
         $nghiemthu = nghiemthu::where('iddetai',$iddetai)->first();
         $source = source::where('iddetai',$iddetai)->get();
@@ -513,7 +546,7 @@ class homeController extends sharecontroller
             $iddetai = $detai->id;
             $thanhvien->iddetai = $iddetai;
             $thanhvien->idsv = $request->idsv;
-            $thanhvien->idgv = $request->idgv;
+            $thanhvien->idgv = $request->gv;
             $thanhvien->save();
             $nghiemthu->iddetai = $iddetai;
             $tiendo->iddetai = $iddetai;
@@ -552,7 +585,7 @@ class homeController extends sharecontroller
             $detai->save();
             $iddetai = $detai->id;
             $thanhvien->iddetai = $iddetai;
-            $thanhvien->idsv = $request->idsv;
+            // $thanhvien->idsv = $request->idsv;
             $thanhvien->idgv = $request->idgv;
             $thanhvien->save();
             $nghiemthu->iddetai = $iddetai;

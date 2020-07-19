@@ -224,9 +224,8 @@
                 </div>
             </div>
         @endif
-            <div class="card-body" style=" color: #000000; padding: 0 1.25rem; margin-top: 0px; ">
+            <div class="card-body" style=" color: #000000; padding: 0 10px" id="info">
                 <div class="col-auto">
-                    <div class="col-auto">
                         @if(count($source)>0)
                             @if(Auth::user()->level==1||Auth::user()->level==2||Auth::user()->id==$idedit)
                                 <div  class="font-weight-bold text-info text-uppercase ">
@@ -234,7 +233,7 @@
                                 </div>
                                 <div class="row">
                                     @foreach ($source as $s)
-                                        <div class="col-md-3 col-6" >
+                                        <div class="col-auto" >
                                             <a href="javascript:" data-id="{{$s->id}}" 
                                                 class="btn-split delete-btn" >
                                                 <i class="fas fa-times-circle" 
@@ -256,10 +255,8 @@
                             @endif
                         @endif
                     </div>
-                </div>
-            </div>
     @endif
-            <div class="card-body" style=" color: #000000; padding: 0 10px" id="info">
+            
                 <div class="col-auto" style=" color: #000000; margin-top: 0px;">
                     <div  class="font-weight-bold text-info text-uppercase">
                         Tên đề tài:
@@ -273,11 +270,11 @@
                             {{$svlist->where('idusers',$detai->idtacgia)->first()->hotensv}} (Lớp: {{$sinhvienlop->where('idusers',$detai->idtacgia)->first()->tenlop}})<br>
                         @endif
                         @if($gvlist->where('idusers',$detai->idtacgia)->count() > 0)
-                            {{$gvlist->where('idusers',$detai->idtacgia)->first()->hotengv}} (Khoa: {{$giangvienkhoa->where('idusers',$detai->idtacgia)->first()->tenkhoa}})<br>
+                            Giảng viên: {{$gvlist->where('idusers',$detai->idtacgia)->first()->hotengv}} (Khoa: {{$giangvienkhoa->where('idusers',$detai->idtacgia)->first()->tenkhoa}})<br>
                         @endif
                         @foreach ($thanhvien as $tv)
                             @if(isset($tv->idgv) && $giangvienkhoa->where('id',$tv->idgv)->first()->idusers != $idedit)
-                                {{$tv->hotengv}} (Khoa: {{$giangvienkhoa->where('id',$tv->idkhoa)->first()->tenkhoa}})<br>
+                                Giảng viên: {{$tv->hotengv}} (Khoa: {{$giangvienkhoa->where('id',$tv->idkhoa)->first()->tenkhoa}})<br>
                             @endif
                             @if(isset($tv->idsv) && $sinhvienlop->where('id',$tv->idsv)->first()->idusers != $idedit)
                                 {{$tv->hotensv}} (Lớp: {{$sinhvienlop->where('idlop',$tv->idlop)->first()->tenlop}})<br>

@@ -21,12 +21,12 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0" style="color: #000000e6;">
                 <thead>
                 <tr>
-                    <th>STT</th>
-                    <th>Tác giả</th>
-                    <th>Lớp/ Khoa</th>
-                    <th>Tên đề tài</th>
-                    <th>Tóm tắt</th>
-                    <th>GVHD</th>
+                    <th style="width:10px;">STT</th>
+                    <th style="width:200px;">Tác giả</th>
+                    <th style="width:50px;">Lớp/ Khoa</th>
+                    <th style="width:200px;">Tên đề tài</th>
+                    <th style="width:150px;">Tóm tắt</th>
+                    <th style="width:150px;">GVHD</th>
                     <th>Thao tác</th>
                 </tr>
                 </thead>
@@ -48,7 +48,7 @@
                                     {{$dt->tendetai}}</a></td>
                                 <td>{{$dt->tomtat}}</td>
                                 @if($gvhdlist->where('id',$dt->idgvhd)->count() > 0)
-                                    <td>{{$gvhdlist->where('id',$dt->idgvhd)->first()->hotengv}}</td>
+                                    <td>{{$gvhdlist->where('id',$dt->idgvhd)->first()->hocvi}} {{$gvhdlist->where('id',$dt->idgvhd)->first()->hotengv}}</td>
                                 @else
                                     <td></td>
                                 @endif
