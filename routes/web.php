@@ -12,9 +12,7 @@
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/','homecontroller@gethome');
 
 Route::get('login','dangnhapController@getLogin')->name('getlogin');
 Route::post('dangnhap','dangnhapController@Login')->name('login');
