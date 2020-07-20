@@ -19,14 +19,14 @@
         <thead>
         <tr>
             <th>STT</th>
-            <th>Thành viên</th>
+            <th style="width:200px;">Thành viên</th>
             <th>Lớp</th>
-            <th>Tên đề tài</th>
-            <th>GVHD</th>
+            <th style="width:200px;">Tên đề tài</th>
+            <th style="width:150px;">GVHD</th>
             <th>Tiến độ</th>
             @if(Auth::check())
             @if(Auth::user()->level==1||Auth::user()->level==2)
-                <th >Thao tác</th>
+                <th style="width:50px;">Thao tác</th>
             @endif
             @endif
         </tr>

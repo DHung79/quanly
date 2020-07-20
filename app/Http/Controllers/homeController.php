@@ -457,7 +457,7 @@ class homeController extends sharecontroller
         $tiendo->ketquadatduoc = $request->ketquadatduoc;
         $tiendo->save();
         if($tiendo->save()){
-            return redirect()->route('userdetai',['id'=>$idtg])->with('status','Đã đánh giá');
+            return redirect()->route('userdetai',['id'=>$idtg])->with('status','Đã đánh giá tiến độ');
         } else{
             return redirect()->route('userdetai',['id'=>$idtg])
             ->with('status',"Xãy ra lỗi trong quá trình đánh giá");

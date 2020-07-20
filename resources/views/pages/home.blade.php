@@ -36,18 +36,18 @@
                             </a>
                       </div>
                       <div class="row">
-                        <div class="col-auto" style="margin-right: 50px; 
-                        /* margin-left: 50px; */
-                        ">
+                        <div class="col-auto" style="margin-right: 50px;">
                           <a href="{{route('sukien',['id'=>$sk->id])}}">
                             <img src="{{$sk->img}}" style="max-height: 500px; max-width:500px">
                           </a>
                         </div>
-                        <div class="col-5" style=" max-height: 300px; color: #000000e6;"> 
-                          <div class="row">
-                            {!!$sk->noidung!!}
+                        <div class="col-5">
+                          <div class="col-auto" style=" max-height: 300px; color: #000000e6;"> 
+                            <div class="row">
+                              {!!$sk->noidung!!}
+                            </div>
                           </div>
-                        </div>
+                      </div>
                       </div>
                     </div>
                     @endforeach
