@@ -9,7 +9,7 @@
 <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below. For more information about DataTables, please visit the <a target="_blank" href="https://datatables.net">official DataTables documentation</a>.</p> --}}
 
 <!-- DataTales Example -->
-<div class="card shadow mb-4">
+<div class="card shadow">
 <div class="card-header py-3">
     <h6 class="m-0 font-weight-bold text-primary">Sinh viên hướng dẫn</h6>
 </div>
@@ -19,14 +19,14 @@
         <thead>
         <tr>
             <th>STT</th>
-            <th>Thành viên</th>
+            <th style="width:200px;">Thành viên</th>
             <th>Lớp</th>
-            <th>Tên đề tài</th>
-            <th>GVHD</th>
+            <th style="width:200px;">Tên đề tài</th>
+            <th style="width:150px;">GVHD</th>
             <th>Tiến độ</th>
             @if(Auth::check())
             @if(Auth::user()->level==1||Auth::user()->level==2)
-                <th >Thao tác</th>
+                <th style="width:50px;">Thao tác</th>
             @endif
             @endif
         </tr>
@@ -95,7 +95,7 @@
                         <td></td>
                     @endif
                     <td>{{$dstiendo->where('iddetai',$dt->id)->first()->phantramhoanthanh}}%
-                        <div class="progress mb-4">
+                        <div class="progress ">
                         <div class="progress-bar" role="progressbar" style="width: {{$dstiendo->where('iddetai',$dt->id)->first()->phantramhoanthanh}}%" 
                             aria-valuenow="{{$dstiendo->where('iddetai',$dt->id)->first()->phantramhoanthanh}}" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
@@ -103,12 +103,12 @@
                     @if(Auth::check())
                         @if(Auth::user()->level==1||Auth::user()->level==2)
                         <td>
-                            <div class="card mb-4">
+                            <div class="col-auto mb-4">
                                 <a href="{{route('userdetai',['id'=>$dt->idtacgia])}}" 
                                     class="btn btn-split btn-success edit-btn"
                                     style=" text-decoration: none;">Cập nhật</a>
                             </div>
-                            <div class="card mb-4">
+                            <div class="col-auto">
                                 <a href="javascript:" 
                                 class="btn btn-split btn-danger delete-btn" 
                                 data-id="{{$dt->idtacgia}}">Xóa</a>

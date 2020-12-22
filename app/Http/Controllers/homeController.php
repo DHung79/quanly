@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\View;
-use Illuminate\Routing\Controller;
+use App\Http\Controllers\Controller;
 use App\Repositories\UserRepository;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Validation\Rule;
@@ -88,6 +88,15 @@ class homeController extends sharecontroller
                 'sinhviens.id as idsv',
                 'thanhviens.id as idthanhvien')->get();
         view::share('dsthanhvien',$dsthanhvien);
+
+        $dsthanhviengv = thanhvien::join('giangvien', 'giangvien.id', '=', 'thanhviens.idgv')
+        ->select(DB::raw('CONCAT(giangvien.ho, " ", giangvien.ten) AS hotengv'),
+                'thanhviens.*','giangvien.*',
+                'thanhviens.iddetai as id',
+                'giangvien.id as idgv',
+                'giangvien.idusers as idusers',
+                'thanhviens.id as idthanhvien')->get();
+        view::share('dsthanhviengv',$dsthanhviengv);
         
         $dsnghiemthu = nghiemthu::get();
         view::share('dsnghiemthu',$dsnghiemthu);
@@ -100,7 +109,7 @@ class homeController extends sharecontroller
         ->select(DB::raw('CONCAT(ho, " ", ten) AS hotengv'),'giangvien.*','users.*')->get();
         view::share('gvlist',$gvlist);
 
-        $gvhdlist = giangvien::select(DB::raw('CONCAT(ho, " ",ten) AS hotengv'),'id')->get();
+        $gvhdlist = giangvien::select(DB::raw('CONCAT(ho, " ",ten) AS hotengv'),'giangvien.*')->get();
         view::share('gvhdlist',$gvhdlist);
 
         $listsv = sinhvien::select(DB::raw('CONCAT(ho, " ",ten) AS hotensv'),'id')->get();
@@ -265,6 +274,48 @@ class homeController extends sharecontroller
         $detai = detai::where('idtacgia',$id)->first();
         if(isset($detai)){
             $iddetai = $detai->id;
+            if(Auth::user()->level == 3){
+                $thanhvien = detai::join('thanhviens', 'thanhviens.iddetai', '=', 'detais.id')
+                ->join('giangvien', 'giangvien.id', '=', 'thanhviens.idgv')
+                ->join('sinhviens', 'sinhviens.id', '=', 'thanhviens.idsv')
+                ->select(DB::raw('CONCAT(sinhviens.ho, " ", sinhviens.ten) AS hotensv'),
+                        DB::raw('CONCAT(giangvien.ho, " ", giangvien.ten) AS hotengv'),
+                        'detais.*','thanhviens.*','giangvien.*','sinhviens.*',
+                        'detais.id as id',
+                        'giangvien.id as idgv',
+                        'sinhviens.id as idsv',
+                        'thanhviens.id as idthanhvien')
+                ->where('detais.id', '=', $iddetai)->get();
+            }
+            if(Auth::user()->level == 2){
+                $thanhvien = detai::join('thanhviens', 'thanhviens.iddetai', '=', 'detais.id')
+                ->join('giangvien', 'giangvien.id', '=', 'thanhviens.idgv')
+                ->select(DB::raw('CONCAT(giangvien.ho, " ", giangvien.ten) AS hotengv'),
+                        'detais.*','thanhviens.*','giangvien.*',
+                        'detais.id as id',
+                        'giangvien.id as idgv',
+                        'thanhviens.id as idthanhvien')
+                ->where('detais.id', '=', $iddetai)->get();
+            }
+                $tiendo = tiendo::where('iddetai',$iddetai)->first();
+                $nghiemthu = nghiemthu::where('iddetai',$iddetai)->first();
+                $source = source::where('iddetai',$iddetai)->get();
+                $idedit = $detai->idtacgia;
+                return view('pages.userdetai',['detai'=>$detai,
+                'idedit'=>$idedit,
+                'source'=>$source,
+                'tiendo'=>$tiendo,
+                'thanhvien'=>$thanhvien,
+                'nghiemthu'=>$nghiemthu]);
+        }else{
+            return redirect()->route('getdkdetai');
+        }
+    }
+
+    public function userdetai($id){
+        $detai = detai::where('idtacgia',$id)->first();
+        $iddetai = $detai->id;
+        if(Auth::user()->level == 3){
             $thanhvien = detai::join('thanhviens', 'thanhviens.iddetai', '=', 'detais.id')
             ->join('giangvien', 'giangvien.id', '=', 'thanhviens.idgv')
             ->join('sinhviens', 'sinhviens.id', '=', 'thanhviens.idsv')
@@ -276,35 +327,17 @@ class homeController extends sharecontroller
                     'sinhviens.id as idsv',
                     'thanhviens.id as idthanhvien')
             ->where('detais.id', '=', $iddetai)->get();
-            $tiendo = tiendo::where('iddetai',$iddetai)->first();
-            $nghiemthu = nghiemthu::where('iddetai',$iddetai)->first();
-            $source = source::where('iddetai',$iddetai)->get();
-            $idedit = $detai->idtacgia;
-            return view('pages.userdetai',['detai'=>$detai,
-            'idedit'=>$idedit,
-            'source'=>$source,
-            'tiendo'=>$tiendo,
-            'thanhvien'=>$thanhvien,
-            'nghiemthu'=>$nghiemthu]);
-        }else{
-            return redirect()->route('getdkdetai');
         }
-    }
-
-    public function userdetai($id){
-        $detai = detai::where('idtacgia',$id)->first();
-        $iddetai = $detai->id;
-        $thanhvien = detai::join('thanhviens', 'thanhviens.iddetai', '=', 'detais.id')
-        ->join('giangvien', 'giangvien.id', '=', 'thanhviens.idgv')
-        ->join('sinhviens', 'sinhviens.id', '=', 'thanhviens.idsv')
-        ->select(DB::raw('CONCAT(sinhviens.ho, " ", sinhviens.ten) AS hotensv'),
-                DB::raw('CONCAT(giangvien.ho, " ", giangvien.ten) AS hotengv'),
-                'detais.*','thanhviens.*','giangvien.*','sinhviens.*',
-                'detais.id as id',
-                'giangvien.id as idgv',
-                'sinhviens.id as idsv',
-                'thanhviens.id as idthanhvien')
-        ->where('detais.id', '=', $iddetai)->get();
+        if(Auth::user()->level == 2){
+            $thanhvien = detai::join('thanhviens', 'thanhviens.iddetai', '=', 'detais.id')
+            ->join('giangvien', 'giangvien.id', '=', 'thanhviens.idgv')
+            ->select(DB::raw('CONCAT(giangvien.ho, " ", giangvien.ten) AS hotengv'),
+                    'detais.*','thanhviens.*','giangvien.*',
+                    'detais.id as id',
+                    'giangvien.id as idgv',
+                    'thanhviens.id as idthanhvien')
+            ->where('detais.id', '=', $iddetai)->get();
+        }
         $tiendo = tiendo::where('iddetai',$iddetai)->first();
         $nghiemthu = nghiemthu::where('iddetai',$iddetai)->first();
         $source = source::where('iddetai',$iddetai)->get();
@@ -319,22 +352,22 @@ class homeController extends sharecontroller
     //Chỉnh sửa đề tài 
     public function editdetai(Request $request){
         $detai = detai::find($request->id);
-        $tiendo = tiendo::where('iddetai',$request->id)->first();
         $idtg = $detai->idtacgia;
             $this->validate($request,[
                 'tendetai'=>['required',Rule::unique('detais')->ignore($detai->id)],
                 'tomtat'=>'required',
-                'files' => 'max:1000000',
+                'files' => 'max:100000',
                 'noidung'=>'required'
             ],[
                 'tendetai.required'=>'Chưa nhập tên đề tài',
                 'tendetai.unique'=>'Đề tài đã tồn tại',
                 'tomtat.required'=>'Chưa nhập tóm tắt',
-                'files.max:10000' =>'File được chọn phải nhỏ hơn 1MB',
+                'files.max:100000' =>'File được chọn phải nhỏ hơn 10MB',
                 'noidung.required'=>'Chưa nhập nội dung'
             ]);
             $filepdf=['pdf'];
             $filedoc=['doc','docx'];
+            $fileppt=['ppt','pptx'];
             $files = $request->file('files');
             if(isset($files)){
                 foreach($files as $file){    
@@ -342,6 +375,7 @@ class homeController extends sharecontroller
                     $extension = $file->getClientOriginalExtension();
                     $checkfilepdf=in_array($extension,$filepdf);
                     $checkfiledoc=in_array($extension,$filedoc);
+                    $checkfileppt=in_array($extension,$fileppt);
                     if($checkfilepdf){
                         $file->move('file',$filename);
                         foreach ($request->files as $file){
@@ -361,7 +395,17 @@ class homeController extends sharecontroller
                                 'img'=>'img/doc.png']
                             );
                         }
-                    }       
+                    }    
+                    if($checkfileppt){
+                        $file->move('file',$filename);
+                        foreach ($request->files as $file){
+                            $iddetai = $request->id;
+                            source::updateOrInsert(['tenfile'=>$filename,
+                                'iddetai'=>$iddetai,
+                                'img'=>'img/ppt.png']
+                            );
+                        }
+                    }          
                 }
             }
         $detai->tendetai = $request->tendetai;
@@ -380,6 +424,15 @@ class homeController extends sharecontroller
     //Đánh giá tiến độ//
     public function danhgiatiendo(Request $request){
         $detai = detai::find($request->id);
+        $this->validate($request,[
+            'cosolythuyet'=>'digits_between:0,100',
+            'ptthietkehethong'=>'digits_between:0,100',
+            'ketquadatduoc' => 'digits_between:0,100'
+        ],[
+            'cosolythuyet.digits_between:0,100' => 'Đánh giá thấp nhất là 0 và cao nhất là 100',
+            'ptthietkehethong.digits_between:0,100' => 'Đánh giá thấp nhất là 0 và cao nhất là 100',
+            'ketquadatduoc.digits_between:0,100' => 'Đánh giá thấp nhất là 0 và cao nhất là 100',
+        ]);
         $tiendo = tiendo::where('iddetai',$request->id)->first();
         $idtg = $detai->idtacgia;
         if(isset($request->cosolythuyet)){
@@ -404,7 +457,7 @@ class homeController extends sharecontroller
         $tiendo->ketquadatduoc = $request->ketquadatduoc;
         $tiendo->save();
         if($tiendo->save()){
-            return redirect()->route('userdetai',['id'=>$idtg])->with('status','Đã đánh giá');
+            return redirect()->route('userdetai',['id'=>$idtg])->with('status','Đã đánh giá tiến độ');
         } else{
             return redirect()->route('userdetai',['id'=>$idtg])
             ->with('status',"Xãy ra lỗi trong quá trình đánh giá");
@@ -416,10 +469,11 @@ class homeController extends sharecontroller
         $nghiemthu = nghiemthu::where('iddetai',$request->id)->first();
         $idtg = $detai->idtacgia;
         $this->validate($request,[
-            'diemdanhgia'=>'required',
+            'diemdanhgia'=>'required|digits_between:0,10',
             'nhanxetchung'=>'required'
         ],[
             'diemdanhgia.required'=>'Chưa nhập điểm',
+            'diemdanhgia.digits_between:0,10'=>'Điểm thấp nhất là 0 và cao nhất là 10',
             'nhanxetchung.required'=>'Chưa nhận xét'
         ]);
         $nghiemthu->diemdanhgia = $request->diemdanhgia;
@@ -443,7 +497,9 @@ class homeController extends sharecontroller
         $deldetai = detai::where('idtacgia',$request->id)->first();
         $iddetai = $deldetai->id;
         $delfile = source::where('iddetai',$iddetai);
-        File::delete('file/'.$delfile->tenfile);
+        if(isset($delfile->tenfile)){
+            File::delete('file/'.$delfile->tenfile);
+        }
         $deltiendo = tiendo::where('iddetai',$iddetai);
         $delnghiemthu = nghiemthu::where('iddetai',$iddetai);
         $deltiendo->delete();
@@ -460,21 +516,20 @@ class homeController extends sharecontroller
     public function getdkdetai(){
         return view('pages.dangkydetai');
     }
-    //Xử lý đăng ký//
+    //Xử lý đăng ký đề tài//
     public function dkdetai(Request $request){
         if(Auth::user()->level == 3){
             $this->validate($request,[
-                'idtg'=> 'required',
                 'tomtat'=> 'required',
                 'noidung'=> 'required',
                 'gv'=> 'required',
-                'tendt'=> 'required'
+                'tendt'=> 'required|unique:detais,tendetai'
             ],[
-                'idsv.required'=> 'Chưa chọn sinh viên',
                 'tomtat.required'=>'Chưa nhập tóm tắt',
                 'noidung.required'=>'Chưa nhập nội dung',
                 'gv.required' =>'Chưa chọn gvhd',
-                'tendt.required'=>'Bạn chưa nhập tên đề tài'
+                'tendt.required'=>'Bạn chưa nhập tên đề tài',
+                'tendt.unique'=>'Tên đề tài đã có người đăng ký'
             ]);
             $detai = new detai;
             $tiendo = new tiendo;
@@ -490,7 +545,7 @@ class homeController extends sharecontroller
             $iddetai = $detai->id;
             $thanhvien->iddetai = $iddetai;
             $thanhvien->idsv = $request->idsv;
-            $thanhvien->idgv = $request->idgv;
+            $thanhvien->idgv = $request->gv;
             $thanhvien->save();
             $nghiemthu->iddetai = $iddetai;
             $tiendo->iddetai = $iddetai;
@@ -507,15 +562,14 @@ class homeController extends sharecontroller
         }
         if(Auth::user()->level == 2){
             $this->validate($request,[
-                'idtg'=> 'required',
                 'tomtat'=> 'required',
                 'noidung'=> 'required',
-                'tendt'=> 'required'
+                'tendt'=> 'required|unique:detais,tendetai'
             ],[
-                'idsv.required'=> 'Chưa nhập tác giả',
                 'tomtat.required'=>'Chưa nhập tóm tắt',
                 'noidung.required'=>'Chưa nhập nội dung',
-                'tendt.required'=>'Bạn chưa nhập tên đề tài'
+                'tendt.required'=>'Bạn chưa nhập tên đề tài',
+                'tendt.unique'=>'Tên đề tài đã có người đăng ký'
             ]);
             $detai = new detai;
             $tiendo = new tiendo;
@@ -529,7 +583,7 @@ class homeController extends sharecontroller
             $detai->save();
             $iddetai = $detai->id;
             $thanhvien->iddetai = $iddetai;
-            $thanhvien->idsv = $request->idsv;
+            // $thanhvien->idsv = $request->idsv;
             $thanhvien->idgv = $request->idgv;
             $thanhvien->save();
             $nghiemthu->iddetai = $iddetai;

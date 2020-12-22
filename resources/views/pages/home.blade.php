@@ -16,7 +16,7 @@
           <!-- Content Row -->
           <div class="row">
             <!-- Area Chart -->
-            <div class="col-xl-12 col-lg-6">
+            <div class="col-auto">
               <div class="card shadow mb-4">
                 <!-- Card Header - Dropdown -->
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
@@ -36,56 +36,51 @@
                             </a>
                       </div>
                       <div class="row">
-                        <div class="col-xl-5 col-md-6 mb-4" style="margin-right: 20px; margin-left: 50px;">
+                        <div class="col-auto" style="margin-right: 50px;">
                           <a href="{{route('sukien',['id'=>$sk->id])}}">
                             <img src="{{$sk->img}}" style="max-height: 500px; max-width:500px">
                           </a>
                         </div>
-                        <div class="col-xl-6 col-md-6 mb-4" style=" max-height: 300px;"> 
-                          <div class="row">
-                            {!!$sk->noidung!!}
+                        <div class="col-5">
+                          <div class="col-auto" style=" max-height: 300px; color: #000000e6;"> 
+                            <div class="row">
+                              {!!$sk->noidung!!}
+                            </div>
                           </div>
-                        </div>
+                      </div>
                       </div>
                     </div>
                     @endforeach
                   </div>
                   <!-- Left and right controls -->
-                  <a class="fas fa-arrow-alt-circle-left" href="#demo" 
-                    style="
-                      text-decoration: none;
-                      font-size: 40px;
-                      position: absolute;
-                      top: 50%;
-                      left: 0px;" data-slide="prev">
-                  </a>
-                  <a class="fas fa-arrow-alt-circle-right" href="#demo" 
-                    style="
-                      text-decoration: none;
-                      font-size: 40px;
-                      position: absolute;
-                      top: 50%;
-                      left: 600px;" data-slide="next">
-                  </a>
+                  <div>
+                  <div class="btn-prev">
+                    <a class="fas fa-arrow-alt-circle-left " href="#demo" 
+                      style="text-decoration: none;" data-slide="prev">
+                    </a>
+                  </div>
+                  <div class="btn-next">
+                    <a class="fas fa-arrow-alt-circle-right " href="#demo" 
+                      style="text-decoration: none;" data-slide="next">
+                    </a>
+                  </div>
+                </div>
                 </div>
               </div>
-
                 <div class="card-body">
                   <hr>
                   <div id="demo" class="carousel slide" data-ride="carousel">
                     <!-- The slideshow -->
-                    
                     <div class="carousel-inner" >
                       @foreach($sukien as $key=>$sk)
-                      <div style="padding: 0 15px">
-                        <div class="row slide-height" >
+                        <div style="padding: 0 15px">
+                          <div class="row slide-height" >
                               <a href="{{route('sukien',['id'=>$sk->id])}}" style="text-decoration: none;">
                                 <h3 style="font-size: medium;">{{$sk->tensukien}}</h3>
-                              </a>
-                              
+                              </a> 
+                          </div>
                         </div>
-                      </div>
-                      <hr> 
+                        <hr>
                       @endforeach
                     </div>
                   </div>

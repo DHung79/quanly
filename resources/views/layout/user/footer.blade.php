@@ -6,7 +6,8 @@
   </footer> --}}
 
     <!-- Footer -->
-    <footer class="sticky-footer bg-white" style="color: #3a3b45;">
+    <footer class="sticky-footer " style="color: #fff; background-color: #01465c;
+    background-image: linear-gradient(180deg,#01465c 10%,#013f56 100%);">
       <div class="container my-auto">
         <div class="copyright text-center my-auto" style="line-height:1.5;">
           {{-- <span>Copyright &copy; Your Website 2019</span> --}}

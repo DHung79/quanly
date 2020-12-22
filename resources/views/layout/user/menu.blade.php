@@ -1,7 +1,8 @@
 <div id="wrapper">
 
   <!-- Sidebar -->
-  <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+  <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion"
+  style="background-color: #007285; background-image:linear-gradient(180deg,#01798b 10%,#013f56 100%);" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
   <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('home')}}">
@@ -39,7 +40,7 @@
     <hr class="sidebar-divider">
 
     <!-- Heading -->
-    <div class="sidebar-heading" style="font-size: .75rem;">
+    <div class="sidebar-heading" style="font-size: .75rem; color:#fff;">
       Quản trị hệ thống
     </div>
 
@@ -89,7 +90,7 @@
     <hr class="sidebar-divider">
 
     <!-- Heading -->
-    <div class="sidebar-heading" style="font-size: .75rem;">
+    <div class="sidebar-heading" style="font-size: .75rem; ">
       Đề tài khoa học
     </div>
 
@@ -231,10 +232,13 @@
   <div id="content-wrapper" class="d-flex flex-column">
 
     <!-- Main Content -->
-    <div id="content">
+    <div id="content" style="background-color: #01798b;
+    background-image: linear-gradient(180deg,#01798b 10%,#01475d 100%)">
 
       <!-- Topbar -->
-      <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+      <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow"
+      style="background-image: linear-gradient(180deg,#06788a 10%,#067486 100%);
+      ">
 
         <!-- Sidebar Toggle (Topbar) -->
         <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
@@ -258,9 +262,9 @@
 
           <!-- Nav Item - Search Dropdown (Visible Only XS) -->
           <li class="nav-item dropdown no-arrow d-sm-none">
-            <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            {{-- <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <i class="fas fa-search fa-fw"></i>
-            </a>
+            </a> --}}
             <!-- Dropdown - Messages -->
             <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in" aria-labelledby="searchDropdown">
               <form class="form-inline mr-auto w-100 navbar-search">
@@ -387,7 +391,7 @@
               <!-- Nav Item - User Information -->
               <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                  <span class="mr-2 d-none d-lg-inline text-white-600 small">
                       {{$sinhvien->ho}} {{$sinhvien->ten}}   
                   </span>
                   <img class="img-profile rounded-circle" 
@@ -427,7 +431,7 @@
               <!-- Nav Item - User Information -->
               <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                  <span class="mr-2 d-none d-lg-inline text-white-600 small">
                       {{$giangvien->ho}} {{$giangvien->ten}}  
                   </span>
                   <img class="img-profile rounded-circle" 
@@ -465,7 +469,7 @@
               <!-- Nav Item - User Information -->
               <li class="nav-item dropdown no-arrow">
                 <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                  <span class="mr-2 d-none d-lg-inline text-white-600 small">
                     Super Admin
                   </span>
                   <img class="img-profile rounded-circle" src="bootstrap\bootstrap_table_login\img\tenor.png">
